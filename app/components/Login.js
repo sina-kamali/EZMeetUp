@@ -1,9 +1,21 @@
 import React, {Component} from 'react';
-import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, TextInput} from 'react-native';
+import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight} from 'react-native';
 import {createStackNavigator} from 'react-navigation'
 
 
 export default class Login extends Component {
+
+  constructor(props) {
+    super(props);
+    state = {
+      email   : '',
+      password: '',
+    }
+  }
+
+  onClickListener = (viewId) => {
+    Alert.alert("Alert", "Button pressed "+viewId);
+  }
 
   static navigationOptions = {
     title: 'LOG IN',
@@ -29,7 +41,7 @@ export default class Login extends Component {
                     width: 330,
                     marginTop: 20}}
                   // onChangeText={(text) => this.setState({text})}
-                  value={'Username'}
+                  placeholder="Username"
                 />
                 <TextInput
                   style={{borderWidth: 2,
@@ -40,7 +52,7 @@ export default class Login extends Component {
                     width: 330,
                     marginTop: 0.5}}
                   // onChangeText={(text) => this.setState({text})}
-                  value={'Password'}
+                  placeholder="Password"
                   secureTextEntry={true}
                 />
                 <TouchableOpacity style={{marginTop:50}}>

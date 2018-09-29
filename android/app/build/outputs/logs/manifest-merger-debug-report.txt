@@ -4,6 +4,7 @@ ADDED from /Users/sina/EZMeetUp/MyNewProject/android/app/src/main/AndroidManifes
 INJECTED from /Users/sina/EZMeetUp/MyNewProject/android/app/src/main/AndroidManifest.xml:1:1-26:12
 INJECTED from /Users/sina/EZMeetUp/MyNewProject/android/app/src/main/AndroidManifest.xml:1:1-26:12
 INJECTED from /Users/sina/EZMeetUp/MyNewProject/android/app/src/main/AndroidManifest.xml:1:1-26:12
+MERGED from [:react-native-vector-icons] /Users/sina/EZMeetUp/MyNewProject/node_modules/react-native-vector-icons/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [com.facebook.react:react-native:0.57.0] /Users/sina/.gradle/caches/transforms-1/files-1.1/react-native-0.57.0.aar/22e15dfa853307023616a3a2f5ceaae0/AndroidManifest.xml:2:1-15:12
 MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/sina/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/0961999ce5d54471c3e9c57d66ab5da4/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-fragment:27.1.1] /Users/sina/.gradle/caches/transforms-1/files-1.1/support-fragment-27.1.1.aar/738f32276ebd86d3bc55eea6cb3ec3ef/AndroidManifest.xml:17:1-22:12
@@ -97,6 +98,8 @@ uses-sdk
 INJECTED from /Users/sina/EZMeetUp/MyNewProject/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/sina/EZMeetUp/MyNewProject/android/app/src/main/AndroidManifest.xml
 INJECTED from /Users/sina/EZMeetUp/MyNewProject/android/app/src/main/AndroidManifest.xml
+MERGED from [:react-native-vector-icons] /Users/sina/EZMeetUp/MyNewProject/node_modules/react-native-vector-icons/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-vector-icons] /Users/sina/EZMeetUp/MyNewProject/node_modules/react-native-vector-icons/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.57.0] /Users/sina/.gradle/caches/transforms-1/files-1.1/react-native-0.57.0.aar/22e15dfa853307023616a3a2f5ceaae0/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.57.0] /Users/sina/.gradle/caches/transforms-1/files-1.1/react-native-0.57.0.aar/22e15dfa853307023616a3a2f5ceaae0/AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/sina/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/0961999ce5d54471c3e9c57d66ab5da4/AndroidManifest.xml:20:5-44
