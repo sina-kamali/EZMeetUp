@@ -140,12 +140,11 @@ export default class SignUp extends Component {
                 style={{backgroundColor: 'white',
                 fontSize:20,
                 textAlign: 'left',
-                width: 350 - 30,
+                width: 350 - 20,
                 paddingLeft: 5
-              }}
-                >Intrests</Text>
+              }}>Intrests</Text>
               <CheckboxFormX
-                  style={{ width: 350 - 30}}
+                  style={{ width: 350 - 20}}
                   backgroundColor='white'
                   padding={10}
                   dataSource={mockData1}
@@ -156,11 +155,6 @@ export default class SignUp extends Component {
                   labelHorizontal={false}
                   onChecked={(item) => this._onSelect(item)}
               />
-
-
-          
-                
-              
                 <TouchableOpacity style={{marginTop:50}}>
                     <Text style = {styles.buttons}>
                     SIGN UP

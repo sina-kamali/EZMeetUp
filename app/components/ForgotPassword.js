@@ -3,7 +3,7 @@ import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,Touc
 import {createStackNavigator} from 'react-navigation'
 
 
-export default class Login extends Component {
+export default class ForgotPassword extends Component {
 
   constructor(props) {
     super(props);
@@ -18,7 +18,7 @@ export default class Login extends Component {
   }
 
   static navigationOptions = {
-    title: 'LOG IN',
+    title: 'ForgotPassword',
     headerStyle: {
       backgroundColor: '#f4511e',
     },
@@ -31,7 +31,7 @@ export default class Login extends Component {
     return (
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
             <View style={styles.container}>
-                <Image source={require('../images/logo.png')} style={styles.logo} />
+            <Image source={require('../images/logo.png')} style={styles.logo} />
                 <TextInput
                   style={{borderWidth: 2,
                     padding: 10,
@@ -41,29 +41,11 @@ export default class Login extends Component {
                     width: 330,
                     marginTop: 20}}
                   // onChangeText={(text) => this.setState({text})}
-                  placeholder="Username"
-                />
-                <TextInput
-                  style={{borderWidth: 2,
-                    padding: 10,
-                    borderColor: 'white',
-                    backgroundColor:'white',
-                    fontSize:20,
-                    width: 330,
-                    marginTop: 0.5}}
-                  // onChangeText={(text) => this.setState({text})}
-                  placeholder="Password"
-                  secureTextEntry={true}
+                  placeholder="Email or Username"
                 />
                 <TouchableOpacity style={{marginTop:50}}>
                     <Text style = {styles.buttons}>
-                    LOG IN
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop:10}}
-                onPress={() => this.props.navigation.navigate('ForgotPassword')}>
-                    <Text>
-                    Forgot Password!
+                    Send
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -102,4 +84,4 @@ const styles = StyleSheet.create({
      }
 
   });
-  AppRegistry.registerComponent(Login, () => Login);
+  AppRegistry.registerComponent(ForgotPassword, () => ForgotPassword);
