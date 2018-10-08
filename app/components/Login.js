@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {AppRegistry,Platform,KeyboardAvoidingView, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight} from 'react-native';
+import {AppRegistry,Platform,KeyboardAvoidingView, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity,
+   Button, TextInput,Alert,TouchableHighlight} from 'react-native';
 import {createStackNavigator} from 'react-navigation'
 
 
@@ -20,12 +21,14 @@ export default class Login extends Component {
 
     if(Username !='' && Password !=''){
       Alert.alert("Authentication", "Username: " + Username +" \nPassword: "+ Password);
-      // sending post requests in here
-      this.onFetchLoginRecords()
+      // sending post requests in here - uncommed the followingh code and modify the function
+      // this.onFetchLoginRecords()
+
+      // right now simply we are going to the preference page - will be changed later
+      this.props.navigation.navigate('Preference')
     } 
     else {
-      //Alert.alert("Login Failed!", "Invalid Username or Password! \nPlease try again. ");
-      this.props.navigation.navigate('Preference')
+      Alert.alert("Login Failed!", "Invalid Username or Password! \nPlease try again. ");
     }
   }
 

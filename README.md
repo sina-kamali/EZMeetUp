@@ -62,7 +62,13 @@ or
 
 react-native run-ios
 ```
+### Make Debug APK
 
+```
+cd android
+./gradlew assembleDebug
+
+```
 
 ## Running the tests
 

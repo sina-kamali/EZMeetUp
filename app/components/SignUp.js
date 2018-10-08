@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {AppRegistry,Platform,KeyboardAvoidingView, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, TextInput, ScrollView,CheckBox,} from 'react-native';
+import {AppRegistry,Platform,KeyboardAvoidingView, StyleSheet, Text, View, 
+  ImageBackground,Image,TouchableOpacity, Button, TextInput, ScrollView, CheckBox,} from 'react-native';
 import {createStackNavigator} from 'react-navigation'
 import CheckboxFormX from 'react-native-checkbox-form';
 
