@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/sina/EZMeetUp/MyNewProject/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-nl/values-nl.xml",
+            "outputFile": "/Users/sina/prj666/EZMeetUp/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-nl/values-nl.xml",
             "map": [
                 {
                     "source": "/Users/sina/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/0961999ce5d54471c3e9c57d66ab5da4/res/values-nl/values-nl.xml",

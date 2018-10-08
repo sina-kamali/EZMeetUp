@@ -1,4 +1,4 @@
-#Fri Sep 28 22:17:14 EDT 2018
-base.0=/Users/sina/EZMeetUp/MyNewProject/android/app/build/intermediates/transforms/dexMerger/debug/0
+#Sun Oct 07 17:32:13 EDT 2018
+base.0=/Users/sina/prj666/EZMeetUp/android/app/build/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex

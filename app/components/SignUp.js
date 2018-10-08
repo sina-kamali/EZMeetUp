@@ -1,29 +1,36 @@
 import React, {Component} from 'react';
 import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, TextInput, ScrollView,CheckBox,} from 'react-native';
 import {createStackNavigator} from 'react-navigation'
+import CheckboxFormX from 'react-native-checkbox-form';
 
-const checkboxes = [
+const mockData1 = [
   {
-    name: 'check-box-1',
-    key: 'checkBox1',
-    label: 'Check Box 1',
+      label: 'Sports',
+      value: 'Sports'
   },
   {
-    name: 'check-box-2',
-    key: 'checkBox2',
-    label: 'Check Box 2',
+      label: 'City Events',
+      value: 'City Events'
   },
   {
-    name: 'check-box-3',
-    key: 'checkBox3',
-    label: 'Check Box 3',
+      label: 'Music',
+      value: 'Music'
   },
   {
-    name: 'check-box-4',
-    key: 'checkBox4',
-    label: 'Check Box 4',
+    label: 'Drinking',
+    value: 'Drinking'
   },
+  {
+  label: 'Movies',
+  value: 'Movies'
+  },
+  {
+  label: 'Art',
+  value: 'Art'
+  }
 ];
+
+
 
 export default class SignUp extends Component {
 
@@ -129,19 +136,30 @@ export default class SignUp extends Component {
                   // onChangeText={(text) => this.setState({text})}
                   placeholder='Phone Number'
                 />
-                <View style={{ flexDirection: 'column'}}>
-                  <CheckBox
-                      value={this.state.checked}
-                      onValueChange={() => this.setState({ checked: !this.state.checked })}
-                    />
-                  <View style={{ flexDirection: 'row' }}>
-                    <CheckBox
-                      value={this.state.checked}
-                      onValueChange={() => this.setState({ checked: !this.state.checked })}
-                    />
-                    <Text style={{marginTop: 5}}> this is checkbox</Text>
-                  </View>
-                </View>
+                <Text
+                style={{backgroundColor: 'white',
+                fontSize:20,
+                textAlign: 'left',
+                width: 350 - 30,
+                paddingLeft: 5
+              }}
+                >Intrests</Text>
+              <CheckboxFormX
+                  style={{ width: 350 - 30}}
+                  backgroundColor='white'
+                  padding={10}
+                  dataSource={mockData1}
+                  itemShowKey="label"
+                  itemCheckedKey="RNchecked"
+                  iconSize={30}
+                  formHorizontal={true}
+                  labelHorizontal={false}
+                  onChecked={(item) => this._onSelect(item)}
+              />
+
+
+          
+                
               
                 <TouchableOpacity style={{marginTop:50}}>
                     <Text style = {styles.buttons}>
