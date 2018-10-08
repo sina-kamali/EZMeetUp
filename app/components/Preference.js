@@ -3,10 +3,10 @@ import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,Touc
 import {createStackNavigator} from 'react-navigation'
 
 
-export default class ForgotPassword extends Component {
+export default class Preference extends Component {
 
   static navigationOptions = {
-    title: 'Forgot Password',
+    title: 'Preference',
     headerStyle: {
       backgroundColor: '#f4511e',
     },
@@ -19,23 +19,7 @@ export default class ForgotPassword extends Component {
     return (
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
             <View style={styles.container}>
-            <Image source={require('../images/logo.png')} style={styles.logo} />
-                <TextInput
-                  style={{borderWidth: 2,
-                    padding: 10,
-                    borderColor: 'white',
-                    backgroundColor:'white',
-                    fontSize:20,
-                    width: 330,
-                    marginTop: 20}}
-                  // onChangeText={(text) => this.setState({text})}
-                  placeholder="Email or Username"
-                />
-                <TouchableOpacity style={{marginTop:50}}>
-                    <Text style = {styles.buttons}>
-                    Send
-                    </Text>
-                </TouchableOpacity>
+                <Image source={require('../images/logo.png')} style={styles.logo} />
             </View>
         </ImageBackground>
 
@@ -72,4 +56,4 @@ const styles = StyleSheet.create({
      }
 
   });
-  AppRegistry.registerComponent(ForgotPassword, () => ForgotPassword);
+  AppRegistry.registerComponent(Preference, () => Preference);

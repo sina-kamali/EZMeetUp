@@ -55,14 +55,15 @@ export default class Login extends Component {
                   placeholder="Password"
                   secureTextEntry={true}
                 />
-                <TouchableOpacity style={{marginTop:50}}>
+                <TouchableOpacity style={{marginTop:10}}
+                onPress={() => this.props.navigation.navigate('Preference')}>
                     <Text style = {styles.buttons}>
                     LOG IN
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{marginTop:10}}
                 onPress={() => this.props.navigation.navigate('ForgotPassword')}>
-                    <Text>
+                    <Text style={{color: 'white'}}>
                     Forgot Password!
                     </Text>
                 </TouchableOpacity>

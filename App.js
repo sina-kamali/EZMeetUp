@@ -12,7 +12,8 @@ import {createStackNavigator} from 'react-navigation'
 import Login from './app/components/Login.js';
 import Splash from './app/components/Splash';
 import SignUp from './app/components/SignUp';
-import ForgotPassword from './app/components/ForgotPassword.js';
+import ForgotPassword from './app/components/ForgotPassword';
+import Preference from './app/components/Preference';
 
 
 const RootStack = createStackNavigator({
@@ -28,6 +29,9 @@ const RootStack = createStackNavigator({
     },
     ForgotPassword: {
       screen: ForgotPassword
+    },
+    Preference: {
+      screen: Preference
     }
   });
 
