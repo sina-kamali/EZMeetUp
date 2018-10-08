@@ -14,8 +14,8 @@ import Splash from './app/components/Splash';
 import SignUp from './app/components/SignUp';
 import ForgotPassword from './app/components/ForgotPassword';
 import Preference from './app/components/Preference';
-
-
+import Event from './app/components/Event';
+import CreateEvent from './app/components/CreateEvent';
 const RootStack = createStackNavigator({
     
     Home: {
@@ -32,6 +32,12 @@ const RootStack = createStackNavigator({
     },
     Preference: {
       screen: Preference
+    },
+	Event: {
+      screen: Event
+    },
+	CreateEvent: {
+      screen: CreateEvent
     }
   });
 
