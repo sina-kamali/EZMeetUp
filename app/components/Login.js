@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight} from 'react-native';
+import {AppRegistry,Platform,KeyboardAvoidingView, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight} from 'react-native';
 import {createStackNavigator} from 'react-navigation'
 
 
@@ -24,7 +24,8 @@ export default class Login extends Component {
       this.onFetchLoginRecords()
     } 
     else {
-      Alert.alert("Login Failed!", "Invalid Username or Password! \nPlease try again. ");
+      //Alert.alert("Login Failed!", "Invalid Username or Password! \nPlease try again. ");
+      this.props.navigation.navigate('Preference')
     }
   }
 
@@ -70,7 +71,7 @@ export default class Login extends Component {
   render() {
     return (
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
-            <View style={styles.container}>
+            <KeyboardAvoidingView behavior="padding" style={styles.container}>
                 <Image source={require('../images/logo.png')} style={styles.logo} />
                 <TextInput
                   style={{borderWidth: 2,
@@ -80,6 +81,11 @@ export default class Login extends Component {
                     fontSize:20,
                     width: 330,
                     marginTop: 20}}
+                    keyboardType="email-address"
+                    onSubmitEditing={()=> this.passwordInput.focus()}
+                    returnKeyLabel="Next"
+                    autoCapitalize="none"
+                    autoCorrect={false}
                     onChangeText={(Username) => this.setState({Username})}
                   placeholder="Username"
                 />
@@ -91,6 +97,10 @@ export default class Login extends Component {
                     fontSize:20,
                     width: 330,
                     marginTop: 0.5}}
+                    returnKeyLabel="Go"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    ref={(input)=> this.passwordInput = input}
                     onChangeText={(Password) => this.setState({Password})}
                   placeholder="Password"
                   secureTextEntry={true}
@@ -109,7 +119,7 @@ export default class Login extends Component {
                     Forgot Password!
                     </Text>
                 </TouchableOpacity>
-            </View>
+            </KeyboardAvoidingView>
         </ImageBackground>
 
     );

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, TextInput, ScrollView,CheckBox,} from 'react-native';
+import {AppRegistry,Platform,KeyboardAvoidingView, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, TextInput, ScrollView,CheckBox,} from 'react-native';
 import {createStackNavigator} from 'react-navigation'
 import CheckboxFormX from 'react-native-checkbox-form';
 
@@ -65,7 +65,7 @@ export default class SignUp extends Component {
     return (
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
           <ScrollView>
-            <View style={styles.container}>
+            <KeyboardAvoidingView behavior="padding" style={styles.container}>
                 <TextInput
                   style={{borderWidth: 2,
                     padding: 10,
@@ -96,6 +96,8 @@ export default class SignUp extends Component {
                     fontSize:20,
                     width: 330,
                     marginTop: 20}}
+                    autoCapitalize="none"
+                    autoCorrect={false}
                   // onChangeText={(text) => this.setState({text})}
                   placeholder='Password'
                   secureTextEntry={true}
@@ -108,6 +110,8 @@ export default class SignUp extends Component {
                     fontSize:20,
                     width: 330,
                     marginTop: 0.5}}
+                    autoCapitalize="none"
+                    autoCorrect={false}
                   // onChangeText={(text) => this.setState({text})}
                   placeholder='Retype Password'
                   secureTextEntry={true}
@@ -120,6 +124,9 @@ export default class SignUp extends Component {
                     fontSize:20,
                     width: 330,
                     marginTop: 20}}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    keyboardType="email-address"
                   // onChangeText={(text) => this.setState({text})}
                   placeholder='Email'
                 />
@@ -133,6 +140,9 @@ export default class SignUp extends Component {
                     marginTop: 0.5,
                     marginBottom:20
                   }}
+                  autoCapitalize="none"
+                    autoCorrect={false}
+                    keyboardType="phone-pad"
                   // onChangeText={(text) => this.setState({text})}
                   placeholder='Phone Number'
                 />
@@ -160,7 +170,7 @@ export default class SignUp extends Component {
                     SIGN UP
                     </Text>
                 </TouchableOpacity>
-            </View>
+            </KeyboardAvoidingView>
           </ScrollView>
         </ImageBackground>
 

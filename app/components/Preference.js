@@ -1,19 +1,24 @@
 import React, {Component} from 'react';
-import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight} from 'react-native';
+import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight, BackHandler} from 'react-native';
 import {createStackNavigator} from 'react-navigation'
 
 
 export default class Preference extends Component {
 
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed);
+}
+
+componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
+}
+
+onBackButtonPressed() {
+    return true;
+}
+
   static navigationOptions = {
-    title: 'Preference',
-    headerStyle: {
-      backgroundColor: '#f4511e',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
+    header: null
   };
   render() {
     return (
