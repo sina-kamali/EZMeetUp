@@ -7,14 +7,25 @@ export default class Login extends Component {
 
   constructor(props) {
     super(props);
-    state = {
-      email   : '',
-      password: '',
+    this.state = {
+      Username: '',
+      Password: '',
     }
   }
 
-  onClickListener = (viewId) => {
-    Alert.alert("Alert", "Button pressed "+viewId);
+
+  UserLoginFunction = () =>{
+    const { Username }  = this.state ;
+    const { Password }  = this.state ;
+
+    if(Username !='' && Password !=''){
+      Alert.alert("Authentication", "Username: " + Username +" \nPassword: "+ Password);
+      // sending post requests in here
+      this.onFetchLoginRecords()
+    } 
+    else {
+      Alert.alert("Login Failed!", "Invalid Username or Password! \nPlease try again. ");
+    }
   }
 
   static navigationOptions = {
@@ -27,6 +38,35 @@ export default class Login extends Component {
       fontWeight: 'bold',
     },
   };
+
+  async onFetchLoginRecords() {
+    //Match the back-end whit these keys
+    var data = {
+      Username: this.state.Username,
+      Password: this.state.Password
+    };
+    try {
+     let response = await fetch(
+       // change this link to our link
+      "http://yourdomain.com",
+      {
+        // A post request which sends a json whit data objes keys
+        method: "POST",
+        headers: {
+         "Accept": "application/json",
+         "Content-Type": "application/json"
+        },
+       body: JSON.stringify(data)
+     }
+    );
+     if (response.status >= 200 && response.status < 300) {
+        // if successfull goes to user's Preference page or dashboard
+        this.props.navigation.navigate('Preference')
+     }
+   } catch (errors) {
+     alert(errors);
+    } 
+}
   render() {
     return (
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
@@ -40,7 +80,7 @@ export default class Login extends Component {
                     fontSize:20,
                     width: 330,
                     marginTop: 20}}
-                  // onChangeText={(text) => this.setState({text})}
+                    onChangeText={(Username) => this.setState({Username})}
                   placeholder="Username"
                 />
                 <TextInput
@@ -51,12 +91,14 @@ export default class Login extends Component {
                     fontSize:20,
                     width: 330,
                     marginTop: 0.5}}
-                  // onChangeText={(text) => this.setState({text})}
+                    onChangeText={(Password) => this.setState({Password})}
                   placeholder="Password"
                   secureTextEntry={true}
                 />
                 <TouchableOpacity style={{marginTop:10}}
-                onPress={() => this.props.navigation.navigate('Preference')}>
+                //onPress={() => this.props.navigation.navigate('Preference')}
+                onPress={() => this.UserLoginFunction()}
+                >
                     <Text style = {styles.buttons}>
                     LOG IN
                     </Text>
