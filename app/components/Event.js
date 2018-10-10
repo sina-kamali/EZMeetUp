@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, TextInput, ScrollView,CheckBox,} from 'react-native';
 import {createStackNavigator} from 'react-navigation'
-import Slideshow from 'react-native-slideshow';
 
 export default class Event extends Component {
 
@@ -31,23 +30,6 @@ export default class Event extends Component {
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
           <ScrollView>
             <View style={styles.container}>
-                <Slideshow dataSource={[
-					{ 
-						title: 'Cineplex',
-						caption: 'Movie Threater',
-						url:'http://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Cineplex_logo.svg/500px-Cineplex_logo.svg.png' 
-					},
-					{ 
-						title: 'Venom',
-						caption: 'Thriller, Action',
-						url:'https://mediafiles.cineplex.com/Attachments/NewItems/venom-595x326-EN_20181005144852_0.jpg' 
-					},
-					{ 
-						title: 'A Star is Born',
-						caption: 'Slice of Life',
-						url:'https://mediafiles.cineplex.com/Attachments/NewItems/astarisborn-595x326-EN_20181005144910_0.jpg' 
-					}
-				]}/>
 			<Text>
 				{this.slideInformation}
 			</Text>
