@@ -69,6 +69,11 @@ export default class DiscoveryPreference extends Component {
         <Text style={{backgroundColor: 'white',width: 380, textAlign:"center", paddingBottom:5}}>
           {this.state.distance}
         </Text> 
+        <TouchableOpacity style={{marginTop:50}}>
+                    <Text style = {styles.buttons}>
+                    Save
+                    </Text>
+                </TouchableOpacity>
                 
             </KeyboardAvoidingView>
         </ImageBackground>
