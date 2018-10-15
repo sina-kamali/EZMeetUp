@@ -45,7 +45,7 @@ export default class Event extends Component {
                     Swipe Right
                     </Text>
             </TouchableOpacity>
-			<TouchableOpacity style={{marginTop:1	0}}
+			<TouchableOpacity style={{marginTop:10}}
                 onPress={() => this.props.navigation.navigate('Event')}>
                     <Text style = {styles.buttons}>
                     Swipe Left

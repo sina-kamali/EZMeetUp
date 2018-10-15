@@ -16,6 +16,7 @@ import ForgotPassword from './app/components/ForgotPassword';
 import Preference from './app/components/Preference';
 import Event from './app/components/Event';
 import CreateEvent from './app/components/CreateEvent';
+import DiscoveryPreference from './app/components/DiscoveryPreference';
 const RootStack = createStackNavigator({
     
     Home: {
@@ -38,7 +39,11 @@ const RootStack = createStackNavigator({
     },
 	CreateEvent: {
       screen: CreateEvent
+    },
+    DiscoveryPreference: {
+      screen: DiscoveryPreference
     }
+
   });
 
 export default class App extends Component {

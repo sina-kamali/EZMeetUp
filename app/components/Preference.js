@@ -53,7 +53,9 @@
                   fontWeight:'bold',
                   marginLeft:10,
                   color: '#ff6666'
-                }}>Discovery Preference</Text>
+                }}
+                onPress={() => this.props.navigation.navigate('DiscoveryPreference')}
+                >Discovery Preference</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
