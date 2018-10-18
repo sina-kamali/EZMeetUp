@@ -24,6 +24,12 @@ export default class Splash extends Component {
                     LOG IN
                     </Text>
                 </TouchableOpacity>
+				<TouchableOpacity style={{marginTop:10}}
+                onPress={() => this.props.navigation.navigate('Event')}>
+                    <Text style = {styles.buttons}>
+                    EVENT
+                    </Text>
+                </TouchableOpacity>
             </View>
         </ImageBackground>
 
