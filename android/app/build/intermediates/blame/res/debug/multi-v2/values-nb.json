@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/sina/prj666/EZMeetUp/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-nb/values-nb.xml",
+            "outputFile": "C:\\Users\\Derrick Leung\\EZMeetUp\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-nb\\values-nb.xml",
             "map": [
                 {
-                    "source": "/Users/sina/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/656d95dea32c32d42b9e8379c3a9d54e/res/values-nb/values-nb.xml",
+                    "source": "C:\\Users\\Derrick Leung\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.1.aar\\5ed6e1f370b4cf6d5407af91a569668d\\res\\values-nb\\values-nb.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/sina/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/0961999ce5d54471c3e9c57d66ab5da4/res/values-nb/values-nb.xml",
+                    "source": "C:\\Users\\Derrick Leung\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.1.aar\\1dbc4e2ea29069d65dcd182ba81680d4\\res\\values-nb\\values-nb.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/sina/prj666/EZMeetUp/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v21/values-v21.xml",
+            "outputFile": "C:\\Users\\Derrick Leung\\EZMeetUp\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v21\\values-v21.xml",
             "map": [
                 {
-                    "source": "/Users/sina/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/656d95dea32c32d42b9e8379c3a9d54e/res/values-v21/values-v21.xml",
+                    "source": "C:\\Users\\Derrick Leung\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.1.aar\\5ed6e1f370b4cf6d5407af91a569668d\\res\\values-v21\\values-v21.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,13",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "/Users/sina/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/0961999ce5d54471c3e9c57d66ab5da4/res/values-v21/values-v21.xml",
+                    "source": "C:\\Users\\Derrick Leung\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.1.aar\\1dbc4e2ea29069d65dcd182ba81680d4\\res\\values-v21\\values-v21.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,17,19,20,21,22,24,26,27,28,29,30,32,34,36,38,40,42,43,48,50,52,53,54,56,58,59,60,61,62,63,107,110,154,157,160,162,164,166,169,171,174,175,176,179,180,181,182,183,184,187,188,190,192,194,196,200,202,203,204,205,207,211,213,215,216,217,218,219,221,222,223,233,234,235,247",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/sina/prj666/EZMeetUp/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v23/values-v23.xml",
+            "outputFile": "C:\\Users\\Derrick Leung\\EZMeetUp\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v23\\values-v23.xml",
             "map": [
                 {
-                    "source": "/Users/sina/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/0961999ce5d54471c3e9c57d66ab5da4/res/values-v23/values-v23.xml",
+                    "source": "C:\\Users\\Derrick Leung\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.1.aar\\1dbc4e2ea29069d65dcd182ba81680d4\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,19,32,33,34,35,36",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
