@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {AppRegistry,Platform,KeyboardAvoidingView, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity,
    Button, TextInput,Alert,TouchableHighlight} from 'react-native';
+   import { TextField } from 'react-native-material-textfield';
 import {createStackNavigator} from 'react-navigation'
 
 
@@ -9,26 +10,27 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Username: '',
-      Password: '',
+      email: '',
+      password: '',
+      LogedIn: ''
     }
   }
 
 
   UserLoginFunction = () =>{
-    const { Username }  = this.state ;
-    const { Password }  = this.state ;
+    const { email }  = this.state ;
+    const { password }  = this.state ;
 
-    if(Username !='' && Password !=''){
-      Alert.alert("Authentication", "Username: " + Username +" \nPassword: "+ Password);
+    if(email.length > 0 && (password.length >= 8 && password.length <= 30)){
+      //Alert.alert("Authentication", "email: " + email.length +" \nPassword: "+ password.length);
       // sending post requests in here - uncommed the followingh code and modify the function
       // this.onFetchLoginRecords()
 
       // right now simply we are going to the preference page - will be changed later
-      this.props.navigation.navigate('Preference')
+      this.props.navigation.navigate('Event')
     } 
     else {
-      Alert.alert("Login Failed!", "Invalid Username or Password! \nPlease try again. ");
+      Alert.alert("Login Failed!", "Invalidn email or password! \nPlease try again. ");
     }
   }
 
@@ -46,16 +48,16 @@ export default class Login extends Component {
   async onFetchLoginRecords() {
     //Match the back-end whit these keys
     var data = {
-      Username: this.state.Username,
-      Password: this.state.Password
+      email: this.state.email,
+      password: this.state.password
     };
     try {
      let response = await fetch(
        // change this link to our link
-      "http://yourdomain.com",
+      "http://myvmlab.senecacollege.ca:6282/api/users/login",
       {
         // A post request which sends a json whit data objes keys
-        method: "POST",
+        method: "GET",
         headers: {
          "Accept": "application/json",
          "Content-Type": "application/json"
@@ -71,7 +73,26 @@ export default class Login extends Component {
      alert(errors);
     } 
 }
+
+canLogin() {
+  const { email, password } = this.state;
+  return (
+    email.length > 0 &&
+    (password.length >= 8 && password.length <= 30)
+  );
+}
+
+CanAcive() {
+  if(!this.canLogin()){
+    return 'gray'
+  }
+  else {
+    return 'transparent'
+  }
+}
   render() {
+    const isEnabled = this.canLogin();
+    const isVisible = this.CanAcive();
     return (
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -89,8 +110,8 @@ export default class Login extends Component {
                     returnKeyLabel="Next"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    onChangeText={(Username) => this.setState({Username})}
-                  placeholder="Username"
+                    onChangeText={(email) => this.setState({email})}
+                  placeholder="EZMeetUp@example.com"
                 />
                 <TextInput
                   style={{borderWidth: 2,
@@ -104,22 +125,21 @@ export default class Login extends Component {
                     autoCapitalize="none"
                     autoCorrect={false}
                     ref={(input)=> this.passwordInput = input}
-                    onChangeText={(Password) => this.setState({Password})}
-                  placeholder="Password"
+                    onChangeText={(password) => this.setState({password})}
+                  placeholder="password"
                   secureTextEntry={true}
                 />
-                <TouchableOpacity style={{marginTop:10}}
-                //onPress={() => this.props.navigation.navigate('Preference')}
+                <TouchableOpacity style={{marginTop:10, backgroundColor: isVisible} } 
+                //onPress={() => this.props.navigation.navigate('Event')}
+                disabled={!isEnabled}
                 onPress={() => this.UserLoginFunction()}
                 >
-                    <Text style = {styles.buttons}>
-                    LOG IN
-                    </Text>
+                  <Text style = {styles.buttons}>LOG IN</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{marginTop:10}}
                 onPress={() => this.props.navigation.navigate('ForgotPassword')}>
                     <Text style={{color: 'white'}}>
-                    Forgot Password!
+                    Forgot password!
                     </Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>

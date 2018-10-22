@@ -67,7 +67,7 @@ export default class DiscoveryPreference extends Component {
             onSlidingComplete={ val => this.getVal(val)}
             />
         <Text style={{backgroundColor: 'white',width: 380, textAlign:"center", paddingBottom:5}}>
-          {this.state.distance}
+          {this.state.distance} mi.
         </Text> 
         <TouchableOpacity style={{marginTop:50}}>
                     <Text style = {styles.buttons}>

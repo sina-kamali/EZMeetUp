@@ -1,27 +1,29 @@
   import React, {Component} from 'react';
   import {AppRegistry,Platform, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, 
-    ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight, BackHandler} from 'react-native';
+    ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight} from 'react-native';
   import {createStackNavigator} from 'react-navigation'
 
 
   export default class Preference extends Component {
 
-    componentDidMount() {
-      BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed);
-    }
-
-    componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
-    }
-
-    onBackButtonPressed() {
-        return true;
-    }
-
     static navigationOptions = {
-      header: null
+      title: 'Preference',
+    headerStyle: {
+      backgroundColor: '#f4511e',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
     };
+
+    LogOut = () =>{
+      // removing the user token
+
+      this.props.navigation.navigate('Login')
+    }
     render() {
+
       return (
           <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
             <View style={{ height: 200, justifyContent: 'center', alignItems: 'center', 
@@ -43,7 +45,8 @@
 
             
             <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
-            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}>
+            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
+            onPress={() => this.props.navigation.navigate('DiscoveryPreference')}>
             <Image source={require('../images/Discover.png')} style={{justifyContent:'center', alignContent: 'center'}} />
             <Text
                 style={{
@@ -54,12 +57,13 @@
                   marginLeft:10,
                   color: '#ff6666'
                 }}
-                onPress={() => this.props.navigation.navigate('DiscoveryPreference')}
                 >Discovery Preference</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
-            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}>
+            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
+            onPress={() => this.props.navigation.navigate('AppSettings')}
+            >
             <Image source={require('../images/Settings.png')} style={{justifyContent:'center', alignContent: 'center'}} />
             <Text
                   style={{
@@ -73,7 +77,8 @@
             </TouchableOpacity>
 
             <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
-            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}>
+            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
+            onPress={() => this.props.navigation.navigate('AddEvent')}>
             <Image source={require('../images/AddEvents.png')} style={{justifyContent:'center', alignContent: 'center'}} />
             <Text
                   style={{
@@ -87,7 +92,8 @@
             </TouchableOpacity>
 
             <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
-            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}>
+            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
+            onPress={() => this.props.navigation.navigate('MyFriends')}>
             <Image source={require('../images/MyFriends.png')} style={{justifyContent:'center', alignContent: 'center'}} />
             <Text
                   style={{
@@ -101,7 +107,9 @@
             </TouchableOpacity>
 
             <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
-            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}>
+            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
+            onPress={() => this.props.navigation.navigate('AddFriends')}
+            >
             <Image source={require('../images/AddFriends.png')} style={{justifyContent:'center', alignContent: 'center'}} />
             <Text
                   style={{
@@ -115,7 +123,9 @@
             </TouchableOpacity>
 
             <TouchableOpacity style={{ height: 90, justifyContent:'center',
-            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center'}}>
+            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center'}}
+            onPress={() => this.LogOut()}
+            >
             <Text
                   style={{
                   fontSize: 25,
