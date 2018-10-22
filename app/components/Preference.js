@@ -73,7 +73,7 @@
                   fontWeight:'bold',
                   marginLeft:10,
                   color: '#ff6666'
-                }}>App Settings</Text>
+                }}>Profile Setting</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {AppRegistry,Platform,KeyboardAvoidingView, StyleSheet, Text, View, 
-  ImageBackground,Image,TouchableOpacity, Button, TextInput, ScrollView, CheckBox,} from 'react-native';
+  ImageBackground,Image,TouchableOpacity, Button, TextInput, ScrollView,} from 'react-native';
 import {createStackNavigator} from 'react-navigation'
 import CheckboxFormX from 'react-native-checkbox-form';
 
@@ -65,6 +65,7 @@ export default class SignUp extends Component {
   render() {
     return (
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
+          <Text style={{color: 'white', paddingLeft: 15, fontWeight: 'bold', paddingTop: 10}}>* These fields are required!</Text>
           <ScrollView>
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
                 <TextInput
@@ -76,7 +77,7 @@ export default class SignUp extends Component {
                     width: 330,
                     marginTop: 20}}
                   // onChangeText={(text) => this.setState({text})}
-                  placeholder="First Name"
+                  placeholder="First Name*"
                 />
                 <TextInput
                   style={{borderWidth: 2,
@@ -87,7 +88,7 @@ export default class SignUp extends Component {
                     width: 330,
                     marginTop: 0.5}}
                   // onChangeText={(text) => this.setState({text})}
-                  placeholder='Last Name'
+                  placeholder='Last Name*'
                 />
                 <TextInput
                   style={{borderWidth: 2,
@@ -100,7 +101,7 @@ export default class SignUp extends Component {
                     autoCapitalize="none"
                     autoCorrect={false}
                   // onChangeText={(text) => this.setState({text})}
-                  placeholder='Password'
+                  placeholder='Password*'
                   secureTextEntry={true}
                 />
                 <TextInput
@@ -114,7 +115,7 @@ export default class SignUp extends Component {
                     autoCapitalize="none"
                     autoCorrect={false}
                   // onChangeText={(text) => this.setState({text})}
-                  placeholder='Retype Password'
+                  placeholder='Retype Password*'
                   secureTextEntry={true}
                 />
                 <TextInput
@@ -129,7 +130,7 @@ export default class SignUp extends Component {
                     autoCorrect={false}
                     keyboardType="email-address"
                   // onChangeText={(text) => this.setState({text})}
-                  placeholder='Email'
+                  placeholder='Email*'
                 />
                 <TextInput
                   style={{borderWidth: 2,
@@ -139,13 +140,13 @@ export default class SignUp extends Component {
                     fontSize:20,
                     width: 330,
                     marginTop: 0.5,
-                    marginBottom:20
+                    marginBottom:15
                   }}
                   autoCapitalize="none"
                     autoCorrect={false}
                     keyboardType="phone-pad"
                   // onChangeText={(text) => this.setState({text})}
-                  placeholder='Phone Number'
+                  placeholder='Phone Number*'
                 />
                 <Text
                 style={{backgroundColor: 'white',
@@ -166,7 +167,7 @@ export default class SignUp extends Component {
                   labelHorizontal={false}
                   onChecked={(item) => this._onSelect(item)}
               />
-                <TouchableOpacity style={{marginTop:50}}>
+                <TouchableOpacity style={{marginTop: 20, marginBottom: 20}}>
                     <Text style = {styles.buttons}>
                     SIGN UP
                     </Text>
