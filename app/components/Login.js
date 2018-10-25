@@ -12,11 +12,11 @@ export default class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      LogedIn: ''
+      LogedIn: '',
     }
   }
-
-
+  
+  
   UserLoginFunction = () =>{
     const { email }  = this.state ;
     const { password }  = this.state ;
@@ -24,10 +24,10 @@ export default class Login extends Component {
     if(email.length > 0 && (password.length >= 8 && password.length <= 30)){
       //Alert.alert("Authentication", "email: " + email.length +" \nPassword: "+ password.length);
       // sending post requests in here - uncommed the followingh code and modify the function
-      // this.onFetchLoginRecords()
+      this.onFetchLoginRecords()
 
       // right now simply we are going to the preference page - will be changed later
-      this.props.navigation.navigate('Event')
+      //this.props.navigation.navigate('Event')
     } 
     else {
       Alert.alert("Login Failed!", "Invalidn email or password! \nPlease try again. ");
@@ -57,7 +57,7 @@ export default class Login extends Component {
       "http://myvmlab.senecacollege.ca:6282/api/users/login",
       {
         // A post request which sends a json whit data objes keys
-        method: "GET",
+        method: "POST",
         headers: {
          "Accept": "application/json",
          "Content-Type": "application/json"
@@ -67,10 +67,19 @@ export default class Login extends Component {
     );
      if (response.status >= 200 && response.status < 300) {
         // if successfull goes to user's Preference page or dashboard
-        this.props.navigation.navigate('Preference')
+        //this.props.navigation.navigate('Preference')
+        var UserOBJ = new Object(JSON.parse(response._bodyInit));
+        if(UserOBJ.loginStatus){
+          this.props.navigation.navigate('Event')
+        }else {
+          Alert.alert("Login Failed!", "Invalidn email or password! \nPlease try again. ");
+        }
+     }
+     else{
+      Alert.alert("Login Failed!", "Invalidn email or password! \nPlease try again. ");
      }
    } catch (errors) {
-     alert(errors);
+    Alert.alert("Login Failed!", "Something went wrong please contact EZMeetUp support.\n Sorry for the invoice! ");
     } 
 }
 

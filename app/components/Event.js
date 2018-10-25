@@ -146,7 +146,7 @@ export default class Event extends Component {
     return (
       <ImageBackground source={require('../images/background.png')} style={{ width: '100%', height: '100%' }}>
         <ScrollView>
-          <View style={[styles.container],{paddingTop: 20}}>
+          <View style={[styles.container,{padding: 20}]}>
             <GestureRecognizer
               onSwipe={(direction, state) => this.onSwipe(direction, state)}
               onSwipeUp={(state) => this.onSwipeUp(state)}
