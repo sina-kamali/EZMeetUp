@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Tue Oct 23 22:48:04 EDT 2018
+#Wed Oct 24 22:26:21 EDT 2018
 5.base=/Users/sina/EZMeetUp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 22.path=fonts/MaterialCommunityIcons.ttf
 32.set=NATIVE_RESOURCE
@@ -8,7 +8,7 @@
 18.baseType=DIRECTORY
 27.baseType=DIRECTORY
 9.base=/Users/sina/EZMeetUp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
-21.set=ASSET
+21.set=NATIVE_RESOURCE
 26.path=lib/x86_64/libimagepipeline.so
 6.baseType=DIRECTORY
 36.path=lib/x86/libicu_common.so
@@ -47,7 +47,7 @@
 20.baseType=DIRECTORY
 27.path=fonts/EvilIcons.ttf
 37.path=fonts/Octicons.ttf
-20.set=NATIVE_RESOURCE
+20.set=ASSET
 23.base=/Users/sina/EZMeetUp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 9.baseType=DIRECTORY
 33.base=/Users/sina/EZMeetUp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
@@ -73,7 +73,7 @@ count=38
 3.base=/Users/sina/EZMeetUp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 22.baseType=DIRECTORY
 31.baseType=DIRECTORY
-20.path=lib/armeabi-v7a/libicu_common.so
+20.path=index.android.bundle
 12.set=NATIVE_RESOURCE
 30.path=lib/x86/libjsc.so
 7.base=/Users/sina/EZMeetUp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
@@ -82,7 +82,7 @@ count=38
 34.path=lib/armeabi-v7a/libfb.so
 3.set=NATIVE_RESOURCE
 18.path=fonts/Zocial.ttf
-20.base=/Users/sina/EZMeetUp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
+20.base=/Users/sina/EZMeetUp/android/app/build/intermediates/assets/debug
 28.path=classes.dex
 30.base=/Users/sina/EZMeetUp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 10.path=fonts/Ionicons.ttf
@@ -113,7 +113,7 @@ count=38
 4.base=/Users/sina/EZMeetUp/android/app/build/intermediates/assets/debug
 15.baseType=DIRECTORY
 24.baseType=DIRECTORY
-21.path=index.android.bundle
+21.path=lib/armeabi-v7a/libicu_common.so
 22.set=ASSET
 34.baseType=DIRECTORY
 31.path=lib/armeabi/libicu_common.so
@@ -125,7 +125,7 @@ count=38
 35.path=fonts/FontAwesome.ttf
 18.set=ASSET
 19.path=lib/arm64-v8a/libimagepipeline.so
-21.base=/Users/sina/EZMeetUp/android/app/build/intermediates/assets/debug
+21.base=/Users/sina/EZMeetUp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 29.path=lib/x86/libfolly_json.so
 31.base=/Users/sina/EZMeetUp/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 11.path=lib/armeabi-v7a/libreactnativejni.so
