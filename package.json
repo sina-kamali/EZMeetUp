@@ -10,6 +10,7 @@
     "prop-types": "^15.6.2",
     "react": "16.5.0",
     "react-native": "0.57.0",
+    "react-native-animated-hide-view": "^1.0.0",
     "react-native-checkbox-form": "^1.1.5",
     "react-native-checkbox-group": "^1.0.3",
     "react-native-elements": "^0.19.1",

@@ -30,7 +30,7 @@ export default class Login extends Component {
       //this.props.navigation.navigate('Event')
     } 
     else {
-      Alert.alert("Login Failed!", "Invalidn email or password! \nPlease try again. ");
+      Alert.alert("Login Failed!", "Invalid email or password! \nPlease try again. ");
     }
   }
 
@@ -72,11 +72,11 @@ export default class Login extends Component {
         if(UserOBJ.loginStatus){
           this.props.navigation.navigate('Event')
         }else {
-          Alert.alert("Login Failed!", "Invalidn email or password! \nPlease try again. ");
+          Alert.alert("Login Failed!", "Invalid email or password! \nPlease try again. ");
         }
      }
      else{
-      Alert.alert("Login Failed!", "Invalidn email or password! \nPlease try again. ");
+      Alert.alert("Login Failed!", "Invalid email or password! \nPlease try again. ");
      }
    } catch (errors) {
     Alert.alert("Login Failed!", "Something went wrong please contact EZMeetUp support.\n Sorry for the invoice! ");
@@ -91,6 +91,15 @@ canLogin() {
   );
 }
 
+passedEmail(){
+  if(this.email != 'undefined'){
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
 CanAcive() {
   if(!this.canLogin()){
     return 'gray'
@@ -102,6 +111,10 @@ CanAcive() {
   render() {
     const isEnabled = this.canLogin();
     const isVisible = this.CanAcive();
+    const { navigation } = this.props;
+    const email = navigation.getParam('email');
+    const RegisterdUser = this.passedEmail();
+    console.log(email);
     return (
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -118,6 +131,7 @@ CanAcive() {
                     onSubmitEditing={()=> this.passwordInput.focus()}
                     returnKeyLabel="Next"
                     autoCapitalize="none"
+                    value={RegisterdUser && email}
                     autoCorrect={false}
                     onChangeText={(email) => this.setState({email})}
                   placeholder="EZMeetUp@example.com"
