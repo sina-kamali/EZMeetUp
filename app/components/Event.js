@@ -11,28 +11,33 @@ export default class Event extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      myText: 'I\'m ready to get swiped!',
-      gestureName: 'none',
-      backgroundColor: '#fff',
-      position: 1,
-      interval: null,
-      dataSource: [
-        {
-          title: 'Title 1',
-          caption: 'Caption 1',
-          url: 'http://placeimg.com/640/480/any',
-        }, {
-          title: 'Title 2',
-          caption: 'Caption 2',
-          url: 'http://placeimg.com/640/400/any',
-        }, {
-          title: 'Title 3',
-          caption: 'Caption 3',
-          url: 'http://placeimg.com/640/470/any',
-        },
-      ],
-    };
+		this.state = {
+		  eventName: "EventName",
+		  eventLocation: "EventLocation",
+		  eventDescription: "EventDescription",
+		  eventCapacity: "EventCapacity",	
+		  myText: 'I\'m ready to get swiped!',
+		  gestureName: 'none',
+		  backgroundColor: '#fff',
+		  position: 1,
+		  interval: null,
+		  dataSource: [
+			{
+			  title: 'Title 1',
+			  caption: 'Caption 1',
+			  url: 'http://placeimg.com/640/480/any',
+			}, {
+			  title: 'Title 2',
+			  caption: 'Caption 2',
+			  url: 'http://placeimg.com/640/400/any',
+			}, {
+			  title: 'Title 3',
+			  caption: 'Caption 3',
+			  url: 'http://placeimg.com/640/470/any',
+			},
+		  ],
+		};
+
   }
 
   componentWillMount() {
@@ -48,21 +53,123 @@ export default class Event extends Component {
   componentWillUnmount() {
     clearInterval(this.state.interval);
   }
-
+  
+  //load new event with swiping, will replace with DB data later
+  loadNewEvent(){
+	if (global.EventNo == global.EventMax){
+		global.EventNo = 1;
+	}
+	else{
+		global.EventNo = global.EventNo + 1;
+	}
+	if (global.EventNo == 1){
+	  this.setState({
+		  eventName: "EventName",
+		  eventLocation: "EventLocation",
+		  eventDescription: "EventDescription",
+		  eventCapacity: "EventCapacity",	
+		  myText: 'I\'m ready to get swiped!',
+		  gestureName: 'none',
+		  backgroundColor: '#fff',
+		  position: 1,
+		  interval: null,
+		  dataSource: [
+			{
+			  title: 'Title 1',
+			  caption: 'Caption 1',
+			  url: 'http://placeimg.com/640/480/any',
+			}, {
+			  title: 'Title 2',
+			  caption: 'Caption 2',
+			  url: 'http://placeimg.com/640/400/any',
+			}, {
+			  title: 'Title 3',
+			  caption: 'Caption 3',
+			  url: 'http://placeimg.com/640/470/any',
+			},
+		  ],
+	  });
+	}
+	if (global.EventNo == 2){
+	  this.setState({
+		  eventName: "Cineplex",
+		  eventLocation: "15460 Bayview Avenue Aurora, ON, L4G 7J1",
+		  eventDescription: "Movie Threater",
+		  eventCapacity: "200",	
+		  myText: 'I\'m ready to get swiped!',
+		  gestureName: 'none',
+		  backgroundColor: '#fff',
+		  position: 1,
+		  interval: null,
+		  dataSource: [
+			{
+			  title: 'Cineplex',
+			  caption: 'Movie Threater',
+			  url: 'http://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Cineplex_logo.svg/500px-Cineplex_logo.svg.png',
+			}, {
+			  title: 'Venom',
+			  caption: 'Thriller, Action',
+			  url: 'https://mediafiles.cineplex.com/Attachments/NewItems/venom-595x326-EN_20181005144852_0.jpg',
+			}, {
+			  title: 'A Star is Born',
+			  caption: 'Drama, Slice of Life',
+			  url: 'https://mediafiles.cineplex.com/Attachments/NewItems/astarisborn-595x326-EN_20181005144910_0.jpg',
+			},
+		  ],
+	  });
+	}
+	if (global.EventNo == 3){
+	  this.setState({
+		  eventName: "CNE",
+		  eventLocation: "210 Princes' Blvd, Toronto, ON M6K 3C3",
+		  eventDescription: "An annual event that takes place at Exhibition Place",
+		  eventCapacity: "50000",	
+		  myText: 'I\'m ready to get swiped!',
+		  gestureName: 'none',
+		  backgroundColor: '#fff',
+		  position: 1,
+		  interval: null,
+		  dataSource: [
+			{
+			  title: 'Sky Ride',
+			  caption: 'Adult Ride',
+			  url: 'https://theex.com/statcache/pthumb/images/galleries/skyride/skyride_1.fe2c857b.jpg',
+			}, {
+			  title: 'Ribfest',
+			  caption: 'Food',
+			  url: 'https://theex.com/statcache/pthumb/images/food/restaurants/ribfest_lg.ce9edee6.jpg',
+			}, {
+			  title: 'Craft Beer Fest',
+			  caption: 'Alcohol',
+			  url: 'https://theex.com/statcache/pthumb/images/food/craft_beer_fest_2015.ce9edee6.jpg',
+			},
+		  ],
+	  });
+	}
+  }
+  
   onSwipeUp(gestureState) {
-    this.setState({ myText: 'You swiped up!' });
+	this.loadNewEvent();  
+    this.setState({ myText: 'You swiped up!'});
+	this.forceUpdate();
   }
 
   onSwipeDown(gestureState) {
+	this.loadNewEvent();
     this.setState({ myText: 'You swiped down!' });
+	this.forceUpdate();
   }
 
   onSwipeLeft(gestureState) {
+	this.loadNewEvent();
     this.setState({ myText: 'You swiped left!' });
+	this.forceUpdate();
   }
 
   onSwipeRight(gestureState) {
+	this.loadNewEvent();
     this.setState({ myText: 'You swiped right!' });
+	this.forceUpdate();
   }
 
   onSwipe(gestureName, gestureState) {
@@ -160,6 +267,11 @@ export default class Event extends Component {
               }}
             >
               <View style={{ backgroundColor: 'white', padding: 30, color: 'black', textAlign: 'center',}}>
+			  
+			    <Text>{this.state.eventName}</Text>
+				<Text>Location: {this.state.eventLocation}</Text>
+				<Text>Capacity: {this.state.eventCapacity}</Text>
+				
                 <Slideshow
                   dataSource={this.state.dataSource}
                   position={this.state.position}
@@ -167,6 +279,8 @@ export default class Event extends Component {
 
                 <Text style={{ marginTop: 20 }}>{this.state.myText}</Text>
                 <Text>onSwipe callback received gesture: {this.state.gestureName}</Text>
+				<Text>{this.state.eventDescription}</Text>
+				
                 <View style={{ marginTop: 30, justifyContent:'space-between', flexDirection: 'row',}}>
                   <TouchableOpacity
                   onPress={(state) => this.onSwipeLeft(state)}
@@ -183,6 +297,7 @@ export default class Event extends Component {
                       source={require('../images/yes.png')}
                     />
                   </TouchableOpacity>
+				  
                 </View>
               </View>
             </GestureRecognizer>

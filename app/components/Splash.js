@@ -5,6 +5,11 @@ import {createStackNavigator} from 'react-navigation'
 
 
 export default class Splash extends Component {
+	constructor() {
+    super();
+	global.EventNo = 1;
+	global.EventMax = 3;
+  }
     static navigationOptions = {
         header: null
       };
