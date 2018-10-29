@@ -248,6 +248,7 @@ async onFetchRegister() {
       index: 0,
       actions: [NavigationActions.navigate({ routeName: 'Login', params: {email: this.state.email}})]
     });
+    
     this.props.navigation.dispatch(resetAction);
    }
    else{

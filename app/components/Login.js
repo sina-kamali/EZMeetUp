@@ -70,6 +70,7 @@ export default class Login extends Component {
         //this.props.navigation.navigate('Preference')
         var UserOBJ = new Object(JSON.parse(response._bodyInit));
         if(UserOBJ.loginStatus){
+          
           this.props.navigation.navigate('Event')
         }else {
           Alert.alert("Login Failed!", "Invalid email or password! \nPlease try again. ");

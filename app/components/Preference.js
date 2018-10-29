@@ -1,7 +1,7 @@
   import React, {Component} from 'react';
   import {AppRegistry,Platform, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, 
     ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight} from 'react-native';
-  import {createStackNavigator} from 'react-navigation'
+  import {createStackNavigator,NavigationActions,StackActions} from 'react-navigation'
 
 
   export default class Preference extends Component {
@@ -19,8 +19,12 @@
 
     LogOut = () =>{
       // removing the user token
-
-      this.props.navigation.navigate('Login')
+      
+      const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'Home'})]
+      });
+      this.props.navigation.dispatch(resetAction);
     }
     render() {
 
