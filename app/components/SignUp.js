@@ -111,7 +111,7 @@ export default class SignUp extends Component {
       return result;
   }
   LnameValidation(){
-    var format = /[ !@#$%^&*()+\=\[\]{};':"\\|,.<>\/?]/;
+    var format = /[ !@#$%^&*()+\=\[\]{};:"\\|,.<>\/?]/;
 
     var result = false;
     if(this.state.lname == ''){
@@ -198,14 +198,18 @@ Register(){
       
       return false;
     }
+
+
 }
+
 
 SubmitInfo() {
   if(this.Register()){
+    
     this.onFetchRegister();
 
   } else {
-    Alert.alert("Registration Failed!", "Something went wrong please contact EZMeetUp support.\n Sorry for the invoice! ");
+    Alert.alert("Registration Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
   }
 };
 
@@ -252,10 +256,10 @@ async onFetchRegister() {
     this.props.navigation.dispatch(resetAction);
    }
    else{
-    Alert.alert("Registration Failed!", "Something went wrong please contact EZMeetUp support.\n Sorry for the invoice! ");
+    Alert.alert("Registration Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
    }
  } catch (errors) {
-  Alert.alert("Registration Failed!", "Something went wrong please contact EZMeetUp support.\n Sorry for the invoice! ");
+  Alert.alert("Registration Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
   } 
 }
 

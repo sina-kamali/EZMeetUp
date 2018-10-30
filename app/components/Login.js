@@ -69,9 +69,12 @@ export default class Login extends Component {
         // if successfull goes to user's Preference page or dashboard
         //this.props.navigation.navigate('Preference')
         var UserOBJ = new Object(JSON.parse(response._bodyInit));
+        console.log(response.headers);
+        
+        console.log(response.headers.map.authtoken);
+        console.log(UserOBJ.id);
         if(UserOBJ.loginStatus){
-          
-          this.props.navigation.navigate('Event')
+          this.props.navigation.navigate('Event',{id: UserOBJ.id, token: response.headers.map.authtoken})
         }else {
           Alert.alert("Login Failed!", "Invalid email or password! \nPlease try again. ");
         }
@@ -80,20 +83,21 @@ export default class Login extends Component {
       Alert.alert("Login Failed!", "Invalid email or password! \nPlease try again. ");
      }
    } catch (errors) {
-    Alert.alert("Login Failed!", "Something went wrong please contact EZMeetUp support.\n Sorry for the invoice! ");
+    Alert.alert("Login Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
     } 
 }
 
 canLogin() {
   const { email, password } = this.state;
   return (
-    email.length > 0 &&
+    (email != "")&&
     (password.length >= 8 && password.length <= 30)
   );
 }
 
-passedEmail(){
-  if(this.email != 'undefined'){
+passedEmail(SignEmail){
+  if(SignEmail != undefined){
+    this.state.email = SignEmail;
     return true;
   }
   else {
@@ -113,9 +117,8 @@ CanAcive() {
     const isEnabled = this.canLogin();
     const isVisible = this.CanAcive();
     const { navigation } = this.props;
-    const email = navigation.getParam('email');
-    const RegisterdUser = this.passedEmail();
-    console.log(email);
+    const SignEmail = navigation.getParam('email');
+    const RegisterdUser = this.passedEmail(SignEmail);
     return (
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -132,7 +135,7 @@ CanAcive() {
                     onSubmitEditing={()=> this.passwordInput.focus()}
                     returnKeyLabel="Next"
                     autoCapitalize="none"
-                    value={RegisterdUser && email}
+                    value={RegisterdUser ? SignEmail : null}
                     autoCorrect={false}
                     onChangeText={(email) => this.setState({email})}
                   placeholder="EZMeetUp@example.com"

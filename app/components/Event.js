@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
-import { AppRegistry, Platform, StyleSheet, Text, View, ImageBackground, BackHandler, Image, TouchableOpacity, Button, TextInput, ScrollView, CheckBox, } from 'react-native';
+import { AppRegistry, Platform, StyleSheet, Text, View, ImageBackground, BackHandler,
+   Image, TouchableOpacity, Button, TextInput, ScrollView, CheckBox, ActivityIndicator} from 'react-native';
 import { createStackNavigator } from 'react-navigation'
 import Slideshow from 'react-native-slideshow';
 import PropTypes from 'prop-types';
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 
 export default class Event extends Component {
+  
 
 
   constructor(props) {
     super(props);
 
 		this.state = {
+      isLoading: true,
+      userId: 0,
+      userToken: 0,
 		  eventName: "EventName",
 		  eventLocation: "EventLocation",
 		  eventDescription: "EventDescription",
@@ -41,6 +46,11 @@ export default class Event extends Component {
   }
 
   componentWillMount() {
+    const { navigation } = this.props;
+    const id = navigation.getParam('id');
+    const token = navigation.getParam('token');
+
+
     this.setState({
       interval: setInterval(() => {
         this.setState({
@@ -48,6 +58,24 @@ export default class Event extends Component {
         });
       }, 2000)
     });
+
+    fetch('http://myvmlab.senecacollege.ca:6282/api/users/'+ id)
+      .then((response) => response.json())
+      .then((responseJson) => {
+
+        this.setState({
+          isLoading: false,
+          userId: id,
+          userToken: token,
+          dataSource: responseJson.user_categories
+        }, function(){
+          console.log(responseJson);
+        });
+
+      })
+      .catch((error) =>{
+        console.error(error);
+      });
   }
 
   componentWillUnmount() {
@@ -245,13 +273,22 @@ export default class Event extends Component {
 
   render() {
 
+    if(this.state.isLoading){
+      return(
+        <View style={{flex: 1, padding: 20}}>
+          <ActivityIndicator/>
+        </View>
+      )
+    }
+
     const config = {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80
     };
-
     return (
       <ImageBackground source={require('../images/background.png')} style={{ width: '100%', height: '100%' }}>
+      
+      
         <ScrollView>
           <View style={[styles.container,{padding: 20}]}>
             <GestureRecognizer
@@ -277,8 +314,7 @@ export default class Event extends Component {
                   position={this.state.position}
                   onPositionChanged={position => this.setState({ position })} />
 
-                <Text style={{ marginTop: 20 }}>{this.state.myText}</Text>
-                <Text>onSwipe callback received gesture: {this.state.gestureName}</Text>
+                
 				<Text>{this.state.eventDescription}</Text>
 				
                 <View style={{ marginTop: 30, justifyContent:'space-between', flexDirection: 'row',}}>
@@ -303,6 +339,7 @@ export default class Event extends Component {
             </GestureRecognizer>
           </View>
         </ScrollView>
+      
       </ImageBackground>
 
     );
