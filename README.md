@@ -39,7 +39,7 @@ Create an empty directory, change the directory to new directory, and clone the 
 ```
 mkdir ezmeetup-react-native-repo
 cd ezmeetup-react-native-repo
-git clone https://YOUR_NAME@bitbucket.org/ezmeetup/ezmeetup-react-native.git
+git clone https://github.com/sina-kamali/EZMeetUp.git
 ```
 
 And run the following codes :
