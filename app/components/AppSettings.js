@@ -154,7 +154,7 @@ export default class AppSettings extends Component {
                 textAlign: 'left',
                 width: 350 - 20,
                 paddingLeft: 5
-              }}>Intrests</Text>
+              }}>Interests</Text>
               <CheckboxFormX
                   style={{ width: 350 - 20}}
                   backgroundColor='white'

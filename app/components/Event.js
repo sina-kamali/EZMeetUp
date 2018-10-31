@@ -17,10 +17,12 @@ export default class Event extends Component {
       isLoading: true,
       userId: 0,
       userToken: 0,
-		  eventName: "EventName",
-		  eventLocation: "EventLocation",
-		  eventDescription: "EventDescription",
-		  eventCapacity: "EventCapacity",	
+	  eventsTotal: 0,
+	  eventsCurrent: 0,
+		  eventName: "",
+		  eventLocation: "",
+		  eventDescription: "No More Events Nearby",
+		  eventCapacity: "",	
 		  myText: 'I\'m ready to get swiped!',
 		  gestureName: 'none',
 		  backgroundColor: '#fff',
@@ -31,172 +33,89 @@ export default class Event extends Component {
 			  title: 'Title 1',
 			  caption: 'Caption 1',
 			  url: 'http://placeimg.com/640/480/any',
-			}, {
-			  title: 'Title 2',
-			  caption: 'Caption 2',
-			  url: 'http://placeimg.com/640/400/any',
-			}, {
-			  title: 'Title 3',
-			  caption: 'Caption 3',
-			  url: 'http://placeimg.com/640/470/any',
-			},
+			}, 
 		  ],
 		};
 
   }
 
   componentWillMount() {
-    const { navigation } = this.props;
-    const id = navigation.getParam('id');
-    const token = navigation.getParam('token');
-
-
-    this.setState({
-      interval: setInterval(() => {
-        this.setState({
-          position: this.state.position === this.state.dataSource.length ? 0 : this.state.position + 1
-        });
-      }, 2000)
-    });
-
-    fetch('http://myvmlab.senecacollege.ca:6282/api/users/'+ id)
-      .then((response) => response.json())
-      .then((responseJson) => {
-
-        this.setState({
-          isLoading: false,
-          userId: id,
-          userToken: token,
-          dataSource: responseJson.user_categories
-        }, function(){
-          console.log(responseJson);
-        });
-
-      })
-      .catch((error) =>{
-        console.error(error);
-      });
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.state.interval);
+ 
   }
   
-  //load new event with swiping, will replace with DB data later
-  loadNewEvent(){
-	if (global.EventNo == global.EventMax){
-		global.EventNo = 1;
-	}
-	else{
-		global.EventNo = global.EventNo + 1;
-	}
-	if (global.EventNo == 1){
-	  this.setState({
-		  eventName: "EventName",
-		  eventLocation: "EventLocation",
-		  eventDescription: "EventDescription",
-		  eventCapacity: "EventCapacity",	
-		  myText: 'I\'m ready to get swiped!',
-		  gestureName: 'none',
-		  backgroundColor: '#fff',
-		  position: 1,
-		  interval: null,
-		  dataSource: [
-			{
-			  title: 'Title 1',
-			  caption: 'Caption 1',
-			  url: 'http://placeimg.com/640/480/any',
-			}, {
-			  title: 'Title 2',
-			  caption: 'Caption 2',
-			  url: 'http://placeimg.com/640/400/any',
-			}, {
-			  title: 'Title 3',
-			  caption: 'Caption 3',
-			  url: 'http://placeimg.com/640/470/any',
-			},
-		  ],
-	  });
-	}
-	if (global.EventNo == 2){
-	  this.setState({
-		  eventName: "Cineplex",
-		  eventLocation: "15460 Bayview Avenue Aurora, ON, L4G 7J1",
-		  eventDescription: "Movie Threater",
-		  eventCapacity: "200",	
-		  myText: 'I\'m ready to get swiped!',
-		  gestureName: 'none',
-		  backgroundColor: '#fff',
-		  position: 1,
-		  interval: null,
-		  dataSource: [
-			{
-			  title: 'Cineplex',
-			  caption: 'Movie Threater',
-			  url: 'http://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Cineplex_logo.svg/500px-Cineplex_logo.svg.png',
-			}, {
-			  title: 'Venom',
-			  caption: 'Thriller, Action',
-			  url: 'https://mediafiles.cineplex.com/Attachments/NewItems/venom-595x326-EN_20181005144852_0.jpg',
-			}, {
-			  title: 'A Star is Born',
-			  caption: 'Drama, Slice of Life',
-			  url: 'https://mediafiles.cineplex.com/Attachments/NewItems/astarisborn-595x326-EN_20181005144910_0.jpg',
-			},
-		  ],
-	  });
-	}
-	if (global.EventNo == 3){
-	  this.setState({
-		  eventName: "CNE",
-		  eventLocation: "210 Princes' Blvd, Toronto, ON M6K 3C3",
-		  eventDescription: "An annual event that takes place at Exhibition Place",
-		  eventCapacity: "50000",	
-		  myText: 'I\'m ready to get swiped!',
-		  gestureName: 'none',
-		  backgroundColor: '#fff',
-		  position: 1,
-		  interval: null,
-		  dataSource: [
-			{
-			  title: 'Sky Ride',
-			  caption: 'Adult Ride',
-			  url: 'https://theex.com/statcache/pthumb/images/galleries/skyride/skyride_1.fe2c857b.jpg',
-			}, {
-			  title: 'Ribfest',
-			  caption: 'Food',
-			  url: 'https://theex.com/statcache/pthumb/images/food/restaurants/ribfest_lg.ce9edee6.jpg',
-			}, {
-			  title: 'Craft Beer Fest',
-			  caption: 'Alcohol',
-			  url: 'https://theex.com/statcache/pthumb/images/food/craft_beer_fest_2015.ce9edee6.jpg',
-			},
-		  ],
-	  });
-	}
+  //load new event 
+  async loadNewEvent(){
+      //load new event only if there's more than one event to swipe through (or no events)
+	  if (this.state.eventsTotal > 1){
+		  const { navigation } = this.props;
+		  const id = navigation.getParam('id');
+		  const token = navigation.getParam('token');
+		  console.log("event no" + global.EventNo);
+		  console.log("event max" + global.EventMax);
+		  //Keep going through the events list, once reaches the end loop back to the beginning
+		  if (global.EventNo < global.EventMax - 1){
+			  global.EventNo += 1;
+		  }
+		  else{
+			  global.EventNo = 0;
+		  }
+		  fetch('http://myvmlab.senecacollege.ca:6282/api/events/withCategoriesOfUser/'+ id)
+			.then((response) => response.json())
+			.then((responseJson) => {
+			this.setState({
+			  eventName: responseJson[global.EventNo].eventName,
+			  eventLocation: responseJson[global.EventNo].eventLocation,
+			  eventDescription: responseJson[global.EventNo].eventDescription,
+			  eventCapacity: responseJson[global.EventNo].eventCapacity,
+			  dataSource: [
+				{
+				  title: responseJson[global.EventNo].eventName,
+				  caption: responseJson[global.EventNo].eventDescription,
+				  url: responseJson[global.EventNo].event_images[0].image,
+				}, 
+				{
+				  title: responseJson[global.EventNo].eventName,
+				  caption: responseJson[global.EventNo].eventDescription,
+				  url: responseJson[global.EventNo].event_images[1].image,
+				}, 
+				{
+				  title: responseJson[global.EventNo].eventName,
+				  caption: responseJson[global.EventNo].eventDescription,
+				  url: responseJson[global.EventNo].event_images[2].image,
+				}, 
+			  ],
+			}, function(){
+			  console.log(responseJson);
+			});
+		  })
+		  .catch((error) =>{
+			console.error(error);
+			throw error;
+		  });
+	  }
   }
   
   onSwipeUp(gestureState) {
 	this.loadNewEvent();  
-    this.setState({ myText: 'You swiped up!'});
+    //this.setState({ myText: 'You swiped up!'});
 	this.forceUpdate();
   }
 
   onSwipeDown(gestureState) {
 	this.loadNewEvent();
-    this.setState({ myText: 'You swiped down!' });
+    //this.setState({ myText: 'You swiped down!' });
 	this.forceUpdate();
   }
 
   onSwipeLeft(gestureState) {
 	this.loadNewEvent();
-    this.setState({ myText: 'You swiped left!' });
+    //this.setState({ myText: 'You swiped left!' });
 	this.forceUpdate();
   }
 
   onSwipeRight(gestureState) {
 	this.loadNewEvent();
-    this.setState({ myText: 'You swiped right!' });
+    //this.setState({ myText: 'You swiped right!' });
 	this.forceUpdate();
   }
 
@@ -261,10 +180,80 @@ export default class Event extends Component {
 
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed);
+	this.mounted = true;
+	const { navigation } = this.props;
+    const id = navigation.getParam('id');
+    const token = navigation.getParam('token');
+
+	if (this.mounted){
+		this.setState({
+		  interval: setInterval(() => {
+			this.setState({
+			  position: this.state.position === this.state.dataSource.length ? 0 : this.state.position + 1
+			});
+		  }, 2000)
+		});
+	}
+
+    fetch('http://myvmlab.senecacollege.ca:6282/api/events/withCategoriesOfUser/'+ id)
+      .then((response) => response.json())
+      .then((responseJson) => {
+		if (responseJson.length > 0 ){
+			global.EventMax = responseJson.length;
+			global.EventNo = 0;
+			if (this.mounted){
+			this.setState({
+				isLoading: false,
+				userId: id,
+				userToken: token,
+				eventName: responseJson[global.EventNo].eventName,
+				eventLocation: responseJson[global.EventNo].eventLocation,
+				eventDescription: responseJson[global.EventNo].eventDescription,
+				eventCapacity: responseJson[global.EventNo].eventCapacity,
+				eventsTotal: responseJson.length,
+				dataSource: [
+					{
+					  title: responseJson[global.EventNo].eventName,
+					  caption: responseJson[global.EventNo].eventDescription,
+					  url: responseJson[global.EventNo].event_images[0].image,
+					}, 
+					{
+					  title: responseJson[global.EventNo].eventName,
+					  caption: responseJson[global.EventNo].eventDescription,
+					  url: responseJson[global.EventNo].event_images[1].image,
+					}, 
+					{
+					  title: responseJson[global.EventNo].eventName,
+					  caption: responseJson[global.EventNo].eventDescription,
+					  url: responseJson[global.EventNo].event_images[2].image,
+					}, 
+				  ],
+				}, function(){
+				  console.log(responseJson[global.EventNo].event_images);
+				});
+			}
+		}
+		else{
+			if (this.mounted){
+				this.setState({
+				isLoading: false,
+				userId: id,
+				userToken: token,
+				}, function(){
+				console.log(responseJson);
+				});
+			}
+		}
+      })
+      .catch((error) =>{
+        console.error(error);
+      });
   }
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
+	clearInterval(this.state.interval);
+	this.mounted = false;
   }
 
   onBackButtonPressed() {
@@ -272,7 +261,11 @@ export default class Event extends Component {
   }
 
   render() {
-
+	console.log("event max is at " + global.EventMax);
+	isEnabled = false;
+	if (global.EventMax > 0){
+		isEnabled = true;
+	}
     if(this.state.isLoading){
       return(
         <View style={{flex: 1, padding: 20}}>
@@ -326,6 +319,15 @@ export default class Event extends Component {
                     />
                   </TouchableOpacity>
 
+				<TouchableOpacity
+				disabled={!isEnabled}
+                  onPress={(state) => this.props.navigation.navigate('EventDetails',{id: this.state.userId, token: this.state.userToken})}
+                  >
+                    <Image
+                      source={require('../images/info.png')}
+                    />
+                  </TouchableOpacity>
+				  
                   <TouchableOpacity
                   onPress={(state) => this.onSwipeRight(state)}
                   >

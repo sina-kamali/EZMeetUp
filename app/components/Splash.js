@@ -7,8 +7,8 @@ import {createStackNavigator} from 'react-navigation'
 export default class Splash extends Component {
 	constructor() {
     super();
-	global.EventNo = 1;
-	global.EventMax = 3;
+	global.EventNo = 0;
+	global.EventMax = 0;
   }
     static navigationOptions = {
         header: null
