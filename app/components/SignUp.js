@@ -92,7 +92,7 @@ export default class SignUp extends Component {
 
 
   FnameValidation(){
-    var format = /[ !@#$%^&*()+\=\[\]{};':"\\|,.<>\/?]/;
+    var format = /[ !@#$%^&*()+\=\[\]{};_:"\\|,.<>\/?]/;
 
     var result = false;
       if(this.state.fname == ''){
@@ -111,7 +111,7 @@ export default class SignUp extends Component {
       return result;
   }
   LnameValidation(){
-    var format = /[ !@#$%^&*()+\=\[\]{};:"\\|,.<>\/?]/;
+    var format = /[ !@#$%^&*()+\=\[\]{};_:"\\|,.<>\/?]/;
 
     var result = false;
     if(this.state.lname == ''){
@@ -303,7 +303,7 @@ async onFetchRegister() {
                   visible={FnameError}
                   unmountOnHide={true}
                 >
-                  <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>Name must be between 2 and 20 characters, and can contain only (- and _)</Text>
+                  <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>Name must be between 2 and 20 characters, and can contain only (- and ')</Text>
                 </AnimatedHideView>
                 <TextInput
                   style={{borderWidth: 2,
@@ -320,7 +320,7 @@ async onFetchRegister() {
                   visible={LnameError}
                   unmountOnHide={true}
                 >
-                <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>last name must be between 2 and 20 characters, and can contain only (- and _)</Text>
+                <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>last name must be between 2 and 20 characters, and can contain only (- and ')</Text>
                 </AnimatedHideView>
                 <TextInput
                   style={{borderWidth: 2,
@@ -431,7 +431,7 @@ async onFetchRegister() {
                 fontSize:20,
                 textAlign: 'left',
                 paddingLeft: 5
-              }}>Intrests</Text>
+              }}>Interests</Text>
                 <View style={{flexDirection: 'row'}}>
                   <CheckboxFormX
                       backgroundColor='white'
