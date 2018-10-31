@@ -21,6 +21,7 @@ import AddEvent from './app/components/AddEvent';
 import MyFriends from './app/components/MyFriends';
 import AddFriends from './app/components/AddFriends';
 import AppSettings from './app/components/AppSettings';
+import EventDetails from './app/components/EventDetails';
 const RootStack = createStackNavigator({
     
     Home: {
@@ -59,7 +60,9 @@ const RootStack = createStackNavigator({
   AppSettings: {
     screen: AppSettings
   }, 
-
+  EventDetails: {
+	  screen: EventDetails
+  },
   });
 
 export default class App extends Component {

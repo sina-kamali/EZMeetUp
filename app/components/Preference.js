@@ -95,36 +95,9 @@
                 }}>Add New Events</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
-            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
-            onPress={() => this.props.navigation.navigate('MyFriends')}>
-            <Image source={require('../images/MyFriends.png')} style={{justifyContent:'center', alignContent: 'center'}} />
-            <Text
-                  style={{
-                  fontSize: 25,
-                  justifyContent:'center',
-                  textAlign: 'left',
-                  fontWeight:'bold',
-                  marginLeft:10,
-                  color: '#ff6666'
-                }}>My Friends</Text>
-            </TouchableOpacity>
+            
 
-            <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
-            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
-            onPress={() => this.props.navigation.navigate('AddFriends')}
-            >
-            <Image source={require('../images/AddFriends.png')} style={{justifyContent:'center', alignContent: 'center'}} />
-            <Text
-                  style={{
-                  fontSize: 25,
-                  justifyContent:'center',
-                  textAlign: 'left',
-                  fontWeight:'bold',
-                  marginLeft:10,
-                  color: '#ff6666'
-                }}>Add Friends</Text>
-            </TouchableOpacity>
+            
 
             <TouchableOpacity style={{ height: 90, justifyContent:'center',
             borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center'}}
