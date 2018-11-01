@@ -1472,6 +1472,10 @@
         "source": "/Users/sina/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/0961999ce5d54471c3e9c57d66ab5da4/res/drawable-mdpi-v4/abc_scrubber_control_to_pressed_mtrl_000.png"
     },
     {
+        "merged": "/Users/sina/EZMeetUp/android/app/build/intermediates/res/merged/debug/drawable-mdpi_app_images_info.png.flat",
+        "source": "/Users/sina/EZMeetUp/android/app/src/main/res/drawable-mdpi/app_images_info.png"
+    },
+    {
         "merged": "/Users/sina/EZMeetUp/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_textfield_search_default_mtrl_alpha.9.png.flat",
         "source": "/Users/sina/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/0961999ce5d54471c3e9c57d66ab5da4/res/drawable-mdpi-v4/abc_textfield_search_default_mtrl_alpha.9.png"
     },

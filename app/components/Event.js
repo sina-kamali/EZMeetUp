@@ -141,7 +141,7 @@ export default class Event extends Component {
 
 
 
-  static navigationOptions = ({ navigation, screenProps }) => ({
+  static navigationOptions = ({ navigation, screenProps, state}) => ({
     headerTitle: (
       <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
         <Image
@@ -169,7 +169,7 @@ export default class Event extends Component {
     ),
     headerLeft: (
       <TouchableOpacity style={{ textAlign: 'center', marginLeft: 10 }}
-        onPress={() => navigation.navigate('Preference')}>
+        onPress={() => navigation.navigate('Preference', {id: global.id, token: global.token})}>
         <Image
           source={require('../images/Settings.png')}
           style={{ width: 40, height: 40 }}
@@ -178,22 +178,30 @@ export default class Event extends Component {
     )
   });
 
+
+
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed);
 	this.mounted = true;
 	const { navigation } = this.props;
     const id = navigation.getParam('id');
     const token = navigation.getParam('token');
+    // global for passing
+    global.id = navigation.getParam('id');
+    global.token = navigation.getParam('token');
 
 	if (this.mounted){
 		this.setState({
 		  interval: setInterval(() => {
 			this.setState({
-			  position: this.state.position === this.state.dataSource.length ? 0 : this.state.position + 1
+        position: this.state.position === this.state.dataSource.length ? 0 : this.state.position + 1,
+        
 			});
 		  }, 2000)
 		});
-	}
+  }
+  
+  
 
     fetch('http://myvmlab.senecacollege.ca:6282/api/events/withCategoriesOfUser/'+ id)
       .then((response) => response.json())
@@ -243,7 +251,8 @@ export default class Event extends Component {
 				console.log(responseJson);
 				});
 			}
-		}
+    }
+  
       })
       .catch((error) =>{
         console.error(error);

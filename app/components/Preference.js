@@ -1,10 +1,50 @@
   import React, {Component} from 'react';
   import {AppRegistry,Platform, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, 
-    ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight} from 'react-native';
+    ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight,ActivityIndicator} from 'react-native';
   import {createStackNavigator,NavigationActions,StackActions} from 'react-navigation'
 
 
   export default class Preference extends Component {
+
+    constructor(props) {
+      super(props);
+  
+      this.state = {
+        isLoading: true,
+        userId: 0,
+        userToken: 0,
+        firstName: "",
+        lastName: ""
+      };
+  
+    }
+
+    componentWillMount() {
+      const { navigation } = this.props;
+      const id = navigation.getParam('id');
+      const token = navigation.getParam('token');
+      console.log(id);
+      console.log(token);
+  
+      fetch('http://myvmlab.senecacollege.ca:6282/api/users/'+ id)
+        .then((response) => response.json())
+        .then((responseJson) => {
+  
+          this.setState({
+            isLoading: false,
+            userId: id,
+            userToken: token,
+            firstName: responseJson.firstName,
+            lastName: responseJson.lastName
+          }, function(){
+            console.log(responseJson);
+          });
+  
+        })
+        .catch((error) =>{
+          console.error(error);
+        });
+    }
 
     static navigationOptions = {
       title: 'Preference',
@@ -28,6 +68,14 @@
     }
     render() {
 
+      if(this.state.isLoading){
+        return(
+          <View style={{flex: 1, padding: 20}}>
+            <ActivityIndicator/>
+          </View>
+        )
+      }
+
       return (
           <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
             <View style={{ height: 200, justifyContent: 'center', alignItems: 'center', 
@@ -42,7 +90,7 @@
                   textAlign: 'center',
                   fontWeight:'bold',
                   color: 'black'
-                }}>Username</Text>
+                }}>{this.state.firstName}</Text>
                 
             </View>
             <ScrollView style={{backgroundColor: 'white'}} >
