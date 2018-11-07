@@ -21,7 +21,7 @@ export default class Event extends Component {
 	  eventsCurrent: 0,
 		  eventName: "",
 		  eventLocation: "",
-		  eventDescription: "No More Events Nearby",
+		  eventDescription: "No more events nearby, adjust preferences to see more",
 		  eventCapacity: "",	
 		  myText: 'I\'m ready to get swiped!',
 		  gestureName: 'none',
@@ -30,8 +30,8 @@ export default class Event extends Component {
 		  interval: null,
 		  dataSource: [
 			{
-			  title: 'Title 1',
-			  caption: 'Caption 1',
+			  title: '',
+			  caption: '',
 			  url: 'http://placeimg.com/640/480/any',
 			}, 
 		  ],
@@ -59,7 +59,12 @@ export default class Event extends Component {
 		  else{
 			  global.EventNo = 0;
 		  }
-		  fetch('http://myvmlab.senecacollege.ca:6282/api/events/withCategoriesOfUser/'+ id)
+		  fetch('http://myvmlab.senecacollege.ca:6282/api/events/withCategoriesOfUser/'+ id, 
+			{
+				headers: { 
+					'authtoken': token 
+					}
+			})
 			.then((response) => response.json())
 			.then((responseJson) => {
 			this.setState({
@@ -137,7 +142,13 @@ export default class Event extends Component {
         break;
     }
   }
-
+	renderIf(condition, content) {
+		if (condition) {
+			return content;
+		} else {
+			return null;
+		}
+	}
 
 
 
@@ -203,7 +214,12 @@ export default class Event extends Component {
   
   
 
-    fetch('http://myvmlab.senecacollege.ca:6282/api/events/withCategoriesOfUser/'+ id)
+		  fetch('http://myvmlab.senecacollege.ca:6282/api/events/withCategoriesOfUser/'+ id, 
+			{
+				headers: { 
+					'authtoken': token 
+					}
+			})
       .then((response) => response.json())
       .then((responseJson) => {
 		if (responseJson.length > 0 ){
@@ -270,7 +286,6 @@ export default class Event extends Component {
   }
 
   render() {
-	console.log("event max is at " + global.EventMax);
 	isEnabled = false;
 	if (global.EventMax > 0){
 		isEnabled = true;
@@ -280,17 +295,39 @@ export default class Event extends Component {
         <View style={{flex: 1, padding: 20}}>
           <ActivityIndicator/>
         </View>
-      )
+      );
     }
 
     const config = {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80
     };
+	if (global.EventMax == 0){
+		return(
+		<ImageBackground source={require('../images/background.png')} style={{ width: '100%', height: '100%' }}>   
+        <ScrollView>
+          <View style={[styles.container,{padding: 20}]}>
+          
+              <View style={{ backgroundColor: 'white', padding: 30, color: 'black', textAlign: 'center',}}>
+                <Slideshow
+                  dataSource={this.state.dataSource}
+                  position={this.state.position}
+                  onPositionChanged={position => this.setState({ position })} />
+
+                
+				<Text>{this.state.eventDescription}</Text>
+
+                <View style={{ marginTop: 30, justifyContent:'space-between', flexDirection: 'row',}}>
+			  
+                </View>
+              </View>
+          </View>
+        </ScrollView>
+      </ImageBackground>
+		);
+	}
     return (
-      <ImageBackground source={require('../images/background.png')} style={{ width: '100%', height: '100%' }}>
-      
-      
+      <ImageBackground source={require('../images/background.png')} style={{ width: '100%', height: '100%' }}>   
         <ScrollView>
           <View style={[styles.container,{padding: 20}]}>
             <GestureRecognizer
@@ -318,7 +355,7 @@ export default class Event extends Component {
 
                 
 				<Text>{this.state.eventDescription}</Text>
-				
+
                 <View style={{ marginTop: 30, justifyContent:'space-between', flexDirection: 'row',}}>
                   <TouchableOpacity
                   onPress={(state) => this.onSwipeLeft(state)}
