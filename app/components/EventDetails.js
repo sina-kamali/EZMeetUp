@@ -85,7 +85,12 @@ export default class EventDetails extends Component {
 		});
 	}
 
-    fetch('http://myvmlab.senecacollege.ca:6282/api/events/withCategoriesOfUser/'+ id)
+		  fetch('http://myvmlab.senecacollege.ca:6282/api/events/withCategoriesOfUser/'+ id, 
+			{
+				headers: { 
+					'authtoken': token 
+					}
+			})
       .then((response) => response.json())
       .then((responseJson) => {
 		if (responseJson.length > 0 ){

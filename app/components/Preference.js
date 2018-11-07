@@ -26,7 +26,12 @@
       console.log(id);
       console.log(token);
   
-      fetch('http://myvmlab.senecacollege.ca:6282/api/users/'+ id)
+      fetch('http://myvmlab.senecacollege.ca:6282/api/users/'+ id, 
+			{
+				headers: { 
+					'authtoken': token 
+					}
+			})
         .then((response) => response.json())
         .then((responseJson) => {
   
@@ -114,7 +119,7 @@
             
             <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
             borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
-            onPress={() => this.props.navigation.navigate('AppSettings')}
+            onPress={() => this.props.navigation.navigate('AppSettings', {id: this.state.userId, token: this.state.userToken})}
             >
             <Image source={require('../images/Settings.png')} style={{justifyContent:'center', alignContent: 'center'}} />
             <Text
