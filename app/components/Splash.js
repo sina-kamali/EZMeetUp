@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button} from 'react-native';
+import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, NetInfo} from 'react-native';
 import {createStackNavigator} from 'react-navigation'
 
 
@@ -8,12 +8,32 @@ export default class Splash extends Component {
 	constructor() {
     super();
 	global.EventNo = 0;
-	global.EventMax = 0;
+    global.EventMax = 0;
+    this.state ={
+        isOnline: false
+    }
   }
     static navigationOptions = {
         header: null
       };
   render() {
+    NetInfo.isConnected.fetch().then(isConnected => {
+        this.setState({isOnline: isConnected});
+      });
+
+      if(!this.state.isOnline){
+        return (
+            <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
+                <View style={styles.container}>
+                    <Image source={require('../images/logo.png')} style={styles.logo} />
+                    <Text style={{fontSize:25, padding: 10, fontWeight:"bold", color:"black", textAlign:'center'}}>Ofline Mode</Text>
+                    <Text style={{fontSize:18, padding: 10, fontWeight:"bold", color:"black", textAlign:'center'}}>Plese check your network connection!</Text>
+                </View>
+            </ImageBackground>
+    
+        );
+      }
+
     return (
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
             <View style={styles.container}>

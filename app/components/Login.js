@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {AppRegistry,Platform,KeyboardAvoidingView, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity,
-   Button, TextInput,Alert,TouchableHighlight} from 'react-native';
+   Button, TextInput,Alert,TouchableHighlight, NetInfo, StackActions} from 'react-native';
    import { TextField } from 'react-native-material-textfield';
 import {createStackNavigator} from 'react-navigation'
+import Splash from '../../App';
 
 
 export default class Login extends Component {
@@ -13,6 +14,7 @@ export default class Login extends Component {
       email: '',
       password: '',
       LogedIn: '',
+      isOnline: false
     }
   }
   
@@ -80,7 +82,11 @@ export default class Login extends Component {
         }
      }
      else{
-      Alert.alert("Login Failed!", "Invalid email or password! \nPlease try again. ");
+      if(response._bodyInit == "Please check your email to verify your account"){
+        Alert.alert(response._bodyInit);
+        } else {
+          Alert.alert("Login Failed!", "Invalid email or password! \nPlease try again. ");
+        }
      }
    } catch (errors) {
     Alert.alert("Login Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
@@ -114,6 +120,19 @@ CanAcive() {
   }
 }
   render() {
+    NetInfo.isConnected.fetch().then(isConnected => {
+      this.setState({isOnline: isConnected});
+      if(!isConnected){
+        this.props.navigation.navigate('Home');
+      }
+    });
+
+    // if(!(this.state.isOnline)){
+    // console.log(this.state.isOnline);
+    //   this.props.navigation.navigate('Home');
+    // }
+
+
     const isEnabled = this.canLogin();
     const isVisible = this.CanAcive();
     const { navigation } = this.props;

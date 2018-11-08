@@ -38,10 +38,6 @@ export default class Event extends Component {
 		};
 
   }
-
-  componentWillMount() {
- 
-  }
   
   //load new event 
   async loadNewEvent(){
@@ -192,6 +188,8 @@ export default class Event extends Component {
 
 
   componentDidMount() {
+
+  console.log("Called again");
     BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed);
 	this.mounted = true;
 	const { navigation } = this.props;
@@ -224,7 +222,11 @@ export default class Event extends Component {
       .then((responseJson) => {
 		if (responseJson.length > 0 ){
 			global.EventMax = responseJson.length;
-			global.EventNo = 0;
+      global.EventNo = 0;
+      
+      console.log("we are hhhhhhhhhhheeeeeerrrrereere");
+      console.log(responseJson);
+
 			if (this.mounted){
 			this.setState({
 				isLoading: false,
@@ -253,7 +255,8 @@ export default class Event extends Component {
 					}, 
 				  ],
 				}, function(){
-				  console.log(responseJson[global.EventNo].event_images);
+          console.log(responseJson[global.EventNo].event_images);
+          
 				});
 			}
 		}
@@ -264,7 +267,7 @@ export default class Event extends Component {
 				userId: id,
 				userToken: token,
 				}, function(){
-				console.log(responseJson);
+				//console.log(responseJson);
 				});
 			}
     }
@@ -286,6 +289,7 @@ export default class Event extends Component {
   }
 
   render() {
+    
 	isEnabled = false;
 	if (global.EventMax > 0){
 		isEnabled = true;
@@ -302,6 +306,10 @@ export default class Event extends Component {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80
     };
+
+
+
+
 	if (global.EventMax == 0){
 		return(
 		<ImageBackground source={require('../images/background.png')} style={{ width: '100%', height: '100%' }}>   

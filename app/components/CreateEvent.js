@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Alert, AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, TextInput, ScrollView,CheckBox,} from 'react-native';
+import {Alert, AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, TextInput, ScrollView,CheckBox} from 'react-native';
 import {createStackNavigator} from 'react-navigation'
 import CheckboxFormX from 'react-native-checkbox-form';
 const mockData1 = [
