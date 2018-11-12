@@ -1,8 +1,8 @@
   import React, {Component} from 'react';
   import {AppRegistry,Platform, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, 
-    ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight,ActivityIndicator, BackHandler, DeviceEventEmitter} from 'react-native';
+    ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight,ActivityIndicator, BackHandler} from 'react-native';
   import {createStackNavigator,NavigationActions,StackActions} from 'react-navigation'
-
+  import { EventRegister } from 'react-native-event-listeners'
 
   export default class Preference extends Component {
 
@@ -20,12 +20,12 @@
     }
 
     componentWillMount() {
-      //DeviceEventEmitter.emit('refreshEventPage');
+      console.log("here!!!!!!!");
+      EventRegister.emit('myCustomEvent',{});
       const { navigation } = this.props;
       const id = navigation.getParam('id');
       const token = navigation.getParam('token');
-      console.log(id);
-      console.log(token);
+      
   
       fetch('http://myvmlab.senecacollege.ca:6282/api/users/'+ id, 
 			{
@@ -43,7 +43,7 @@
             firstName: responseJson.firstName,
             lastName: responseJson.lastName
           }, function(){
-            console.log(responseJson);
+            //console.log(responseJson);
           });
   
         })
@@ -75,7 +75,7 @@
 
 
     componentWillUnmount() {
-      
+      //EventRegister.emit('myCustomEvent',{});
 
     }
     render() {

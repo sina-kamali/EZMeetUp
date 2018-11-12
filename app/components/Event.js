@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {
   AppRegistry, Platform, StyleSheet, Text, View, ImageBackground, BackHandler,
-  Image, TouchableOpacity, Button, TextInput, ScrollView, CheckBox, ActivityIndicator,Alert, DeviceEventEmitter
+  Image, TouchableOpacity, Button, TextInput, ScrollView, CheckBox, ActivityIndicator,Alert
 } from 'react-native';
 import { createStackNavigator } from 'react-navigation'
 import CardStack, { Card } from 'react-native-card-stack-swiper';
+import { EventRegister } from 'react-native-event-listeners'
 
 export default class Event extends Component {
 
@@ -12,7 +13,6 @@ export default class Event extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       isLoading: true,
       list: ["A", "B", "C", "D", "E", "F", "G"],
@@ -36,7 +36,9 @@ export default class Event extends Component {
     this.state.token = tk;
     global.id = navigation.getParam('id');
     global.token = navigation.getParam('token');
-    this.setState({ EventList: [] });
+    this.setState({ EventList: [],
+      views: []
+     });
 
     fetch('http://myvmlab.senecacollege.ca:6282/api/events/withCategoriesOfUser/' + id,
       {
@@ -102,8 +104,6 @@ export default class Event extends Component {
                 </Card>
               );
             }
-
-
           }
           this.setState({ isLoading: false });
         });
@@ -124,8 +124,6 @@ export default class Event extends Component {
   }
 
   ShowInfo(){
-    console.log(this.state.EventList.length)
-    console.log(this.state.infoEvent)
     if(this.state.EventList.length >  this.state.infoEvent){
       this.props.navigation.navigate('EventDetails',{id: this.state.UserId, token: this.state.token, eventDetails: this.state.EventList[this.state.infoEvent]})
     }else{
@@ -135,7 +133,12 @@ export default class Event extends Component {
 
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed);
-    DeviceEventEmitter.addListener('refreshEventPage', this.refreshPage());
+    
+    this.listener = EventRegister.addEventListener('myCustomEvent', () => {
+      this.refreshPage();
+  })
+
+
     this.GetEvents();
 
   }
@@ -149,8 +152,11 @@ export default class Event extends Component {
   }
 
   refreshPage(){
-    console.log("Clled it")
-
+    console.log("Clled it");
+    
+    this.state.isLoading=true;
+    this.GetEvents();
+    this.forceUpdate();
 
   }
 
@@ -219,9 +225,6 @@ export default class Event extends Component {
             ref={swiper => {
               this.swiper = swiper
             }}
-
-            onSwiped={() => console.log('onSwiped')}
-            onSwipedLeft={() => console.log('onSwipedLeft')}
           >
             {/* <Card style={[styles.card, styles.card1]}><Text style={styles.label}>A</Text></Card>
             <Card style={[styles.card, styles.card2]}><Text style={styles.label}>B</Text></Card>

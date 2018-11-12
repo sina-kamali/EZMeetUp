@@ -6,6 +6,7 @@ import {AppRegistry,Platform,KeyboardAvoidingView, StyleSheet, Text, View,
 import {createStackNavigator,NavigationActions,StackActions} from 'react-navigation'
 import CheckboxFormX from 'react-native-checkbox-form';
 import AnimatedHideView from 'react-native-animated-hide-view';
+import { EventRegister } from 'react-native-event-listeners'
 
 
 const mockData1 = [
@@ -107,9 +108,6 @@ export default class AppSettings extends Component {
     } else {
       this.state.catagories2 = emArray;
     }
-
-    console.log(this.state.catagories1);
-    console.log(this.state.catagories2);
   };
 
 
@@ -212,7 +210,6 @@ PhValidation(){
 Register(){
   if(!(this.FnameValidation()) && !(this.LnameValidation()) && !(this.PValidation()) && !(this.RePValidation())
     && !(this.EValidation()) && !(this.PhValidation())){
-      console.log("true");
       return true;
       
     }
@@ -254,13 +251,11 @@ SubmitInfo() {
     var cat1Changed = false;
 
     this.state.catagories1.forEach( e => {
-      console.log(e);
       if(this.state.oldCat1.length === 0){
         this.state.sendCat1.push(e);
         cat1Changed = true;
       }
       this.state.oldCat1.forEach(j => {
-        console.log(j);
         if(e != j){
           this.state.senCat1.push(j);
           cat1Changed = true;
@@ -272,14 +267,12 @@ SubmitInfo() {
     var cat2Changed = false;
 
     this.state.catagories2.forEach( k => {
-      console.log(k);
       if(this.state.oldCat2.length === 0){
         this.state.sendCat2.push(k);
         cat2Changed = true;
       }
       this.state.oldCat2.forEach(l => {
         if(k != l){
-          console.log(l);
           this.state.sendCat2.push(l);
           cat2Changed = true;
         }
@@ -291,12 +284,9 @@ SubmitInfo() {
     
     if(UnchangedField != 4 || cat1Changed || cat2Changed){
       //Alert.alert("good You changed something");
+      
       this.onFetchRegister();
     } else {
-
-      console.log(this.state.catagories2);
-      console.log(this.state.oldCat2);
-
       Alert.alert("Update Profile Failed!", "You did not change anything!");
     }
     
@@ -344,16 +334,14 @@ async onFetchRegister() {
    }
   );
    if (response.status >= 200 && response.status < 300) {
-   
+    EventRegister.emit('myCustomEvent',{});
     this.props.navigation.navigate('Preference');
    }
    else{
-     console.log(response);
     Alert.alert("Update profile Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
    }
  } catch (errors) {
-  console.log("response");
-  console.log(response);
+  
   Alert.alert("Update profile Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
   } 
 }
@@ -374,8 +362,7 @@ async onFetchRegister() {
     const token = navigation.getParam('token');
     this.state.userId = id;
     this.state.token = token;
-    console.log(id);
-    console.log(token);
+
 
     fetch('http://myvmlab.senecacollege.ca:6282/api/users/'+ id,
     {
@@ -421,7 +408,7 @@ async onFetchRegister() {
           oldPhone:responseJson.phoneNumber
 
         }, function(){
-          console.log(responseJson);
+          //console.log(responseJson);
         });
 
       })
