@@ -12,33 +12,41 @@ export default class EventDetails extends Component {
     super(props);
 
 		this.state = {
-      isLoading: true,
-      userId: 0,
-      userToken: 0,
-	  eventsTotal: 0,
-	  eventsCurrent: 0,
-		  eventName: "",
-		  eventLocation: "",
-		  eventDescription: "No More Events Nearby",
-		  eventCapacity: "",	
-		  myText: 'I\'m ready to get swiped!',
-		  gestureName: 'none',
-		  backgroundColor: '#fff',
-		  position: 1,
-		  interval: null,
-		  dataSource: [
-			{
-			  title: 'Title 1',
-			  caption: 'Caption 1',
-			  url: 'http://placeimg.com/640/480/any',
-			}, 
-		  ],
+      isLoading:  true,
+      UserId: "",
+      token: "",
+      eventImages:[],
+      eventName:"",
+      eventLocation:"",
+      eventDescription:"",
+      eventDate:"",
+      Capacity: ""
 		};
 
   }
 
   componentWillMount() {
- 
+    const { navigation } = this.props;
+    const id = navigation.getParam('id');
+    const tk = navigation.getParam('token');
+    const Event = navigation.getParam('eventDetails');
+    const eDate = Event.eventDate.split('T');
+    this.setState({
+      eventDate: eDate[0],
+      eventDescription: Event.eventDescription,
+      Capacity: Event.eventCapacity,
+      eventName: Event.eventName,
+      eventLocation:Event.eventLocation
+    });
+    const images = Event.event_images;
+    
+    images.forEach(e => {
+      this.state.eventImages.push({url: e.image});
+    });
+
+    this.state.isLoading = false;
+    
+
   }
 
 
@@ -59,126 +67,43 @@ export default class EventDetails extends Component {
     headerTintColor: '#fff',
     headerTitleStyle: {
       fontWeight: 'bold',
-    },/*
-    headerLeft: (
-      <TouchableOpacity style={{ textAlign: 'center', marginRight: 10 }}
-        onPress={() => navigation.navigate('Event', {id: navigation.getParam('id'), token: navigation.getParam('token')})}>
-        <Text>Back </Text>
-      </TouchableOpacity>
-    ),*/
+    }
   });
 
-  componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed);
-	this.mounted = true;
-	const { navigation } = this.props;
-    const id = navigation.getParam('id');
-    const token = navigation.getParam('token');
-
-	if (this.mounted){
-		this.setState({
-		  interval: setInterval(() => {
-			this.setState({
-			  position: this.state.position === this.state.dataSource.length ? 0 : this.state.position + 1
-			});
-		  }, 2000)
-		});
-	}
-
-		  fetch('http://myvmlab.senecacollege.ca:6282/api/events/withCategoriesOfUser/'+ id, 
-			{
-				headers: { 
-					'authtoken': token 
-					}
-			})
-      .then((response) => response.json())
-      .then((responseJson) => {
-		if (responseJson.length > 0 ){
-			if (this.mounted){
-			this.setState({
-				isLoading: false,
-				userId: id,
-				userToken: token,
-				eventName: responseJson[global.EventNo].eventName,
-				eventLocation: responseJson[global.EventNo].eventLocation,
-				eventDescription: responseJson[global.EventNo].eventDescription,
-				eventCapacity: responseJson[global.EventNo].eventCapacity,
-				eventsTotal: responseJson.length,
-				dataSource: [
-					{
-					  title: responseJson[global.EventNo].eventName,
-					  caption: responseJson[global.EventNo].eventDescription,
-					  url: responseJson[global.EventNo].event_images[0].image,
-					}, 
-					{
-					  title: responseJson[global.EventNo].eventName,
-					  caption: responseJson[global.EventNo].eventDescription,
-					  url: responseJson[global.EventNo].event_images[1].image,
-					}, 
-					{
-					  title: responseJson[global.EventNo].eventName,
-					  caption: responseJson[global.EventNo].eventDescription,
-					  url: responseJson[global.EventNo].event_images[2].image,
-					},
-				  ],
-				}, function(){
-				  console.log(responseJson);
-				});
-			}
-		}
-		else{
-			if (this.mounted){
-				this.setState({
-				isLoading: false,
-				userId: id,
-				userToken: token,
-				}, function(){
-				console.log(responseJson);
-				});
-			}
-		}
-      })
-      .catch((error) =>{
-        console.error(error);
-      });
-  }
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
-	clearInterval(this.state.interval);
-	this.mounted = false;
-  }
-
-  onBackButtonPressed() {
-    return true;
-  }
 
   render() {
 
-    const config = {
-      velocityThreshold: 0.3,
-      directionalOffsetThreshold: 80
-    };
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, padding: 20 }}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
 
     return (
       <ImageBackground source={require('../images/background.png')} style={{ width: '100%', height: '100%' }}>
         <ScrollView>
-          <View style={[styles.container,{padding: 20}]}>
-            <View style={{ backgroundColor: 'white', padding: 30, color: 'black', textAlign: 'center',}}>
-                <Slideshow
-                  dataSource={this.state.dataSource}
-                  position={this.state.position}
-                  onPositionChanged={position => this.setState({ position })} />
-			
-                <View style={{ marginTop: 30, justifyContent:'space-between', flexDirection: 'row',}}>
-                </View>
-            </View>
-			<View style={{ marginTop: 30, backgroundColor: 'white', padding: 30, color: 'black', textAlign: 'center',}}>
-				<Text>{this.state.eventName}</Text>
-				<Text>Location: {this.state.eventLocation}</Text>
-				<Text>Capacity: {this.state.eventCapacity}</Text>
-				<Text>{this.state.eventDescription}</Text>
-			</View>
+        <View style={[styles.container,{padding: 20}]}>
+          
+          <View style={{ backgroundColor: 'white', padding: 30, color: 'black', textAlign: 'center',}}>
+            <Slideshow
+              dataSource={this.state.eventImages} />
+
+              <Text style={{textAlign:"left", paddingTop: 10, fontSize: 20}}>Event Name:</Text>
+              <Text style={{textAlign:"center", paddingTop: 10, fontSize: 20}}>{this.state.eventName}</Text>
+              <Text style={{textAlign:"left", paddingTop: 10, fontSize: 20}}>Event Description:</Text>
+              <Text style={{textAlign:"center", paddingTop: 10, fontSize: 20}}>{this.state.eventDescription}</Text>
+              <Text style={{textAlign:"left", paddingTop: 10, fontSize: 20}}>Event Location:</Text>
+              <Text style={{textAlign:"center", paddingTop: 10, fontSize: 20}}>{this.state.eventLocation}</Text>
+              <Text style={{textAlign:"left", paddingTop: 10, fontSize: 20}}>Event Date:</Text>
+              <Text style={{textAlign:"center", paddingTop: 10, fontSize: 20}}>{this.state.eventDate}</Text>
+              <Text style={{textAlign:"left", paddingTop: 10, fontSize: 20}}>Event Description:</Text>
+              <Text style={{textAlign:"center", paddingTop: 10, fontSize: 20}}>{this.state.Capacity}</Text>
+    
+           
           </View>
+        </View>
         </ScrollView>
       </ImageBackground>
 

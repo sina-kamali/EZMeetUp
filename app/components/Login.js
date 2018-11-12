@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {AppRegistry,Platform,KeyboardAvoidingView, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity,
-   Button, TextInput,Alert,TouchableHighlight, NetInfo, StackActions} from 'react-native';
+   Button, TextInput,Alert,TouchableHighlight, NetInfo, StackActions, ActivityIndicator} from 'react-native';
    import { TextField } from 'react-native-material-textfield';
 import {createStackNavigator} from 'react-navigation'
 import Splash from '../../App';
@@ -11,6 +11,7 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: false,
       email: '',
       password: '',
       LogedIn: '',
@@ -48,6 +49,8 @@ export default class Login extends Component {
   };
 
   async onFetchLoginRecords() {
+    this.state.loading = true;
+    this.renderLoading()
     //Match the back-end whit these keys
     var data = {
       email: this.state.email,
@@ -71,11 +74,13 @@ export default class Login extends Component {
         // if successfull goes to user's Preference page or dashboard
         //this.props.navigation.navigate('Preference')
         var UserOBJ = new Object(JSON.parse(response._bodyInit));
-        console.log(response.headers);
+        // console.log(response.headers);
         
-        console.log(response.headers.map.authtoken);
-        console.log(UserOBJ.id);
+        // console.log(response.headers.map.authtoken);
+        // console.log(UserOBJ.id);
         if(UserOBJ.loginStatus){
+          this.state.loading = false;
+          this.renderLoading();
           this.props.navigation.navigate('Event',{id: UserOBJ.id, token: response.headers.map.authtoken})
         }else {
           Alert.alert("Login Failed!", "Invalid email or password! \nPlease try again. ");
@@ -119,6 +124,18 @@ CanAcive() {
     return 'transparent'
   }
 }
+
+renderLoading() {
+  if (this.state.loading) {
+    return (
+      <ActivityIndicator size="large"  color="black" style={{
+          position:'absolute', left:0, right:0, bottom:0, top:0 }}/>        
+    )
+  } else {
+    return null
+  }
+}
+
   render() {
     NetInfo.isConnected.fetch().then(isConnected => {
       this.setState({isOnline: isConnected});

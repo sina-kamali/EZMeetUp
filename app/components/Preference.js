@@ -1,6 +1,6 @@
   import React, {Component} from 'react';
   import {AppRegistry,Platform, StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, 
-    ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight,ActivityIndicator} from 'react-native';
+    ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight,ActivityIndicator, BackHandler, DeviceEventEmitter} from 'react-native';
   import {createStackNavigator,NavigationActions,StackActions} from 'react-navigation'
 
 
@@ -20,6 +20,7 @@
     }
 
     componentWillMount() {
+      //DeviceEventEmitter.emit('refreshEventPage');
       const { navigation } = this.props;
       const id = navigation.getParam('id');
       const token = navigation.getParam('token');
@@ -70,6 +71,12 @@
         actions: [NavigationActions.navigate({ routeName: 'Home'})]
       });
       this.props.navigation.dispatch(resetAction);
+    }
+
+
+    componentWillUnmount() {
+      
+
     }
     render() {
 

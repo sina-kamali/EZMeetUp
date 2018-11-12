@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import {AppRegistry,Platform,KeyboardAvoidingView, StyleSheet, Text, View, 
-  ImageBackground,Image,TouchableOpacity, Button, TextInput, ScrollView, Alert, ActivityIndicator,NetInfo} from 'react-native';
+  ImageBackground,Image,TouchableOpacity, Button, TextInput, ScrollView, Alert, ActivityIndicator,NetInfo, DeviceEventEmitter} from 'react-native';
 import {createStackNavigator,NavigationActions,StackActions} from 'react-navigation'
 import CheckboxFormX from 'react-native-checkbox-form';
 import AnimatedHideView from 'react-native-animated-hide-view';
@@ -344,6 +344,7 @@ async onFetchRegister() {
    }
   );
    if (response.status >= 200 && response.status < 300) {
+   
     this.props.navigation.navigate('Preference');
    }
    else{
