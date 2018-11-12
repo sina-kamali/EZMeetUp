@@ -155,6 +155,7 @@ export default class Event extends Component {
     console.log("Clled it");
     
     this.state.isLoading=true;
+    this.state.infoEvent = 0;
     this.GetEvents();
     this.forceUpdate();
 
