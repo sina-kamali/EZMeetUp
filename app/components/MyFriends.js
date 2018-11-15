@@ -9,16 +9,17 @@ export default class MyFriends extends Component {
   constructor(props) {
     super(props);
     const dataObjects = [ 
-      { eventId: 1,
+      { eventId: 0,
         event:
-        { eventName: 'Cineplex',
-        eventLocation: '15460 Bayview Avenue Aurora, ON, L4G 7J1',
-        eventDescription: 'Watch a movie together!' } 
+        { eventName: 'Place Holder',
+        eventLocation: 'Place Holder',
+        eventDescription: 'Place Holder' } 
       } 
     ]
     const rowHasChanged = (r1, r2) => r1 !== r2
     const ds = new ListView.DataSource({rowHasChanged})
     this.state = {
+      isListEmpty: true,
       isLoading: true,
       dataSource: ds.cloneWithRows(dataObjects),
       userId:"",
@@ -64,8 +65,14 @@ componentWillMount(){
       this.setState({
         
       }, function(){
-        this.dataObjects = responseJson;
-        console.log(responseJson);
+        if(!(responseJson.isEmpty)){
+          this.state.isListEmpty = false;
+       
+          this.dataObjects = responseJson;
+          this.setState({dataSource:ds.cloneWithRows(responseJson)});
+          console.log(this.dataObjects);
+        }
+        
         
         this.setState({isLoading:false});
       });
@@ -94,6 +101,16 @@ componentWillMount(){
       return (
         <View style={{ flex: 1, padding: 20 }}>
           <ActivityIndicator />
+        </View>
+      );
+    }
+
+    if (this.state.isListEmpty) {
+      return (
+        <View style={{ flex: 1, textAlign:"center", justifyContent:"center", flexDirection:"row"}}>
+          <Text style={{ fontSize: '25', fontSize: 18, color: 'black', width:200, textAlign:"center",justifyContent:"center"}}>
+            You did not joined any event. Plese use the main page to joine events.
+          </Text>
         </View>
       );
     }
