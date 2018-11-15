@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   AppRegistry, Platform, StyleSheet, Text, View, ImageBackground, BackHandler,
-  Image, TouchableOpacity, Button, TextInput, ScrollView, CheckBox, ActivityIndicator,Alert
+  Image, TouchableOpacity, Button, TextInput, ScrollView, CheckBox, ActivityIndicator,Alert,
 } from 'react-native';
 import { createStackNavigator } from 'react-navigation'
 import CardStack, { Card } from 'react-native-card-stack-swiper';
@@ -21,7 +21,8 @@ export default class Event extends Component {
       EventList: [],
       views: [],
       infoEvent: 0,
-      mounted : false
+      mounted : false,
+      refreshing: false
 
     };
 
@@ -184,7 +185,7 @@ export default class Event extends Component {
   }
 
   refreshPage(){
-    console.log("Clled it");
+    console.log("Refresh Event Page Called!");
     
     this.state.isLoading=true;
     this.state.infoEvent = 0;
@@ -249,13 +250,14 @@ export default class Event extends Component {
 
     return (
       <ImageBackground source={require('../images/background.png')} style={{ width: '100%', height: '100%' }}>
-
+        
         <View style={{flex: 1,paddingTop: 10}}>
 
 
           <CardStack
             style={styles.content}
-
+            disableTopSwipe={true}
+            disableBottomSwipe={true}
             renderNoMoreCards={() => <Text style={{ fontWeight: '700', fontSize: 18, color: 'gray', width:200, textAlign:"center"}}>Thank you for using EZMeetUp! Hang tight while we are finding new events for you.</Text>}
             ref={swiper => {
               this.swiper = swiper
@@ -281,13 +283,14 @@ export default class Event extends Component {
               }}>
                 <Image source={require('../images/info.png')} resizeMode={'contain'} style={{ height: 32, width: 32, borderRadius: 5 }} />
               </TouchableOpacity>
+              
               <TouchableOpacity style={[styles.button, styles.green]} onPress={() => {
                 this.swiper.swipeRight();
               }}>
                 <Image source={require('../images/yes.png')} resizeMode={'contain'} style={{ height: 62, width: 62 }} />
               </TouchableOpacity>
             </View>
-
+              
           </View>
         </View>
 

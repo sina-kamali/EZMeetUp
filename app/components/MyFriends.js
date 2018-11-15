@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {AppRegistry,Platform,KeyboardAvoidingView, StyleSheet, Text, View, ImageBackground,
     Image,TouchableOpacity,ListView,ScrollView,
-    Button, TextInput,Alert,TouchableHighlight,Slider,ActivityIndicator} from 'react-native';
+    Button, TextInput,Alert,TouchableHighlight,Slider,ActivityIndicator, RefreshControl} from 'react-native';
 import {createStackNavigator,NavigationActions,StackActions} from 'react-navigation'
 import { Dropdown } from 'react-native-material-dropdown';
+import { EventRegister } from 'react-native-event-listeners'
 
 export default class MyFriends extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ export default class MyFriends extends Component {
     this.state = {
       isListEmpty: true,
       isLoading: true,
+      refreshing: false,
       dataSource: ds.cloneWithRows(dataObjects),
       userId:"",
       token:""
@@ -43,9 +45,16 @@ showMore(event){
 }
 
 componentWillMount(){
+  this.fetchData();
+}
+
+fetchData(){
   const { navigation } = this.props;
   const id = navigation.getParam('id');
   const tk = navigation.getParam('token');
+
+  // refreshing the event page
+  EventRegister.emit('myCustomEvent',{});
 
   console.log(tk)
   console.log(id)
@@ -93,6 +102,12 @@ componentWillMount(){
       fontWeight: 'bold',
     },
   };
+  onRefresh() {
+
+    console.log("refresh");
+    this.fetchData();
+  
+  }
 
 
   render() {
@@ -126,6 +141,13 @@ componentWillMount(){
                     <Text style={{alignItems:"flex-start",justifyContent:"flex-start", fontSize:20, padding: 10, fontWeight:"bold", color:"black"}}>
                     {rowData.event.eventName} - {rowData.event.eventDescription}</Text>
                     </TouchableOpacity>
+                }
+
+                refreshControl={
+                  <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={this.onRefresh.bind(this)}
+                  />
                 }
               />
         </ImageBackground>
