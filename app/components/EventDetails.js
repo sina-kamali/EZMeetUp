@@ -98,10 +98,8 @@ export default class EventDetails extends Component {
               <Text style={{textAlign:"center", paddingTop: 10, fontSize: 20}}>{this.state.eventLocation}</Text>
               <Text style={{textAlign:"left", paddingTop: 10, fontSize: 20}}>Event Date:</Text>
               <Text style={{textAlign:"center", paddingTop: 10, fontSize: 20}}>{this.state.eventDate}</Text>
-              <Text style={{textAlign:"left", paddingTop: 10, fontSize: 20}}>Event Description:</Text>
+              <Text style={{textAlign:"left", paddingTop: 10, fontSize: 20}}>Event Capacity:</Text>
               <Text style={{textAlign:"center", paddingTop: 10, fontSize: 20}}>{this.state.Capacity}</Text>
-    
-           
           </View>
         </View>
         </ScrollView>

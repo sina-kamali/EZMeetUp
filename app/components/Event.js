@@ -119,9 +119,41 @@ export default class Event extends Component {
     this.state.infoEvent = index + 1;
   }
 
-  AcceptEvent(index){
+ async AcceptEvent(index){  
+   const eveid = index+1;
     this.state.infoEvent = index + 1;
-  }
+    try {
+      let response = await fetch(
+        // change this link to our link
+       "http://myvmlab.senecacollege.ca:6282/api/users/"+this.state.UserId+"/events/join/" + eveid,
+       {
+         // A post request which sends a json whit data objes keys
+         method: "POST",
+         headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "authtoken":this.state.token
+         },
+        //body: JSON.stringify(data)
+      }
+     );
+      if (response.status >= 200 && response.status < 300) {
+        console.log("Joind Event");
+      }
+      else{
+       console.log(response);
+      }
+    } catch (errors) {
+      console.log(errors);
+     Alert.alert("Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
+    } 
+ 
+
+    this.state.infoEvent = index + 1;
+
+   
+ }
+
 
   ShowInfo(){
     if(this.state.EventList.length >  this.state.infoEvent){
@@ -161,6 +193,8 @@ export default class Event extends Component {
 
   }
 
+ 
+
 
   static navigationOptions = ({ navigation, screenProps, state }) => ({
     headerTitle: (
@@ -181,9 +215,9 @@ export default class Event extends Component {
     },
     headerRight: (
       <TouchableOpacity style={{ textAlign: 'center', marginRight: 10 }}
-        onPress={() => navigation.navigate('MyFriends')}>
+        onPress={() => navigation.navigate('MyFriends',{ id: global.id, token: global.token })}>
         <Image
-          source={require('../images/Messages.png')}
+          source={require('../images/AddEvents.png')}
           style={{ width: 40, height: 40 }}
         />
       </TouchableOpacity>
