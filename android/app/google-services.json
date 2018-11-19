@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "1001310981820",
+    "firebase_url": "https://ezmeetup-8cd2b.firebaseio.com",
+    "project_id": "ezmeetup-8cd2b",
+    "storage_bucket": "ezmeetup-8cd2b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001310981820:android:63853145f6c34460",
+        "android_client_info": {
+          "package_name": "com.mynewproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1001310981820-t07qu59hg0n3kb7r3d9f17lkelvg9lou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtnYks4YhoRhRFEfzE75RSACQVgqJ2txU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001310981820:android:7b96246d7e47da8f",
+        "android_client_info": {
+          "package_name": "com.seneca.ezmeetup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1001310981820-t07qu59hg0n3kb7r3d9f17lkelvg9lou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtnYks4YhoRhRFEfzE75RSACQVgqJ2txU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

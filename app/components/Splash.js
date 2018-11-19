@@ -2,9 +2,13 @@ import React, {Component} from 'react';
 import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, NetInfo} from 'react-native';
 import {createStackNavigator} from 'react-navigation'
 
+import firebase from 'react-native-firebase';
+import type { Notification, NotificationOpen } from 'react-native-firebase';
+
 
 
 export default class Splash extends Component {
+
 	constructor() {
     super();
 	global.EventNo = 0;
@@ -13,9 +17,94 @@ export default class Splash extends Component {
         isOnline: false
     }
   }
+
+  
     static navigationOptions = {
         header: null
       };
+
+
+
+
+      async componentDidMount() {
+        const notificationOpen: NotificationOpen = await firebase.notifications().getInitialNotification();
+        if (notificationOpen) {
+            const action = notificationOpen.action;
+            const notification: Notification = notificationOpen.notification;
+            var seen = [];
+            alert(JSON.stringify(notification.data, function(key, val) {
+                if (val != null && typeof val == "object") {
+                    if (seen.indexOf(val) >= 0) {
+                        return;
+                    }
+                    seen.push(val);
+                }
+                return val;
+            }));
+        } 
+        const channel = new firebase.notifications.Android.Channel('test-channel', 'Test Channel', firebase.notifications.Android.Importance.Max)
+                .setDescription('My apps test channel');
+// Create the channel
+        firebase.notifications().android.createChannel(channel);
+        this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification: Notification) => {
+            // Process your notification as required
+            // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
+        });
+        this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
+            // Process your notification as required
+            notification
+                .android.setChannelId('test-channel')
+                .android.setSmallIcon('ic_launcher');
+            firebase.notifications()
+                .displayNotification(notification);
+            
+        });
+        this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen: NotificationOpen) => {
+            // Get the action triggered by the notification being opened
+            const action = notificationOpen.action;
+            // Get information about the notification that was opened
+            const notification: Notification = notificationOpen.notification;
+            var seen = [];
+            alert(JSON.stringify(notification.data, function(key, val) {
+                if (val != null && typeof val == "object") {
+                    if (seen.indexOf(val) >= 0) {
+                        return;
+                    }
+                    seen.push(val);
+                }
+                return val;
+            }));
+            firebase.notifications().removeDeliveredNotification(notification.notificationId);
+            
+        });
+    }
+    componentWillUnmount() {
+        this.notificationDisplayedListener();
+        this.notificationListener();
+        this.notificationOpenedListener();
+    }
+
+
+//   async componentDidMount() {
+//     // TODO: You: Do firebase things
+//     // const { user } = await firebase.auth().signInAnonymously();
+//     // console.warn('User -> ', user.toJSON());
+
+
+
+//     firebase.messaging().getToken()
+//   .then(fcmToken => {
+//     if (fcmToken) {
+//       console.log(fcmToken);
+//     } else {
+//       // user doesn't have a device token yet
+//     } 
+//   });
+
+//    // await firebase.analytics().logEvent('foo', { bar: '123'});
+//   }
+
+
   render() {
     NetInfo.isConnected.fetch().then(isConnected => {
         this.setState({isOnline: isConnected});
