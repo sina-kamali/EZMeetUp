@@ -74,22 +74,13 @@ cd android
 
 ```
 npm install --save react-navigation
-
 npm install --save react-native-material-dropdown
 npm install react-native-checkbox-form --save
-
 react-native link react-native-vector-icons
-
-
 npm i -S react-native-animated-hide-view
-
 npm install --save react-native-event-listeners
-
 npm install --save react-native-card-stack-swiper
-
 npm install react-native-slideshow --save
-
-
 npm i -S react-native-swipe-gestures
 
 ```

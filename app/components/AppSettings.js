@@ -248,38 +248,29 @@ SubmitInfo() {
       this.state.sendPhone = this.state.phone;
     }
 
-    var cat1Changed = false;
+    var cat1Changed = true;
 
-    this.state.catagories1.forEach( e => {
-      if(this.state.oldCat1.length === 0){
-        this.state.sendCat1.push(e);
-        cat1Changed = true;
-      }
-      this.state.oldCat1.forEach(j => {
-        if(e != j){
-          this.state.senCat1.push(j);
-          cat1Changed = true;
-        }
-      });
-    });
+    if (JSON.stringify(this.state.catagories1) === JSON.stringify(this.state.oldCat1)) {
+      console.log('They are equal!');
+      cat1Changed = false;
+    }
+    else {
+      cat1Changed = true;
+    }
 
 
-    var cat2Changed = false;
+    var cat2Changed = true;
 
-    this.state.catagories2.forEach( k => {
-      if(this.state.oldCat2.length === 0){
-        this.state.sendCat2.push(k);
-        cat2Changed = true;
-      }
-      this.state.oldCat2.forEach(l => {
-        if(k != l){
-          this.state.sendCat2.push(l);
-          cat2Changed = true;
-        }
-      });
-    });
+    if (JSON.stringify(this.state.catagories2) === JSON.stringify(this.state.oldCat2)) {
+      console.log('They are equal!');
+      cat2Changed = false;
+    }
+    else {
+      cat2Changed = true;
+    }
 
-    
+  
+
 
     
     if(UnchangedField != 4 || cat1Changed || cat2Changed){
@@ -692,8 +683,7 @@ async onFetchRegister() {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={{marginTop: 10, marginBottom: 20}}
-                onPress={() => this.props.navigation.navigate('Preference')}
-                >
+                onPress={() => this.props.navigation.navigate('Preference')}>
                     <Text style = {styles.buttons}>
                     Cancel
                     </Text>
