@@ -54,7 +54,8 @@ export default class Login extends Component {
     //Match the back-end whit these keys
     var data = {
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      deviceToken: global.deviceToken
     };
     try {
      let response = await fetch(

@@ -11,8 +11,7 @@ export default class Splash extends Component {
 
 	constructor() {
     super();
-	global.EventNo = 0;
-    global.EventMax = 0;
+	global.deviceToken = 0;
     this.state ={
         isOnline: false
     }
@@ -27,6 +26,20 @@ export default class Splash extends Component {
 
 
       async componentDidMount() {
+
+        firebase.messaging().getToken()
+        .then(fcmToken => {
+            if (fcmToken) {
+            console.log(fcmToken);
+            global.deviceToken = fcmToken;
+
+            } else {
+            // user doesn't have a device token yet
+            console.log("No Token");
+            } 
+        });
+
+
         const notificationOpen: NotificationOpen = await firebase.notifications().getInitialNotification();
         if (notificationOpen) {
             const action = notificationOpen.action;
@@ -82,6 +95,7 @@ export default class Splash extends Component {
         this.notificationDisplayedListener();
         this.notificationListener();
         this.notificationOpenedListener();
+    
     }
 
 
@@ -92,14 +106,7 @@ export default class Splash extends Component {
 
 
 
-//     firebase.messaging().getToken()
-//   .then(fcmToken => {
-//     if (fcmToken) {
-//       console.log(fcmToken);
-//     } else {
-//       // user doesn't have a device token yet
-//     } 
-//   });
+    
 
 //    // await firebase.analytics().logEvent('foo', { bar: '123'});
 //   }
