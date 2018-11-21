@@ -82,6 +82,8 @@ npm install --save react-native-event-listeners
 npm install --save react-native-card-stack-swiper
 npm install react-native-slideshow --save
 npm i -S react-native-swipe-gestures
+npm install react-native-image-picker --save
+react-native link react-native-image-picker
 
 ```
 

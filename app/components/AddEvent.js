@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import {AppRegistry,Platform,KeyboardAvoidingView, ScrollView, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity,
-   Button, TextInput,Alert,TouchableHighlight,Slider} from 'react-native';
+import {AppRegistry,Platform,KeyboardAvoidingView, ScrollView, StyleSheet, Text, View, 
+    ImageBackground,Image,TouchableOpacity,
+   Button, TextInput,Alert,TouchableHighlight,Slider, PixelRatio} from 'react-native';
 import {createStackNavigator} from 'react-navigation'
 import { Dropdown } from 'react-native-material-dropdown';
 import CheckboxFormX from 'react-native-checkbox-form';
 import AnimatedHideView from 'react-native-animated-hide-view';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-
+import ImagePicker from 'react-native-image-picker';
 
 const mockData1 = [
   {
@@ -56,10 +57,75 @@ export default class AddEvent extends Component {
       catagories2: [],
       isDateTimePickerVisible: false,
       selectedDate: "Event Date",
+      avatarSource: null,
+      videoSource: null
 
 
       
     }
+  }
+
+  selectPhotoTapped() {
+    const options = {
+      quality: 1.0,
+      maxWidth: 500,
+      maxHeight: 500,
+      storageOptions: {
+        skipBackup: true
+      }
+    };
+
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled photo picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+        this.setState({
+          avatarSource: source
+        });
+      }
+    });
+  }
+
+  selectVideoTapped() {
+    const options = {
+      title: 'Video Picker',
+      takePhotoButtonTitle: 'Take Video...',
+      mediaType: 'video',
+      videoQuality: 'medium'
+    };
+
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled video picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        this.setState({
+          videoSource: response.uri
+        });
+      }
+    });
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
@@ -111,8 +177,15 @@ export default class AddEvent extends Component {
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
             <ScrollView>
               <Text style={{color: 'white', paddingLeft: 15, fontWeight: 'bold', paddingTop: 10}}>* These fields are required!</Text>
-              <View>
-                <Text>A place holder for image</Text>
+              <View style={{textAlign:"center", alignItems:"center", justifyContent:"center"}}>
+                
+              <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
+                <View style={[styles.avatar, styles.avatarContainer, {marginBottom: 20}]}>
+                { this.state.avatarSource === null ? <Text style={{textAlign:"center", fontWeight:"bold"}}>Select to upload your event picture</Text> :
+                  <Image style={styles.avatar} source={this.state.avatarSource} />
+                }
+                </View>
+              </TouchableOpacity>
               </View>
               <KeyboardAvoidingView behavior="padding" style={styles.container}>
                 <TextInput
@@ -247,7 +320,15 @@ const styles = StyleSheet.create({
       fontSize: 20,
       color: 'white',
       fontWeight:'bold'
-   }
+   },
+   avatarContainer: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  avatar: {
+    width: 150,
+    height: 150
+  }
 
 });
   AppRegistry.registerComponent(AddEvent, () => AddEvent);

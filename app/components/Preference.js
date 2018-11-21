@@ -3,6 +3,8 @@
     ImageBackground,Image,TouchableOpacity, Button, TextInput,Alert,TouchableHighlight,ActivityIndicator, BackHandler} from 'react-native';
   import {createStackNavigator,NavigationActions,StackActions} from 'react-navigation'
   import { EventRegister } from 'react-native-event-listeners'
+  import ImagePicker from 'react-native-image-picker';
+
 
   export default class Preference extends Component {
 
@@ -14,9 +16,74 @@
         userId: 0,
         userToken: 0,
         firstName: "",
-        lastName: ""
+        lastName: "",
+        avatarSource: null,
+        videoSource: null
       };
   
+    }
+
+    selectPhotoTapped() {
+      const options = {
+        quality: 1.0,
+        maxWidth: 500,
+        maxHeight: 500,
+        storageOptions: {
+          skipBackup: true
+        }
+      };
+  
+      ImagePicker.showImagePicker(options, (response) => {
+        console.log('Response = ', response);
+  
+        if (response.didCancel) {
+          console.log('User cancelled photo picker');
+        }
+        else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        }
+        else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        }
+        else {
+          let source = { uri: response.uri };
+  
+          // You can also display the image using data:
+          // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+  
+          this.setState({
+            avatarSource: source
+          });
+        }
+      });
+    }
+  
+    selectVideoTapped() {
+      const options = {
+        title: 'Video Picker',
+        takePhotoButtonTitle: 'Take Video...',
+        mediaType: 'video',
+        videoQuality: 'medium'
+      };
+  
+      ImagePicker.showImagePicker(options, (response) => {
+        console.log('Response = ', response);
+  
+        if (response.didCancel) {
+          console.log('User cancelled video picker');
+        }
+        else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        }
+        else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        }
+        else {
+          this.setState({
+            videoSource: response.uri
+          });
+        }
+      });
     }
 
     componentWillMount() {
@@ -93,8 +160,13 @@
             <View style={{ height: 200, justifyContent: 'center', alignItems: 'center', 
             }}>
 
-            <TouchableOpacity style={{}}>
-              <Image source={require('../images/DefaultProfile.png')} style={{width: 100, height: 100}} />
+            <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
+              
+                { this.state.avatarSource === null ? <Image source={require('../images/DefaultProfile.png')} style={styles.avatar} />:
+                  <Image style={styles.avatar} source={this.state.avatarSource} />
+                }
+              
+              {/* <Image source={require('../images/DefaultProfile.png')} style={{width: 100, height: 100}} /> */}
             </TouchableOpacity>
               <Text
                   style={{
@@ -108,7 +180,7 @@
             <ScrollView style={{backgroundColor: 'white'}} >
 
             
-            <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
+            {/* <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
             borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
             onPress={() => this.props.navigation.navigate('DiscoveryPreference')}>
             <Image source={require('../images/Discover.png')} style={{justifyContent:'center', alignContent: 'center'}} />
@@ -122,7 +194,7 @@
                   color: '#ff6666'
                 }}
                 >Discovery Preference</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             
             <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
             borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
@@ -210,6 +282,15 @@
           fontSize: 20,
           color: 'white',
           fontWeight:'bold'
+      },
+      avatarContainer: {
+        justifyContent: 'center',
+        alignItems: 'center'
+      },
+      avatar: {
+        borderRadius: 75,
+        width: 150,
+        height: 150
       }
 
     });

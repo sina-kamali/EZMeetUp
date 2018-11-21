@@ -227,7 +227,7 @@ export default class Event extends Component {
       <TouchableOpacity style={{ textAlign: 'center', marginLeft: 10 }}
         onPress={() => navigation.navigate('Preference', { id: global.id, token: global.token })}>
         <Image
-          source={require('../images/Settings.png')}
+          source={require('../images/Menu.png')}
           style={{ width: 40, height: 40 }}
         />
       </TouchableOpacity>
