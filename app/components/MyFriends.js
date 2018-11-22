@@ -137,7 +137,7 @@ fetchData(){
                 dataSource={this.state.dataSource}
                 renderRow={
                   (rowData) => <TouchableOpacity style={{flex:1, flexDirection: 'row', backgroundColor: "#F0F0F0", margin: 5}} 
-                  onPress={() => this.props.navigation.navigate('JoinedEventDetails',{selectedEvent: rowData, token: this.state.token, id: this.state.userId})} >
+                  onPress={() => this.props.navigation.navigate('JoinedEventDetails',{selectedEvent: rowData, token: this.state.token, id: this.state.userId, eventId:rowData.eventId})} >
                     <Text style={{alignItems:"flex-start",justifyContent:"flex-start", fontSize:20, padding: 10, fontWeight:"bold", color:"black"}}>
                     {rowData.event.eventName} - {rowData.event.eventDescription}</Text>
                     </TouchableOpacity>

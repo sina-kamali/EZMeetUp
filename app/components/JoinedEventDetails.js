@@ -38,6 +38,7 @@ export default class JoinedEventDetails extends Component {
     const id = navigation.getParam('id');
     const tk = navigation.getParam('token');
     const event = navigation.getParam('selectedEvent');
+    const joind = navigation.getParam('eventId');
   
     //console.log(tk);
     //console.log(id);
@@ -45,10 +46,10 @@ export default class JoinedEventDetails extends Component {
     this.setState({
       userId: id,
       token: tk,
-      eventId: event.eventId
+      eventId: joind
     });
 
-   this.getDetails(id,tk,event.eventId);
+   this.getDetails(id,tk,joind);
 
   //   fetch('http://myvmlab.senecacollege.ca:6282/api/users/'+id+'/events/details/'+event.eventId,
   // {
@@ -77,11 +78,14 @@ export default class JoinedEventDetails extends Component {
     //this.state.isLoading = false;
 }
 
-getDetails(id,token,event){
+getDetails(id,token,eveId){
+  console.log(eveId);
 
-  if(id!="" && token!="" && event !=""){
+  var images = [];
 
-    fetch('http://myvmlab.senecacollege.ca:6282/api/users/'+id+'/events/details/'+event,
+  if(id!="" && token!="" && eveId !=""){
+
+    fetch('http://myvmlab.senecacollege.ca:6282/api/users/'+id+'/events/details/'+eveId,
   {
     headers: { 
       'authtoken': token
@@ -95,15 +99,21 @@ getDetails(id,token,event){
         if(!(responseJson.isEmpty)){
         
           console.log(responseJson);
-
-          this.setState({
-            eventName: responseJson[0].event.eventName,
-            eventDescription:responseJson[0].event.eventDescription,
-            eventLocation: responseJson[0].event.eventLocation,
-            eventDate: responseJson[0].event.eventDate,
-            Capacity: responseJson[0].event.eventCapacity
+          responseJson.forEach(e => {
+            if(e.eventId == eveId){
+              this.setState({
+                eventName: e.event.eventName,
+                eventDescription:e.event.eventDescription,
+                eventLocation: e.event.eventLocation,
+                eventDate: e.event.eventDate,
+                Capacity: e.event.eventCapacity
+              });
+              images = e.event.event_images;
+            }
           });
-          const images = responseJson[0].event.event_images;
+
+          
+          //const images = responseJson[0].event.event_images;
           //console.log(images);
     
           images.forEach(e => {
@@ -122,8 +132,6 @@ getDetails(id,token,event){
       console.error(error);
     });
   }
-
-  
 
     //this.state.isLoading = false;
 

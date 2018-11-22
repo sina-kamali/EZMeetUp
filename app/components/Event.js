@@ -57,11 +57,12 @@ export default class Event extends Component {
           let eve = responseJson;
 
           for (let i = 0; i < eve.length; i++) {
+            console.log(eve[i]);
             const words = eve[i].eventDate.split('T');
             if (i % 2 == 0) {
 
               this.state.views.push(
-                <Card key={i} style={[styles.card,{backgroundColor:"white"}]} onSwipedLeft={() => this.infoEevent(i)} onSwipedRight={()=> this.AcceptEvent(i)}>
+                <Card key={i} style={[styles.card,{backgroundColor:"white"}]} onSwipedLeft={() => this.infoEevent(i)} onSwipedRight={()=> this.AcceptEvent(i,eve[i].id )}>
                   <View style={{
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -85,7 +86,7 @@ export default class Event extends Component {
             }
             else {
               this.state.views.push(
-                <Card key={i} style={[styles.card,{backgroundColor:"white"}]} onSwipedLeft={() => this.infoEevent(i)} onSwipedRight={()=> this.AcceptEvent(i)} >
+                <Card key={i} style={[styles.card,{backgroundColor:"white"}]} onSwipedLeft={() => this.infoEevent(i)} onSwipedRight={()=> this.AcceptEvent(i,eve[i].id )} >
                 <View style={{
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -121,13 +122,13 @@ export default class Event extends Component {
     this.state.infoEvent = index + 1;
   }
 
- async AcceptEvent(index){  
+ async AcceptEvent(index,eveId){  
    const eveid = index+1;
     this.state.infoEvent = index + 1;
     try {
       let response = await fetch(
         // change this link to our link
-       "http://myvmlab.senecacollege.ca:6282/api/users/"+this.state.UserId+"/events/join/" + eveid,
+       "http://myvmlab.senecacollege.ca:6282/api/users/"+this.state.UserId+"/events/join/" + eveId,
        {
          // A post request which sends a json whit data objes keys
          method: "POST",
