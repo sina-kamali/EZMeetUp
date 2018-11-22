@@ -160,7 +160,8 @@
             <View style={{ height: 200, justifyContent: 'center', alignItems: 'center', 
             }}>
 
-            <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
+            {/* <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}> */}
+            <TouchableOpacity >
               
                 { this.state.avatarSource === null ? <Image source={require('../images/DefaultProfile.png')} style={styles.avatar} />:
                   <Image style={styles.avatar} source={this.state.avatarSource} />
@@ -214,7 +215,7 @@
 
             <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
             borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
-            onPress={() => this.props.navigation.navigate('AddEvent')}>
+            onPress={() => this.props.navigation.navigate('AddEvent', {id: this.state.userId, token: this.state.userToken})}>
             <Image source={require('../images/AddEvents.png')} style={{justifyContent:'center', alignContent: 'center'}} />
             <Text
                   style={{

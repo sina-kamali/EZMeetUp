@@ -8,39 +8,44 @@ import CheckboxFormX from 'react-native-checkbox-form';
 import AnimatedHideView from 'react-native-animated-hide-view';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import ImagePicker from 'react-native-image-picker';
+import { EventRegister } from 'react-native-event-listeners'
 
 const mockData1 = [
   {
       label: 'Food',
-      value: 1,
-      RNchecked : false
+      value: 1
   },
   {
       label: 'Events',
-      value: 2,
-      RNchecked : false
+      value: 2
   },
   {
       label: 'Sports',
-      value: 3,
-      RNchecked : false
+      value: 3
   },
   {
     label: 'Car Pool',
-    value: 4,
-    RNchecked : false
+    value: 4
   },
   {
   label: 'Conference',
-  value: 5,
-  RNchecked : false
-
+  value: 5
   },
   {
   label: 'Entertainment',
-  value: 6,
-  RNchecked : false
+  value: 6
   }
+];
+
+const participants = [
+  {
+    label: 'Open',
+    value: 0
+    },
+    {
+      label: 'Limitted',
+      value: 1
+      }
 ];
 
 export default class AddEvent extends Component {
@@ -49,17 +54,20 @@ export default class AddEvent extends Component {
     super();
     this.state ={
       check:false,
-      catagories1: [],
-      catagories2: [],
       isDateTimePickerVisible: false,
       selectedDate: "Event Date*",
       avatarSource: null,
       videoSource: null,
       EventName:"",
       EventLocation:"",
+      EventLimit:"em",
+      capacity:0,
+      catagory:"",
+      description:"",
+      userId:"",
+      token:""
 
 
-      
     }
   }
 
@@ -137,6 +145,14 @@ export default class AddEvent extends Component {
     this._hideDateTimePicker();
   };
 
+  componentWillMount() {
+    const { navigation } = this.props;
+    const id = navigation.getParam('id');
+    const token = navigation.getParam('token');
+    this.state.userId = id;
+    this.state.token = token;
+  }
+
   static navigationOptions = {
     title: 'Add Event',
     headerStyle: {
@@ -149,8 +165,7 @@ export default class AddEvent extends Component {
   };
   
   nameValid(){
-    if(this.state.eveName == ""){
-      console.log("yes")
+    if(this.state.EventName == ""){
       return true;
     } else {
       return false;
@@ -175,19 +190,146 @@ export default class AddEvent extends Component {
   }
 
   catagoryValid(){
-    if(this.state.catagories1.length == 0 && this.state.catagories2.length == 0){
-      return false;
-    }
-    else {
+
+    console.log(this.state.catagory);
+    if(this.state.catagory == ""){
       return true;
     }
+    else {
+      return false;
+    }
   }
+
+  limiValid(){
+    
+    if(this.state.EventLimit == "em" ){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  limitExtra(){
+    if(this.state.EventLimit == 1){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  capacityValid(){
+    if(this.limitExtra()){
+      if(this.state.capacity == 0) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    else {
+      return false;
+    }
+
+  }
+  descriptionValid(){
+    if(this.state.description == ""){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  addEvent(){
+    console.log(this.nameValid() );
+    console.log(this.locationValid());
+    console.log(this.dateValid() );
+    console.log(this.limiValid() );
+    console.log(this.catagoryValid());
+
+    if(!this.nameValid() && !this.locationValid() && !this.dateValid() && !this.limiValid() && !this.catagoryValid() && !this.descriptionValid()){
+
+      if(!this.capacityValid()){
+        this.onFetchAddEvent();
+      }
+      else {
+        Alert.alert("Add Event Failed!", "Please fill all the necessary fields!");
+      }
+
+    }
+    else{
+      console.log(this.nameValid() );
+      console.log(this.locationValid());
+      console.log(this.dateValid() );
+      console.log(this.limiValid() );
+      console.log(this.catagoryValid());
+      Alert.alert("Add Event Failed!", "Please fill all the necessary fields!");
+    }
+    // {
+    //   "eventName": "Test123",
+    //   "eventLocation": "Toronto",
+    //   "eventDescription": "This is test description",
+    //   "eventDate": "2018/11/11",
+    //   "userId": 1,
+    //   "categoryIds": [1, 2]
+    // }
+  }
+
+  async onFetchAddEvent() {
+    //Match the back-end whit these keys
+    const events = [];
+    events.push(this.state.catagory);
+    var data = {
+      eventName: this.state.EventName,
+      eventLocation: this.state.EventLocation,
+      eventDescription: this.state.description,
+      eventDate: this.state.selectedDate,
+      userId: this.state.userId,
+      categoryIds: events,
+      eventCapacity: this.capacity
+
+    };
+    const token = this.state.token;
+    console.log(data);
+    try {
+     let response = await fetch(
+       // change this link to our link
+      "http://myvmlab.senecacollege.ca:6282/api/events/create",
+      {
+        // A post request which sends a json whit data objes keys
+        method: "POST",
+        headers: {
+          'authtoken': token 
+        },
+       body: JSON.stringify(data)
+     }
+    );
+     console.log(response)
+     if (response.status >= 200 && response.status < 300) {
+      EventRegister.emit('myCustomEvent',{});
+      this.props.navigation.navigate('Preference');
+     }
+     else{
+      Alert.alert("Add Event Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
+     }
+   } catch (errors) {
+    Alert.alert("Add Event Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
+    } 
+  }
+
+  
 
   render() {
     const eveName = this.nameValid();
     const eveLoc = this.locationValid();
     const eveDate = this.dateValid();
     const eveCat = this.catagoryValid();
+    const eveDesc = this.descriptionValid();
+    const eveLimit = this.limiValid();
+    const eveExtra = this.limitExtra();
+    const eveCap = this.capacityValid();
     const { isDateTimePickerVisible, selectedDate } = this.state;
     return (
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
@@ -244,6 +386,35 @@ export default class AddEvent extends Component {
                     Field cannot be empty
                   </Text>
                 </AnimatedHideView>
+
+
+            
+                  <TextInput
+                  style={{borderWidth: 2,
+                    padding:10,
+                    borderColor: 'white',
+                    backgroundColor:'white',
+                    fontSize:20,
+                    width: 330,
+                    marginTop: 10}}
+                   // Inherit any props passed to it; e.g., multiline, numberOfLines below
+                  editable = {true}
+                  maxLength={300}
+                  multiline
+                  onChangeText={(description) => this.setState({description})}
+                  placeholder="Event Description*"
+                />
+
+                <AnimatedHideView
+                  visible={eveDesc}
+                  unmountOnHide={true}
+                >
+                  <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>
+                    Field cannot be empty
+                  </Text>
+                </AnimatedHideView>
+                
+
                 <TouchableOpacity onPress={this._showDateTimePicker}>
                   <View >
                     <Text style={{borderWidth: 2,
@@ -272,7 +443,36 @@ export default class AddEvent extends Component {
                   onConfirm={this._handleDatePicked}
                   onCancel={this._hideDateTimePicker}
                 />
-                <TextInput
+
+                <View style={{flexDirection: 'column', width: 330, marginTop: 10}}>
+                 
+                 <View style={{borderWidth: 2,
+                   padding: 10,
+                   borderColor: 'white',
+                   backgroundColor:'white',
+                   fontSize:20,
+                   width: 330,
+                   marginTop: 10}}>
+                 <Dropdown
+                   label='Attendance Limitation*'
+                   data={participants}
+                   onChangeText={(EventLimit) => this.setState({EventLimit})}
+                 />
+                 </View>
+             </View>
+             <AnimatedHideView
+                  visible={eveLimit}
+                  unmountOnHide={true}
+                >
+                  <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>
+                    Field cannot be empty
+                  </Text>
+                </AnimatedHideView>
+             <AnimatedHideView
+                  visible={eveExtra}
+                  unmountOnHide={true}
+                >
+                  <TextInput
                   style={{borderWidth: 2,
                     padding: 10,
                     borderColor: 'white',
@@ -281,9 +481,19 @@ export default class AddEvent extends Component {
                     width: 330,
                     marginTop: 10}}
                     keyboardType={"decimal-pad"}
+                    onChangeText={(capacity) => this.setState({capacity})}
                   placeholder="Numer of participants"
                 />
-                
+                </AnimatedHideView>
+                <AnimatedHideView
+                  visible={eveCap}
+                  unmountOnHide={true}
+                >
+                  <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>
+                    Field cannot be empty
+                  </Text>
+                </AnimatedHideView>
+
                 <View style={{flexDirection: 'column', width: 330, marginTop: 10}}>
                  
                   <View style={{borderWidth: 2,
@@ -296,6 +506,7 @@ export default class AddEvent extends Component {
                   <Dropdown
                     label='Event Catagory*'
                     data={mockData1}
+                    onChangeText={(catagory) => this.setState({catagory})}
                   />
                   </View>
                   
@@ -310,7 +521,8 @@ export default class AddEvent extends Component {
                 </AnimatedHideView>
               
               
-              <TouchableOpacity style={{marginTop: 20, marginBottom: 20}}>
+              <TouchableOpacity style={{marginTop: 20, marginBottom: 20}}
+               onPress={() => this.addEvent()}>
                   <Text style = {styles.buttons}>
                     Add New Event!
                   </Text>
