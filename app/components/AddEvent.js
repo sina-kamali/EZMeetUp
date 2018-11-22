@@ -24,11 +24,7 @@ const mockData1 = [
       label: 'Sports',
       value: 3,
       RNchecked : false
-  }
-];
-
-const mockData2 = [
-  
+  },
   {
     label: 'Car Pool',
     value: 4,
@@ -56,9 +52,11 @@ export default class AddEvent extends Component {
       catagories1: [],
       catagories2: [],
       isDateTimePickerVisible: false,
-      selectedDate: "Event Date",
+      selectedDate: "Event Date*",
       avatarSource: null,
-      videoSource: null
+      videoSource: null,
+      EventName:"",
+      EventLocation:"",
 
 
       
@@ -133,32 +131,11 @@ export default class AddEvent extends Component {
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = date => {
-    this.setState({ selectedDate: date.toString() });
+
+    const myDate = date.toString().split('G');
+    this.setState({ selectedDate: myDate[0] });
     this._hideDateTimePicker();
   };
-
-  chechBoxHandler(){
-    this.setState({
-      check:!this.state.check
-    })
-  }
-
-  _onSelect = ( item ) => {
-    var emArray = [];
-  
-    item.forEach( e => {
-      if(e.RNchecked){
-        emArray.push(e.value);
-      } 
-    });
-
-    if(item[0].value == 1){
-      this.state.catagories1 = emArray;
-    } else {
-      this.state.catagories2 = emArray;
-    }
-  };
-
 
   static navigationOptions = {
     title: 'Add Event',
@@ -170,8 +147,47 @@ export default class AddEvent extends Component {
       fontWeight: 'bold',
     },
   };
+  
+  nameValid(){
+    if(this.state.eveName == ""){
+      console.log("yes")
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  locationValid(){
+    if(this.state.EventLocation ==""){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  dateValid(){
+    if(this.state.selectedDate =="Event Date*" ){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  catagoryValid(){
+    if(this.state.catagories1.length == 0 && this.state.catagories2.length == 0){
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
 
   render() {
+    const eveName = this.nameValid();
+    const eveLoc = this.locationValid();
+    const eveDate = this.dateValid();
+    const eveCat = this.catagoryValid();
     const { isDateTimePickerVisible, selectedDate } = this.state;
     return (
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
@@ -195,9 +211,20 @@ export default class AddEvent extends Component {
                     backgroundColor:'white',
                     fontSize:20,
                     width: 330,
-                    marginTop: 20}}
+                    marginTop: 10}}
+                    onChangeText={(EventName) => this.setState({EventName})}
                   placeholder="Event Name*"
                 />
+
+                <AnimatedHideView
+                  visible={eveName}
+                  unmountOnHide={true}
+                >
+                  <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>
+                    Field cannot be empty
+                  </Text>
+                </AnimatedHideView>
+
                 <TextInput
                   style={{borderWidth: 2,
                     padding: 10,
@@ -205,9 +232,18 @@ export default class AddEvent extends Component {
                     backgroundColor:'white',
                     fontSize:20,
                     width: 330,
-                    marginTop: 20}}
+                    marginTop: 10}}
+                    onChangeText={(EventLocation) => this.setState({EventLocation})}
                   placeholder="Event Location*"
                 />
+                <AnimatedHideView
+                  visible={eveLoc}
+                  unmountOnHide={true}
+                >
+                  <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>
+                    Field cannot be empty
+                  </Text>
+                </AnimatedHideView>
                 <TouchableOpacity onPress={this._showDateTimePicker}>
                   <View >
                     <Text style={{borderWidth: 2,
@@ -216,12 +252,20 @@ export default class AddEvent extends Component {
                     backgroundColor:'white',
                     fontSize:20,
                     width: 330,
-                    marginTop: 20}}
+                    marginTop: 10}}
                     >
                       {selectedDate}
                     </Text>
                   </View>
                 </TouchableOpacity>
+                <AnimatedHideView
+                  visible={eveDate}
+                  unmountOnHide={true}
+                >
+                  <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>
+                    Field cannot be empty
+                  </Text>
+                </AnimatedHideView>
 
                 <DateTimePicker
                   isVisible={isDateTimePickerVisible}
@@ -235,44 +279,35 @@ export default class AddEvent extends Component {
                     backgroundColor:'white',
                     fontSize:20,
                     width: 330,
-                    marginTop: 20}}
+                    marginTop: 10}}
+                    keyboardType={"decimal-pad"}
                   placeholder="Numer of participants"
                 />
                 
                 <View style={{flexDirection: 'column', width: 330, marginTop: 10}}>
-                    <Text
-                    style={{backgroundColor: 'white',
+                 
+                  <View style={{borderWidth: 2,
+                    padding: 10,
+                    borderColor: 'white',
+                    backgroundColor:'white',
                     fontSize:20,
-                    textAlign: 'left',
-                    paddingLeft: 5
-                  }}>Interests</Text>
-                  <View style={{flexDirection: 'row'}}>
-                    <CheckboxFormX
-                        backgroundColor='white'
-                        padding={10}
-                        dataSource={mockData1}
-                        itemShowKey="label"
-                        itemCheckedKey="RNchecked"
-                        iconSize={30}
-                        formHorizontal={false}
-                        labelHorizontal={false}
-                        onUncheck = {(item) => this._onDeSelect(item)}
-                        onChecked={(item) => this._onSelect(item)}
-                    />
-                    <CheckboxFormX
-                        backgroundColor='white'
-                        padding={10}
-                        dataSource={mockData2}
-                        itemShowKey="label"
-                        itemCheckedKey="RNchecked"
-                        iconSize={30}
-                        formHorizontal={false}
-                        labelHorizontal={false}
-                        onUncheck = {(item) => this._onDeSelect(item)}
-                        onChecked = {(item) => this._onSelect(item)}
-                    />
+                    width: 330,
+                    marginTop: 10}}>
+                  <Dropdown
+                    label='Event Catagory*'
+                    data={mockData1}
+                  />
                   </View>
+                  
               </View>
+              <AnimatedHideView
+                  visible={eveCat}
+                  unmountOnHide={true}
+                >
+                  <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>
+                    You must select at least one catagory
+                  </Text>
+                </AnimatedHideView>
               
               
               <TouchableOpacity style={{marginTop: 20, marginBottom: 20}}>
@@ -280,7 +315,8 @@ export default class AddEvent extends Component {
                     Add New Event!
                   </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{marginTop: 20, marginBottom: 20}}>
+              <TouchableOpacity style={{marginTop: 5, marginBottom: 20}}
+              onPress={() => this.props.navigation.navigate('Preference')}>
                   <Text style = {styles.buttons}>
                     Cancel
                   </Text>

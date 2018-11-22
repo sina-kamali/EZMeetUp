@@ -6,6 +6,7 @@ import {
 import { createStackNavigator } from 'react-navigation'
 import CardStack, { Card } from 'react-native-card-stack-swiper';
 import { EventRegister } from 'react-native-event-listeners'
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default class Event extends Component {
 
@@ -249,9 +250,10 @@ export default class Event extends Component {
 
 
     return (
-      <ImageBackground source={require('../images/background.png')} style={{ width: '100%', height: '100%' }}>
+      <ImageBackground source={require('../images/background.png')} style={{ width: '100%', height: '100%',alignItems: 'center',
+      justifyContent: 'center' }}>
         
-        <View style={{flex: 1,paddingTop: 10}}>
+        <View style={[styles.responsiveBox,{flex: 1,paddingTop: 10}]}>
 
 
           <CardStack
@@ -385,6 +387,12 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     borderWidth: 6,
     borderColor: '#fd267d',
+  },
+  responsiveBox: {
+    width: wp('84.5%'),
+    height: hp('17%'),
+    flexDirection: 'column',
+    justifyContent: 'space-around' 
   }
 });
 AppRegistry.registerComponent(Event, () => Event);
