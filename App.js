@@ -18,6 +18,7 @@ import AddFriends from './app/components/AddFriends';
 import AppSettings from './app/components/AppSettings';
 import EventDetails from './app/components/EventDetails';
 import JoinedEventDetails from './app/components/JoinedEventDetails';
+import Chat from './app/components/Chat';
 
 const RootStack = createStackNavigator({
     
@@ -62,6 +63,9 @@ EventDetails: {
 },
 JoinedEventDetails: {
   screen: JoinedEventDetails
+},
+Chat: {
+  screen: Chat
 }
 });
 

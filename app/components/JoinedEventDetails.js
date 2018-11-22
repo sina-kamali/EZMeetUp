@@ -161,7 +161,7 @@ getDetails(id,token,event){
               <Text style={{textAlign:"center", paddingTop: 10, fontSize: 20}}>{this.state.Capacity}</Text>
           </View>
           <TouchableOpacity style={{marginTop:10} } 
-                  //onPress={() => this.props.navigation.navigate('Event')}
+                  onPress={() => this.props.navigation.navigate('Chat',{token: this.state.token, id: this.state.userId, eventId: this.state.eventId, eventName: this.state.eventName})}
                   >
                     <Text style = {styles.buttons}>Event Group Chat</Text>
             </TouchableOpacity>
