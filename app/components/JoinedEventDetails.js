@@ -37,7 +37,7 @@ export default class JoinedEventDetails extends Component {
     const { navigation } = this.props;
     const id = navigation.getParam('id');
     const tk = navigation.getParam('token');
-    const event = navigation.getParam('selectedEvent');
+    //Sconst event = navigation.getParam('selectedEvent');
     const joind = navigation.getParam('eventId');
   
     //console.log(tk);

@@ -43,7 +43,7 @@ const participants = [
     value: 0
     },
     {
-      label: 'Limitted',
+      label: 'Limited',
       value: 1
       }
 ];
@@ -288,7 +288,7 @@ export default class AddEvent extends Component {
       eventDate: this.state.selectedDate,
       userId: this.state.userId,
       categoryIds: events,
-      eventCapacity: this.capacity
+      eventCapacity: this.state.capacity
 
     };
     const token = this.state.token;
@@ -301,6 +301,7 @@ export default class AddEvent extends Component {
         // A post request which sends a json whit data objes keys
         method: "POST",
         headers: {
+         "Content-Type": "application/json",
           'authtoken': token 
         },
        body: JSON.stringify(data)

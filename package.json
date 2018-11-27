@@ -26,6 +26,7 @@
     "react": "16.5.0",
     "react-native": "0.57.1",
     "react-native-animated-hide-view": "^1.0.0",
+    "react-native-calendars": "^1.21.0",
     "react-native-card-stack-swiper": "^1.0.9",
     "react-native-checkbox-form": "^1.1.5",
     "react-native-event-listeners": "^1.0.3",

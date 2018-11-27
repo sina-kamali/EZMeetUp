@@ -5,6 +5,7 @@ import {AppRegistry,Platform,KeyboardAvoidingView, StyleSheet, Text, View, Image
 import {createStackNavigator,NavigationActions,StackActions} from 'react-navigation'
 import { Dropdown } from 'react-native-material-dropdown';
 import { EventRegister } from 'react-native-event-listeners'
+import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 export default class MyFriends extends Component {
   constructor(props) {
@@ -25,9 +26,55 @@ export default class MyFriends extends Component {
       refreshing: false,
       dataSource: ds.cloneWithRows(dataObjects),
       userId:"",
-      token:""
+      token:"",
+      items: {},
+      today: '',
     };
   }
+
+
+
+  loadItems(day) {
+   
+  
+      
+
+      console.log(this.state.items);
+      const newItems = {};
+      Object.keys(this.state.items).forEach(key => {newItems[key] = this.state.items[key];});
+      this.setState({
+        items: newItems
+      });
+    // }, 1000);
+    // console.log(`Load Items for ${day.year}-${day.month}`);
+  }
+
+  renderItem(item) {
+    return (
+      <View style={[styles.item, {height: item.height}]}>
+        <TouchableOpacity style={{flex:1, flexDirection: 'row', margin: 5, padding:10}} 
+        onPress={() => this.props.navigation.navigate('JoinedEventDetails',{token: this.state.token, id: this.state.userId, eventId:item.eventId})} >
+          < Text>{item.name}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  renderEmptyDate() {
+    return (
+      <View style={styles.emptyDate}><Text>You didn't jouin any events on this day!</Text></View>
+    );
+  }
+
+  rowHasChanged(r1, r2) {
+    return r1.name !== r2.name;
+  }
+
+  timeToString(time) {
+    const date = new Date(time);
+    return date.toISOString().split('T')[0];
+  }
+
 
 //   _renderRow (rowData) {
 //     // e.g. return <MyCustomCell title={rowData.title} description={rowData.description} />
@@ -72,17 +119,49 @@ fetchData(){
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
-        
       }, function(){
         if(!(responseJson.isEmpty)){
+          this.state.items = {};
           this.state.isListEmpty = false;
-       
-          this.dataObjects = responseJson;
-          this.setState({dataSource:ds.cloneWithRows(responseJson)});
-          console.log(this.dataObjects);
+          //this.setState({fetch: responseJson});
+          var date = new Date().getDate();
+          var month = new Date().getMonth() + 1;
+          var year = new Date().getFullYear();
+          var i =0;
+          this.setState({
+            today: year.toString() + '-' + month.toString() +'-' + date.toString()
+          });
+
+          
+
+          for (let i = -5; i < 100; i++) {
+            const chDate= date + i;
+            //const time = date.timestamp + i * 24 * 60 * 60 * 1000;
+            const strTime = year.toString() + '-' + month.toString() +'-' + chDate.toString()
+            if (!this.state.items[strTime]) {
+              this.state.items[strTime] = [];
+              
+            }
+          }
+          
+    
+            responseJson.forEach(e => {
+              date+=i;
+              let dt = e.event.eventDate.split('T');
+              var day = dt[0];
+              this.state.items[day] = [];
+              if (this.state.items[day]) {
+                  this.state.items[day].push({
+                  name: 'Your next event date:\n' + day + ' - ' + e.event.eventName,
+                  eventId: e.eventId,
+                  height: 86
+                });
+              }
+            });
+          
+
         }
-        
-        
+        //console.log(this.state.items);
         this.setState({isLoading:false});
       });
 
@@ -133,7 +212,7 @@ fetchData(){
 
     return (
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
-             <ListView style={{flex:1}}
+             {/* <ListView style={{flex:1}}
                 dataSource={this.state.dataSource}
                 renderRow={
                   (rowData) => <TouchableOpacity style={{flex:1, flexDirection: 'row', backgroundColor: "#F0F0F0", margin: 5}} 
@@ -149,12 +228,42 @@ fetchData(){
                     onRefresh={this.onRefresh.bind(this)}
                   />
                 }
+              /> */}
+              <Agenda
+                items={this.state.items}
+                loadItemsForMonth={this.loadItems.bind(this)}
+                selected={this.state.today}
+                renderItem={this.renderItem.bind(this)}
+                renderEmptyDate={() => {return (<View style={styles.emptyDate}></View>);}}
+                rowHasChanged={this.rowHasChanged.bind(this)}
+                onRefresh={() => <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this.onRefresh.bind(this)}
+                />}
+                pastScrollRange={1}
+                //markingType={'period'}
+                // markedDates={{
+                //    '2018-12-08': {textColor: '#666'},
+                //    '2018-11-09': {textColor: '#666'},
+                //    '2018-12-14': {startingDay: true, endingDay: true, color: 'blue'},
+                //    '2018-12-21': {startingDay: true, color: 'blue'},
+                //    '2018-12-22': {endingDay: true, color: 'gray'},
+                //    '2018-11-24': {startingDay: true, color: 'gray'},
+                //    '2018-11-25': {color: 'gray'},
+                //    '2018-11-26': {endingDay: true, color: 'gray'}}}
+                //  monthFormat={'yyyy'}
+                // theme={{calendarBackground: 'red', agendaKnobColor: 'green'}}
+                //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
               />
+
+              
         </ImageBackground>
 
     );
   }
+  
 }
+
 
 
 const styles = StyleSheet.create({
@@ -182,7 +291,20 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: 'white',
         fontWeight:'bold'
-     }
+     },
+     item: {
+      backgroundColor: 'white',
+      flex: 1,
+      borderRadius: 5,
+      padding: 10,
+      marginRight: 10,
+      marginTop: 17
+    },
+    emptyDate: {
+      height: 15,
+      flex:1,
+      paddingTop: 30
+    }
 
   });
   AppRegistry.registerComponent(MyFriends, () => MyFriends);
