@@ -59,6 +59,11 @@ export default class AddEvent extends Component {
       avatarSource: null,
       videoSource: null,
       EventName:"",
+      EventAddress1:"",
+      EventAddress2:"",
+      EventCity:"",
+      EventProvince:"",
+      EventPostalCode:"",
       EventLocation:"",
       EventLimit:"em",
       capacity:0,
@@ -180,6 +185,38 @@ export default class AddEvent extends Component {
     }
   }
 
+  address1Valid(){
+    if(this.state.EventAddress1 ==""){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  cityValid(){
+    if(this.state.EventCity ==""){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  provinceValid(){
+    if(this.state.EventProvince ==""){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  postalCodeValid(){
+    if(this.state.EventPostalCode ==""){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   dateValid(){
     if(this.state.selectedDate =="Event Date*" ){
       return true;
@@ -244,12 +281,16 @@ export default class AddEvent extends Component {
 
   addEvent(){
     console.log(this.nameValid() );
-    console.log(this.locationValid());
+    console.log(this.address1Valid());
+    console.log(this.cityValid());
+    console.log(this.provinceValid());
+    console.log(this.postalCodeValid());
+    // console.log(this.locationValid());
     console.log(this.dateValid() );
     console.log(this.limiValid() );
     console.log(this.catagoryValid());
 
-    if(!this.nameValid() && !this.locationValid() && !this.dateValid() && !this.limiValid() && !this.catagoryValid() && !this.descriptionValid()){
+    if(!this.nameValid() && !this.address1Valid() && !this.cityValid() && !this.provinceValid() && !this.postalCodeValid() && !this.dateValid() && !this.limiValid() && !this.catagoryValid() && !this.descriptionValid()){
 
       if(!this.capacityValid()){
         this.onFetchAddEvent();
@@ -261,7 +302,11 @@ export default class AddEvent extends Component {
     }
     else{
       console.log(this.nameValid() );
-      console.log(this.locationValid());
+      console.log(this.address1Valid());
+      console.log(this.cityValid());
+      console.log(this.provinceValid());
+      console.log(this.postalCodeValid());
+    //   console.log(this.locationValid());
       console.log(this.dateValid() );
       console.log(this.limiValid() );
       console.log(this.catagoryValid());
@@ -283,7 +328,11 @@ export default class AddEvent extends Component {
     events.push(this.state.catagory);
     var data = {
       eventName: this.state.EventName,
-      eventLocation: this.state.EventLocation,
+      eventAddress1: this.state.EventAddress1,
+      eventAddress2: this.state.EventAddress2,
+      eventCity: this.state.EventCity,
+      eventProvince: this.state.EventProvince,
+      eventPostalCode: this.state.EventPostalCode,
       eventDescription: this.state.description,
       eventDate: this.state.selectedDate,
       userId: this.state.userId,
@@ -294,6 +343,8 @@ export default class AddEvent extends Component {
     const token = this.state.token;
     console.log(data);
     try {
+        let formdata = new FormData();
+        formdata.append("request", JSON.stringify(data));
      let response = await fetch(
        // change this link to our link
       "http://myvmlab.senecacollege.ca:6282/api/events/create",
@@ -301,10 +352,10 @@ export default class AddEvent extends Component {
         // A post request which sends a json whit data objes keys
         method: "POST",
         headers: {
-         "Content-Type": "application/json",
+         "Content-Type": "multipart/form-data",
           'authtoken': token 
         },
-       body: JSON.stringify(data)
+       body: formdata
      }
     );
      console.log(response)
@@ -324,7 +375,11 @@ export default class AddEvent extends Component {
 
   render() {
     const eveName = this.nameValid();
-    const eveLoc = this.locationValid();
+    const eveAdd1 = this.address1Valid();
+    const eveCity = this.cityValid();
+    const eveProv = this.provinceValid();
+    const evePost = this.postalCodeValid();
+    // const eveLoc = this.locationValid();
     const eveDate = this.dateValid();
     const eveCat = this.catagoryValid();
     const eveDesc = this.descriptionValid();
@@ -376,6 +431,98 @@ export default class AddEvent extends Component {
                     fontSize:20,
                     width: 330,
                     marginTop: 10}}
+                    onChangeText={(EventAddress1) => this.setState({EventAddress1})}
+                  placeholder="Event Address1*"
+                />
+                <AnimatedHideView
+                  visible={eveAdd1}
+                  unmountOnHide={true}
+                >
+                  <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>
+                    Field cannot be empty
+                  </Text>
+                </AnimatedHideView>
+
+                <TextInput
+                  style={{borderWidth: 2,
+                    padding: 10,
+                    borderColor: 'white',
+                    backgroundColor:'white',
+                    fontSize:20,
+                    width: 330,
+                    marginTop: 10}}
+                    onChangeText={(EventAddress2) => this.setState({EventAddress2})}
+                  placeholder="Event Address2"
+                />
+
+                <TextInput
+                  style={{borderWidth: 2,
+                    padding: 10,
+                    borderColor: 'white',
+                    backgroundColor:'white',
+                    fontSize:20,
+                    width: 330,
+                    marginTop: 10}}
+                    onChangeText={(EventCity) => this.setState({EventCity})}
+                  placeholder="Event City*"
+                />
+                <AnimatedHideView
+                  visible={eveCity}
+                  unmountOnHide={true}
+                >
+                  <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>
+                    Field cannot be empty
+                  </Text>
+                </AnimatedHideView>
+
+                <TextInput
+                  style={{borderWidth: 2,
+                    padding: 10,
+                    borderColor: 'white',
+                    backgroundColor:'white',
+                    fontSize:20,
+                    width: 330,
+                    marginTop: 10}}
+                    onChangeText={(EventProvince) => this.setState({EventProvince})}
+                  placeholder="Event Province*"
+                />
+                <AnimatedHideView
+                  visible={eveProv}
+                  unmountOnHide={true}
+                >
+                  <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>
+                    Field cannot be empty
+                  </Text>
+                </AnimatedHideView>
+
+                <TextInput
+                  style={{borderWidth: 2,
+                    padding: 10,
+                    borderColor: 'white',
+                    backgroundColor:'white',
+                    fontSize:20,
+                    width: 330,
+                    marginTop: 10}}
+                    onChangeText={(EventPostalCode) => this.setState({EventPostalCode})}
+                  placeholder="Event PostalCode*"
+                />
+                <AnimatedHideView
+                  visible={evePost}
+                  unmountOnHide={true}
+                >
+                  <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>
+                    Field cannot be empty
+                  </Text>
+                </AnimatedHideView>
+
+                {/* <TextInput
+                  style={{borderWidth: 2,
+                    padding: 10,
+                    borderColor: 'white',
+                    backgroundColor:'white',
+                    fontSize:20,
+                    width: 330,
+                    marginTop: 10}}
                     onChangeText={(EventLocation) => this.setState({EventLocation})}
                   placeholder="Event Location*"
                 />
@@ -386,7 +533,7 @@ export default class AddEvent extends Component {
                   <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>
                     Field cannot be empty
                   </Text>
-                </AnimatedHideView>
+                </AnimatedHideView> */}
 
 
             
