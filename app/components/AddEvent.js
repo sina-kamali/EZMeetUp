@@ -342,9 +342,19 @@ export default class AddEvent extends Component {
     };
     const token = this.state.token;
     console.log(data);
+    console.log("********************************* image ********************************");
+    console.log(this.state.avatarSource);
     try {
+        let imageName = this.state.avatarSource.uri.split("/").slice(-1)[0];
         let formdata = new FormData();
         formdata.append("request", JSON.stringify(data));
+        formdata.append("eventImage", {
+            uri: this.state.avatarSource.uri,
+            name: imageName,
+            type: 'image/jpg' }
+        );
+        console.log("***************** formdata ********************");
+        console.log(formdata);
      let response = await fetch(
        // change this link to our link
       "http://myvmlab.senecacollege.ca:6282/api/events/create",
