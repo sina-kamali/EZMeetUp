@@ -34,7 +34,7 @@ export default class EventDetails extends Component {
     this.setState({
       eventDate: eDate[0],
       eventDescription: Event.eventDescription,
-      Capacity: Event.eventCapacity,
+      Capacity: Event.eventCapacity !== 0 ? Event.eventCapacity : 'Open',
       eventName: Event.eventName,
       eventLocation:Event.eventLocation
     });
