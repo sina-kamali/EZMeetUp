@@ -54,7 +54,12 @@ export default class MyFriends extends Component {
       <View style={[styles.item, {height: item.height}]}>
         <TouchableOpacity style={{flex:1, flexDirection: 'row', margin: 5, padding:10}} 
         onPress={() => this.props.navigation.navigate('JoinedEventDetails',{token: this.state.token, id: this.state.userId, eventId:item.eventId})} >
-          < Text>{item.name}</Text>
+          <Text>
+            <Text style={{fontSize:20}} >{item.date} - </Text>
+            <Text style={{fontSize:20, fontWeight:'bold'}} >{item.name}</Text>
+            {'\n'}
+            <Text style={{fontSize:18}}>{item.descrip}</Text>
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -75,17 +80,6 @@ export default class MyFriends extends Component {
     return date.toISOString().split('T')[0];
   }
 
-
-//   _renderRow (rowData) {
-//     // e.g. return <MyCustomCell title={rowData.title} description={rowData.description} />
-//     // <TouchableOpacity style={{marginTop:10}}
-// //     onPress={() => this.props.navigation.navigate('ForgotPassword')}>
-// //     <Text style={{color: 'white'}}>
-// //     Forgot password!
-// //     </Text>
-// // </TouchableOpacity>
-//     return <TouchableOpacity style={{flex:1, flexDirection: 'row', backgroundColor: "#F0F0F0", margin: 5}} onPress={() => this.showMore(rowData)} ><Text style={{alignItems:"flex-start",justifyContent:"flex-start", fontSize:20, padding: 10, fontWeight:"bold"}}>{rowData.event.eventName} - {rowData.event.eventDescription}</Text></TouchableOpacity>
-//   }
 
 showMore(event){
   this.props.navigation.navigate('JoinedEventDetails');
@@ -152,9 +146,11 @@ fetchData(){
               this.state.items[day] = [];
               if (this.state.items[day]) {
                   this.state.items[day].push({
-                  name: 'Your next event date:\n' + day + ' - ' + e.event.eventName,
+                  name: e.event.eventName,
+                  date: day,
+                  descrip: e.event.eventDescription,
                   eventId: e.eventId,
-                  height: 86
+                  height: 100
                 });
               }
             });

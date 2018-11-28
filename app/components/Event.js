@@ -7,6 +7,7 @@ import { createStackNavigator } from 'react-navigation'
 import CardStack, { Card } from 'react-native-card-stack-swiper';
 import { EventRegister } from 'react-native-event-listeners'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import AnimatedHideView from 'react-native-animated-hide-view';
 
 export default class Event extends Component {
 
@@ -235,10 +236,17 @@ export default class Event extends Component {
       </TouchableOpacity>
     )
   });
+  HideButtons(){
+    if(this.state.EventList.length >  this.state.infoEvent){
+       return true
+    }else{
+      return false
+    }
+  }
 
 
   render() {
-
+    const hideIt = this.HideButtons();
 
     if (this.state.isLoading) {
       return (
@@ -251,8 +259,14 @@ export default class Event extends Component {
 
 
     return (
+      
       <ImageBackground source={require('../images/background.png')} style={{ width: '100%', height: '100%',alignItems: 'center',
       justifyContent: 'center' }}>
+      <TouchableOpacity style={{marginTop:10} } 
+            //onPress={() => this.leaveEvent()}
+          >
+              <Text style = {styles.buttons}>Refresh Event!</Text>
+          </TouchableOpacity>
         
         <View style={[styles.responsiveBox,{flex: 1,paddingTop: 10}]}>
 
@@ -261,7 +275,7 @@ export default class Event extends Component {
             style={styles.content}
             disableTopSwipe={true}
             disableBottomSwipe={true}
-            renderNoMoreCards={() => <Text style={{ fontWeight: '700', fontSize: 18, color: 'gray', width:200, textAlign:"center"}}>Thank you for using EZMeetUp! Hang tight while we are finding new events for you.</Text>}
+            renderNoMoreCards={() => <Text style={{ fontWeight: '700', fontSize: 18, color: 'gray', width:200, textAlign:"center"}}>Thank you for using EZMeetUp! There is no event available now! You can create your own events.</Text>}
             ref={swiper => {
               this.swiper = swiper
             }}
@@ -274,7 +288,15 @@ export default class Event extends Component {
             {this.state.views}
 
           </CardStack>
+
+        
+                 
+               
           <View style={styles.footer}>
+          <AnimatedHideView
+                  visible={hideIt}
+                  unmountOnHide={true}
+            >
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={[styles.button, styles.red]} onPress={() => {
                 this.swiper.swipeLeft();
@@ -293,8 +315,11 @@ export default class Event extends Component {
                 <Image source={require('../images/yes.png')} resizeMode={'contain'} style={{ height: 62, width: 62 }} />
               </TouchableOpacity>
             </View>
-              
+            </AnimatedHideView>
           </View>
+
+      
+
         </View>
 
 

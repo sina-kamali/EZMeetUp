@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, NetInfo,ScrollView,ActivityIndicator} from 'react-native';
 import {createStackNavigator,NavigationActions,StackActions} from 'react-navigation'
 import Slideshow from 'react-native-slideshow';
+import { EventRegister } from 'react-native-event-listeners'
 
 
 
@@ -37,6 +38,7 @@ export default class JoinedEventDetails extends Component {
     const { navigation } = this.props;
     const id = navigation.getParam('id');
     const tk = navigation.getParam('token');
+  
     //Sconst event = navigation.getParam('selectedEvent');
     const joind = navigation.getParam('eventId');
   
@@ -77,6 +79,46 @@ export default class JoinedEventDetails extends Component {
 
     //this.state.isLoading = false;
 }
+async leaveEvents(id,tk,eveId) {
+  
+  try {
+   let response = await fetch(
+     // change this link to our link
+    "http://myvmlab.senecacollege.ca:6282/api/users/"+id+"/events/leave/"+eveId,
+    {
+      // A post request which sends a json whit data objes keys
+      method: "POST",
+      headers: {
+       "Accept": "application/json",
+       "Content-Type": "application/json",
+       "authtoken":tk,
+      },
+   }
+  );
+   if (response.status >= 200 && response.status < 300) {
+     //console.log(response);
+     EventRegister.emit('myCustomEvent',{});
+    this.props.navigation.navigate('Event',{id: id, token: tk})
+   }
+   else{
+   
+    Alert.alert("Login Failed!", "Invalid email or password! \nPlease try again. ");
+     
+   }
+ } catch (errors) {
+  Alert.alert("Login Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
+  } 
+}
+
+leaveEvent(){
+  
+  let id = this.state.userId;
+  let tk = this.state.token;
+  let eveId = this.state.eventId;
+  this.leaveEvents(id,tk,eveId);
+  
+  
+}
 
 getDetails(id,token,eveId){
   console.log(eveId);
@@ -97,16 +139,18 @@ getDetails(id,token,eveId){
         
       }, function(){
         if(!(responseJson.isEmpty)){
+          
         
           console.log(responseJson);
           responseJson.forEach(e => {
+            const eDate = e.event.eventDate.split('T');
             if(e.eventId == eveId){
               this.setState({
                 eventName: e.event.eventName,
                 eventDescription:e.event.eventDescription,
                 eventLocation: e.event.eventLocation,
-                eventDate: e.event.eventDate,
-                Capacity: e.event.eventCapacity
+                eventDate: eDate[0],
+                Capacity: e.event.eventCapacity !== 0 ? e.event.eventCapacity : 'Open'
               });
               images = e.event.event_images;
             }
@@ -172,7 +216,12 @@ getDetails(id,token,eveId){
                    onPress={() => this.props.navigation.navigate('Chat',{token: this.state.token, id: this.state.userId, eventId: this.state.eventId, eventName: this.state.eventName})}
                   >
                     <Text style = {styles.buttons}>Event Group Chat</Text>
-            </TouchableOpacity>
+          </TouchableOpacity>
+          <TouchableOpacity style={{marginTop:10} } 
+            onPress={() => this.leaveEvent()}
+          >
+              <Text style = {styles.buttons}>Leave Event!</Text>
+          </TouchableOpacity>
         </View>
         </ScrollView>
       </ImageBackground>
