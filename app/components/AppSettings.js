@@ -233,11 +233,11 @@ SubmitInfo() {
     // }
     if(this.state.password !== "EZMeetUp@123"){
       UnchangedField--;
-      this.sendPassword = this.state.password;
+      this.state.sendPassword = this.state.password;
     }
     if(this.state.oldFname !== this.state.fname){
       UnchangedField--;
-      this.sendFname = this.state.fname;
+      this.state.sendFname = this.state.fname;
     }
     if(this.state.oldLname !== this.state.lname){
       UnchangedField--;
