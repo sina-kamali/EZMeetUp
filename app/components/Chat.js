@@ -53,7 +53,7 @@ export default class Chat extends Component {
         console.error(error);
       });
 	this.getMessages(id,tk,eventId);
-	//this.getEventMembers(tk,eventId);
+	//this.onReceieve(id,tk,eventId);
   }
   
   async getMessages(id,token,eventId){
@@ -153,7 +153,85 @@ export default class Chat extends Component {
 	//this.getMessages(this.state.userId,this.state.token,this.state.eventId);
   }
 
+  onReceieve(id, token, eventId){
+	  console.log('Receieve Messages');
+	if(id!="" && token!="" && eventId !=""){
+    fetch('http://myvmlab.senecacollege.ca:6282/api/chats/'+eventId,
+	  {
+		headers: { 
+		  'authtoken': token
+		  }
+	  })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({ 
+      }, function(){
+        if(!(responseJson.isEmpty)){
+			//console.log(responseJson);
+			message = [];
+			tempMessage = {
+				_id: '',
+				text: '',
+				createdAt: '',
+				user: {
+					_id: '',
+					name: ''
+				}
+			}
+			latestMessage = {
+				_id: '500',
+				text: responseJson[0].message,
+				createdAt: responseJson[0].createdAt,
+				user: {
+					_id: responseJson[0].user.id,
+					name: responseJson[0].user.firstName + ' ' + responseJson[0].user.lastName
+				}
+			}
+			//console.log(latestMessage);
+			for (i = 0; i < responseJson.length; i++){
+				j = i + 100;
+				tempMessage._id = j + '';
+				tempMessage.text = responseJson[i].message;
+				tempMessage.createdAt = responseJson[i].createdAt;
+				//console.log('this is the date ' + tempMessage.createdAt + 'of message' + tempMessage.text);
+				//console.log('this is the date ' + latestMessage.createdAt + 'of Latest message' + latestMessage.text);
+				tempMessage.user._id = responseJson[i].user.id;
+				tempMessage.user.name = responseJson[i].user.firstName + ' ' + responseJson[i].user.lastName;		
+				//console.log(tempMessage);
+				if(tempMessage.createdAt > latestMessage.createdAt){
+					//console.log('NOW REPLACING THE MESSAGE**************');
+					latestMessage._id = tempMessage._id;
+					latestMessage.text = tempMessage.text;
+					latestMessage.createdAt = tempMessage.createdAt;
+					latestMessage.user._id = tempMessage.user._id;
+					latestMessage.user.name = tempMessage.user.name;	
+				}
+					//console.log(insertIndex);
+					/*message.splice(insertIndex, 0, {
+						_id: i + '',
+						text: responseJson[i].message,
+						createdAt: responseJson[i].createdAt,
+						user: {
+							_id: responseJson[i].user.id,
+							name: responseJson[i].user.firstName + ' ' + responseJson[i].user.lastName
+						}
+					});*/
+			}
+			
+			this.setState(previousState => ({
+				messages: GiftedChat.append(previousState.messages, latestMessage),
+			}))
+		  //console.log('this is the latest message in this chat');
+		  console.log(latestMessage);
+        }
+      });
 
+    })
+    .catch((error) =>{
+      console.error(error);
+    });
+  }
+  }
    renderBubble(props) {
   
     if(props.currentMessage.user._id == global.userId){
@@ -188,10 +266,8 @@ export default class Chat extends Component {
         let Id = this.state.userId;
         let eveId = this.state.eventId;
         let token = this.state.token;
-        this.setState({
-          messages: []
-        })
-        this.getMessages(Id,token,eveId);
+        
+        this.onReceieve(Id,token,eveId);
     });
   }
 
