@@ -200,12 +200,12 @@ renderLoading() {
                 >
                   <Text style = {styles.buttons}>LOG IN</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{marginTop:10}}
+                {/* <TouchableOpacity style={{marginTop:10}}
                 onPress={() => this.props.navigation.navigate('ForgotPassword')}>
                     <Text style={{color: 'white'}}>
                     Forgot password!
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </KeyboardAvoidingView>
         </ImageBackground>
 

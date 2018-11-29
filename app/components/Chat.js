@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, NetInfo,ScrollView} from 'react-native';
 import {createStackNavigator,NavigationActions,StackActions} from 'react-navigation'
 import PropTypes from 'prop-types';
+import firebase from 'react-native-firebase';
+import type { Notification, NotificationOpen } from 'react-native-firebase';
 
 export default class Chat extends Component {
 	_isMounted = false;
@@ -25,7 +27,8 @@ export default class Chat extends Component {
 	const id = navigation.getParam('id');
     const tk = navigation.getParam('token');
     const eventId = navigation.getParam('eventId');
-	global.eventId = eventId;
+  global.eventId = eventId;
+  
 	fetch('http://myvmlab.senecacollege.ca:6282/api/users/'+ id,
     {
       headers: { 
@@ -149,23 +152,61 @@ export default class Chat extends Component {
 	this.sendMessage(messages);
 	//this.getMessages(this.state.userId,this.state.token,this.state.eventId);
   }
+
+
    renderBubble(props) {
-    return (
-      <View>
-	  <Text>{props.currentMessage.user.name}</Text>
-	  <Bubble {...props}  />
-      </View>
-    );
+  
+    if(props.currentMessage.user._id == global.userId){
+      return (
+        <View>
+          <Text style={{textAlign:'right'}}>{props.currentMessage.user.name}</Text>
+          <Bubble {...props}  />
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <Text style={{textAlign:'left'}}>{props.currentMessage.user.name}</Text>
+          <Bubble {...props}  />
+        </View>
+      );
+    }
+
+    
   }
+
+  // ====================== Notification ========================
+
+  async createNotificationListeners() {
+    /*
+    * Triggered when a particular notification has been received in foreground
+    * */
+    this.notificationListener = firebase.notifications().onNotification((notification) => {
+        const { title, body } = notification;
+        console.log("ForGround")
+        //console.log(body)
+        let Id = this.state.userId;
+        let eveId = this.state.eventId;
+        let token = this.state.token;
+        this.setState({
+          messages: []
+        })
+        this.getMessages(Id,token,eveId);
+    });
+  }
+
+   // ====================== Notification ========================
 
   componentDidMount() {
 	  _isMounted = true;
       //this.interval = setInterval(() => this.setState({ time: Date.now()}), 100)
+      this.createNotificationListeners(); //add this line
   }
   componentWillUnmount() {
     // Clear the interval right before component unmount
     //clearInterval(this.interval);
-	_isMounted = false;
+  _isMounted = false;
+  this.notificationListener();
 }
   static navigationOptions = ({ navigation }) => ({
     title: (navigation.state.params || {}).eventName || 'Chat!',
@@ -202,9 +243,9 @@ export default class Chat extends Component {
         onSend={messages => this.onSend(messages)}
         user={{
           _id: this.state.userId,
-		  name: this.state.name
+		      name: this.state.name
         }}
-		renderBubble={this.renderBubble}
+		    renderBubble={this.renderBubble}
       />
 
     )
