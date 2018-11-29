@@ -19,6 +19,7 @@ import AppSettings from './app/components/AppSettings';
 import EventDetails from './app/components/EventDetails';
 import JoinedEventDetails from './app/components/JoinedEventDetails';
 import Chat from './app/components/Chat';
+import Members from './app/components/Members';
 const RootStack = createStackNavigator({
     
   Home: {
@@ -65,6 +66,9 @@ JoinedEventDetails: {
 },
 Chat: {
   screen: Chat
+},
+Members: {
+	screen: Members
 }
 });
 

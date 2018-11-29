@@ -1,7 +1,8 @@
-import { GiftedChat } from 'react-native-gifted-chat'
+import { GiftedChat, Bubble } from 'react-native-gifted-chat'
 import React, {Component} from 'react';
 import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,TouchableOpacity, Button, NetInfo,ScrollView} from 'react-native';
 import {createStackNavigator,NavigationActions,StackActions} from 'react-navigation'
+import PropTypes from 'prop-types';
 
 export default class Chat extends Component {
 	_isMounted = false;
@@ -12,7 +13,8 @@ export default class Chat extends Component {
 		eventId:"",
 		token:"",
 		messages: [],
-		name:""
+		name:"",
+		renderFriendList: false
     }
   }
 
@@ -23,6 +25,7 @@ export default class Chat extends Component {
 	const id = navigation.getParam('id');
     const tk = navigation.getParam('token');
     const eventId = navigation.getParam('eventId');
+	global.eventId = eventId;
 	fetch('http://myvmlab.senecacollege.ca:6282/api/users/'+ id,
     {
       headers: { 
@@ -39,7 +42,7 @@ export default class Chat extends Component {
         }, function(){
 			/*
 		  	console.log('EventID' + eventId);
-			console.log('userID' + id);
+			console.log('userID' + id);	
 			console.log('name' + this.state.name);*/
         });
       })
@@ -47,6 +50,7 @@ export default class Chat extends Component {
         console.error(error);
       });
 	this.getMessages(id,tk,eventId);
+	//this.getEventMembers(tk,eventId);
   }
   
   async getMessages(id,token,eventId){
@@ -137,6 +141,7 @@ export default class Chat extends Component {
 	  Alert.alert("send message Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
 	  } 	  
   }
+
   onSend(messages = []) {
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
@@ -144,7 +149,15 @@ export default class Chat extends Component {
 	this.sendMessage(messages);
 	//this.getMessages(this.state.userId,this.state.token,this.state.eventId);
   }
-  
+   renderBubble(props) {
+    return (
+      <View>
+	  <Text>{props.currentMessage.user.name}</Text>
+	  <Bubble {...props}  />
+      </View>
+    );
+  }
+
   componentDidMount() {
 	  _isMounted = true;
       //this.interval = setInterval(() => this.setState({ time: Date.now()}), 100)
@@ -156,9 +169,34 @@ export default class Chat extends Component {
 }
   static navigationOptions = ({ navigation }) => ({
     title: (navigation.state.params || {}).eventName || 'Chat!',
+    headerStyle: {
+      backgroundColor: '#f4511e',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+	headerRight: (
+	<TouchableOpacity 
+	onPress={() => navigation.navigate('Members',{token: global.token, eventId: global.eventId})}
+	>
+	<Image
+          source={require('../images/MyFriends.png')}
+          style={{ width: 40, height: 40 }}
+    />
+    </TouchableOpacity>
+	)
   });
   render() {
+	if (this.state.renderFriendList) {
+      return (
+        <View style={{ flex: 1, padding: 20 }}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
     return (
+
       <GiftedChat
         messages={this.state.messages}
         onSend={messages => this.onSend(messages)}
@@ -166,7 +204,37 @@ export default class Chat extends Component {
           _id: this.state.userId,
 		  name: this.state.name
         }}
+		renderBubble={this.renderBubble}
       />
+
     )
   }
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    logo: {
+        width: 200,
+        height: 200,
+        //marginTop: 50
+    },
+    text: {
+      fontSize: 20,
+      textAlign: 'center',
+      margin: 10,
+    },
+    buttons: {
+        borderWidth: 2,
+        padding: 10,
+        width: 330,
+        textAlign: "center",
+        fontSize: 20,
+        color: 'white',
+        fontWeight:'bold'
+     }
+
+  });
