@@ -30,13 +30,14 @@ export default class Event extends Component {
     };
 
   }
-  leftSwipe(){
+  leftSwipe(i){
 
     console.log("We are counting!");
     current = this.state.noEventCounter;
     current = current -1;
     this.setState({noEventCounter: current});
     console.log(this.state.noEventCounter)
+    this.infoEevent(i)
   }
 
   GetEvents() {
@@ -72,7 +73,7 @@ export default class Event extends Component {
             if (i % 2 == 0) {
 
               this.state.views.push(
-                <Card key={i} style={[styles.card,{backgroundColor:"white"}]} onSwipedLeft={() => this.leftSwipe()} onSwipedRight={()=> this.AcceptEvent(i,eve[i].id )}>
+                <Card key={i} style={[styles.card,{backgroundColor:"white"}]} onSwipedLeft={() => this.leftSwipe(i)} onSwipedRight={()=> this.AcceptEvent(i,eve[i].id )}>
                   <View style={{
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -81,8 +82,8 @@ export default class Event extends Component {
                   <Image
                     source={{ uri: eve[i].event_images[0].image }}
                     style={{alignSelf: 'center',
-                    height: 300,
-                    width: 300,}}
+                    height: 200,
+                    width: 200,}}
                     resizeMode="contain"
                   />
                 </View>
@@ -96,7 +97,7 @@ export default class Event extends Component {
             }
             else {
               this.state.views.push(
-                <Card key={i} style={[styles.card,{backgroundColor:"white"}]} onSwipedLeft={() => this.leftSwipe()} onSwipedRight={()=> this.AcceptEvent(i,eve[i].id )} >
+                <Card key={i} style={[styles.card,{backgroundColor:"white"}]} onSwipedLeft={() => this.leftSwipe(i)} onSwipedRight={()=> this.AcceptEvent(i,eve[i].id )} >
                 <View style={{
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -105,8 +106,8 @@ export default class Event extends Component {
                   <Image
                     source={{ uri: eve[i].event_images[0].image }}
                     style={{alignSelf: 'center',
-                    height: 300,
-                    width: 300}}
+                    height: 200,
+                    width: 200}}
                     resizeMode="contain"
                   />
                 </View>
@@ -186,6 +187,10 @@ export default class Event extends Component {
 
     this.GetEvents();
 
+    global.doRefresh = function(){
+      EventRegister.emit('myCustomEvent',{});
+    }
+
   }
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
@@ -212,10 +217,14 @@ export default class Event extends Component {
   static navigationOptions = ({ navigation, screenProps, state }) => ({
     headerTitle: (
       <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
+        <TouchableOpacity style={{ textAlign: 'center', marginRight: 10 }}
+          onPress={() => global.doRefresh()}
+        >
         <Image
           source={require('../images/logo.png')}
           style={{ width: 80, height: 80 }}
         />
+      </TouchableOpacity>
       </View>
     ),
     headerStyle: {
@@ -272,12 +281,15 @@ export default class Event extends Component {
       
       <ImageBackground source={require('../images/background.png')} style={{ width: '100%', height: '100%',alignItems: 'center',
       justifyContent: 'center' }}>
+      {/* <View style={{position:'absolute', left:2, top:0}}>
       <TouchableOpacity style={{marginTop:10} } 
-            //onPress={() => this.leaveEvent()}
-          >
-              <Text style = {styles.buttons}>Refresh Event!</Text>
-          </TouchableOpacity>
-        
+            onPress={() => this.refreshPage()}>
+          <Image
+          source={require('../images/refresh.png')}
+          style={{ width: 40, height: 40 }}
+        />
+      </TouchableOpacity>
+      </View> */}
         <View style={[styles.responsiveBox,{flex: 1,paddingTop: 10}]}>
 
 

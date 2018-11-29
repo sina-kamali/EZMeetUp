@@ -201,7 +201,7 @@
             borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
             onPress={() => this.props.navigation.navigate('AppSettings', {id: this.state.userId, token: this.state.userToken})}
             >
-            <Image source={require('../images/Settings.png')} style={{justifyContent:'center', alignContent: 'center'}} />
+            <Image source={require('../images/DefaultProfile.png')} style={{justifyContent:'center', alignContent: 'center', height:50, width:50}} />
             <Text
                   style={{
                   fontSize: 25,
@@ -209,8 +209,9 @@
                   textAlign: 'left',
                   fontWeight:'bold',
                   marginLeft:10,
-                  color: '#ff6666'
-                }}>Profile Setting</Text>
+                  color: '#ff6666',
+                  marginTop: 2
+                }}>Account Setting</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
