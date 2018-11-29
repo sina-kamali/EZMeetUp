@@ -24,12 +24,20 @@ export default class Event extends Component {
       views: [],
       infoEvent: 0,
       mounted : false,
-      refreshing: false
+      refreshing: false,
+      noEventCounter: 0
 
     };
 
   }
+  leftSwipe(){
 
+    console.log("We are counting!");
+    current = this.state.noEventCounter;
+    current = current -1;
+    this.setState({noEventCounter: current});
+    console.log(this.state.noEventCounter)
+  }
 
   GetEvents() {
     const { navigation } = this.props;
@@ -56,6 +64,7 @@ export default class Event extends Component {
         }, function () {
 
           let eve = responseJson;
+          this.state.noEventCounter = eve.length;
 
           for (let i = 0; i < eve.length; i++) {
             console.log(eve[i]);
@@ -63,7 +72,7 @@ export default class Event extends Component {
             if (i % 2 == 0) {
 
               this.state.views.push(
-                <Card key={i} style={[styles.card,{backgroundColor:"white"}]} onSwipedLeft={() => this.infoEevent(i)} onSwipedRight={()=> this.AcceptEvent(i,eve[i].id )}>
+                <Card key={i} style={[styles.card,{backgroundColor:"white"}]} onSwipedLeft={() => this.leftSwipe()} onSwipedRight={()=> this.AcceptEvent(i,eve[i].id )}>
                   <View style={{
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -87,7 +96,7 @@ export default class Event extends Component {
             }
             else {
               this.state.views.push(
-                <Card key={i} style={[styles.card,{backgroundColor:"white"}]} onSwipedLeft={() => this.infoEevent(i)} onSwipedRight={()=> this.AcceptEvent(i,eve[i].id )} >
+                <Card key={i} style={[styles.card,{backgroundColor:"white"}]} onSwipedLeft={() => this.leftSwipe()} onSwipedRight={()=> this.AcceptEvent(i,eve[i].id )} >
                 <View style={{
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -236,11 +245,12 @@ export default class Event extends Component {
       </TouchableOpacity>
     )
   });
+
   HideButtons(){
-    if(this.state.EventList.length >  this.state.infoEvent){
-       return true
+    if(this.state.noEventCounter <= 0){
+       return false
     }else{
-      return false
+      return true
     }
   }
 
