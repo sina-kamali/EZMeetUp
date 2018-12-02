@@ -48,27 +48,46 @@ const participants = [
       }
 ];
 
-export default class AddEvent extends Component {
+export default class EditEvent extends Component {
 
   constructor(){
     super();
     this.state ={
       check:false,
       isDateTimePickerVisible: false,
-      selectedDate: "Event Date*",
+      
       avatarSource: null,
       videoSource: null,
+      
+      selectedDate: "Event Date*",
       EventName:"",
       EventAddress1:"",
       EventAddress2:"",
       EventCity:"",
-      EventProvince:"ON",
+      EventProvince:"",
       EventPostalCode:"",
       EventLocation:"",
       EventLimit:"em",
       capacity:0,
       catagory:"",
       description:"",
+      
+      SavedEveId:0,
+      SavedEventName:"",
+      SavedEventAddress1:"",
+      SavedEventAddress2:"",
+      SavedEventCity:"",
+      SavedEventProvince:"",
+      SavedEventPostalCode:"",
+      SavedEventLocation:"",
+      SavedEventLimit:"em",
+      Savedcapacity:0,
+      Savedcatagory:"",
+      Saveddescription:"",
+      SavedselectedDate:"",
+      Savedimage: null,
+      SavedDate: "",
+
       userId:"",
       token:""
 
@@ -87,7 +106,7 @@ export default class AddEvent extends Component {
     };
 
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
+      //console.log('Response = ', response);
 
       if (response.didCancel) {
         console.log('User cancelled photo picker');
@@ -105,39 +124,15 @@ export default class AddEvent extends Component {
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
         this.setState({
-          avatarSource: source
+          avatarSource: source,
+          Savedimage: null
+
         });
       }
     });
   }
 
-  selectVideoTapped() {
-    const options = {
-      title: 'Video Picker',
-      takePhotoButtonTitle: 'Take Video...',
-      mediaType: 'video',
-      videoQuality: 'medium'
-    };
-
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled video picker');
-      }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      }
-      else {
-        this.setState({
-          videoSource: response.uri
-        });
-      }
-    });
-  }
+ 
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
@@ -154,10 +149,113 @@ export default class AddEvent extends Component {
     const { navigation } = this.props;
     const id = navigation.getParam('id');
     const token = navigation.getParam('token');
+    const event = navigation.getParam('curEvent');
     this.state.userId = id;
     this.state.token = token;
-    this.state.eveProv = 'ON'
+    if(typeof event != undefined){
+      this.setState({
+        EveId: event.id,
+        EventName: event.eventName,
+        EventAddress1: event.eventAddress1,
+        EventCity: event.eventCity,
+        EventProvince: event.eventProvince,
+        EventPostalCode: event.eventPostalCode,
+        EventLocation: event.eventLocation,
+        description: event.eventDescription,
+
+
+        SavedEveId: event.id,
+        SavedEventName: event.eventName,
+        SavedEventAddress1: event.eventAddress1,
+        SavedEventCity: event.eventCity,
+        SavedEventProvince: event.eventProvince,
+        SavedEventPostalCode: event.eventPostalCode,
+        SavedEventLocation: event.eventLocation,
+        Saveddescription: event.eventDescription,
+        Savedimage: event.event_images[0].image,
+        avatarSource: ""
+      });
+
+      
+      const eDate = event.eventDate.split('T');
+      var loc2 = ""
+      if(event.eventAddress2 != null) {
+        loc2 = event.SavedeventAddress2;
+      } 
+
+      if(event.eventCapacity == 0){
+        this.state.EventLimit = 0;
+        this.state.capacity = 0;
+
+        this.state.SavedEventLimit = 0;
+        this.state.Savedcapacity = 0;
+      } else {
+        this.state.EventLimit = 1;
+        this.state.capacity = event.eventCapacity;
+
+        this.state.SavedEventLimit = 1;
+        this.state.Savedcapacity = event.eventCapacity;
+      }
+
+     
+      if(event.event_categories[0].categoryId != undefined){
+        this.state.catagory = event.event_categories[0].categoryId;
+        console.log(event.event_categories[0].categoryId);
+
+        this.state.Savedcatagory = event.event_categories[0].categoryId;
+      }
+      
+
+      this.setState({
+        SavedDate: eDate[0],
+        SavedeventAddress2: loc2,
+        selectedDate: eDate[0]
+      });
+    }
   }
+
+  // ======================= START - Getters =======================
+
+  getName(){
+    return this.state.EventName;
+  }
+  getDate(){
+    return this.state.selectedDate;
+  }
+  getAdd1(){
+    return this.state.EventAddress1;
+  }
+  getAdd2(){
+    return this.state.EventAddress2;
+  }
+  getCity(){
+    return this.state.EventCity;
+  }
+  getProv(){
+    return this.state.EventProvince;
+  }
+  getPostal(){
+    return this.state.EventPostalCode;
+  }
+  getLoc(){
+    return this.state.EventLocation;
+  }
+  getLim(){
+    return this.state.EventLimit;
+  }
+  getCap(){
+  
+    return String(this.state.capacity);
+  }
+  getCat(){
+    return this.state.catagory;
+  }
+  getDec(){
+    return this.state.description;
+  }
+
+
+  // ======================= END - Getters =======================
 
   static navigationOptions = {
     title: 'Add Event',
@@ -169,7 +267,7 @@ export default class AddEvent extends Component {
       fontWeight: 'bold',
     },
   };
-  
+   // ======================= START - Text Fields Validations =======================
   nameValid(){
     if(this.state.EventName == ""){
       return true;
@@ -229,7 +327,6 @@ export default class AddEvent extends Component {
 
   catagoryValid(){
 
-    console.log(this.state.catagory);
     if(this.state.catagory == ""){
       return true;
     }
@@ -279,22 +376,78 @@ export default class AddEvent extends Component {
       return false;
     }
   }
+  // ======================= END - Text Fields Validations =======================
+
+  // ======================= START - Data Has Been Changed Validation =======================
+
+  HasChanged(){
+
+    var counter = 11;
+
+    if(this.state.EventName != this.state.SavedEventName){
+      //console.log("a");
+      counter--;
+    }
+    if(this.state.selectedDate != this.state.SavedDate){
+      //console.log("b");
+      counter--;
+    }
+    if(this.state.EventAddress1 != this.state.SavedEventAddress1){
+      //console.log("c");
+      counter--;
+    }
+    if(this.state.EventAddress2 != this.state.SavedEventAddress2){
+      //console.log("d");
+      counter--;
+    }
+    if(this.state.EventCity != this.state.SavedEventCity){
+      //console.log("e");
+      counter--;
+    }
+    if(this.state.EventPostalCode != this.state.SavedEventPostalCode){
+      //console.log("f");
+      counter--;
+    }
+    if(this.state.EventLimit != this.state.SavedEventLimit){
+      //console.log("g");
+      counter--;
+    }
+    if(this.state.capacity != this.state.Savedcapacity){
+      //console.log("h");
+      counter--;
+    }
+    if(this.state.catagory != this.state.Savedcatagory){
+      //console.log("i");
+      counter--;
+    }
+    if(this.state.description != this.state.Saveddescription){
+      //console.log("j");
+      counter--;
+    }
+    if(this.state.EventLocation != this.state.SavedEventLocation){
+      //console.log("k");
+      counter--;
+    }
+
+    if(counter < 11){
+      //this.onFetchAddEvent();
+    }
+    else {
+      Alert.alert("Update Event Failed!", "Please Modify Your Event!");
+    }
+
+  }
+
+
+   // ======================= END - Data Has Been Changed Validation =======================
 
   addEvent(){
-    console.log(this.nameValid() );
-    console.log(this.address1Valid());
-    console.log(this.cityValid());
-    console.log(this.provinceValid());
-    console.log(this.postalCodeValid());
-    // console.log(this.locationValid());
-    console.log(this.dateValid() );
-    console.log(this.limiValid() );
-    console.log(this.catagoryValid());
 
     if(!this.nameValid() && !this.address1Valid() && !this.cityValid() && !this.provinceValid() && !this.postalCodeValid() && !this.dateValid() && !this.limiValid() && !this.catagoryValid() && !this.descriptionValid()){
 
       if(!this.capacityValid()){
-        this.onFetchAddEvent();
+        //this.onFetchAddEvent();
+        this.HasChanged();
       }
       else {
         Alert.alert("Add Event Failed!", "Please fill all the necessary fields!");
@@ -302,25 +455,8 @@ export default class AddEvent extends Component {
 
     }
     else{
-      console.log(this.nameValid() );
-      console.log(this.address1Valid());
-      console.log(this.cityValid());
-      console.log(this.provinceValid());
-      console.log(this.postalCodeValid());
-    //   console.log(this.locationValid());
-      console.log(this.dateValid() );
-      console.log(this.limiValid() );
-      console.log(this.catagoryValid());
       Alert.alert("Add Event Failed!", "Please fill all the necessary fields!");
     }
-    // {
-    //   "eventName": "Test123",
-    //   "eventLocation": "Toronto",
-    //   "eventDescription": "This is test description",
-    //   "eventDate": "2018/11/11",
-    //   "userId": 1,
-    //   "categoryIds": [1, 2]
-    // }
   }
 
   async onFetchAddEvent() {
@@ -372,7 +508,7 @@ export default class AddEvent extends Component {
        body: formdata
      }
     );
-     console.log(response)
+     
      if (response.status >= 200 && response.status < 300) {
       EventRegister.emit('myCustomEvent',{});
       this.props.navigation.navigate('Preference');
@@ -393,13 +529,30 @@ export default class AddEvent extends Component {
     const eveCity = this.cityValid();
     const eveProv = this.provinceValid();
     const evePost = this.postalCodeValid();
-    // const eveLoc = this.locationValid();
     const eveDate = this.dateValid();
     const eveCat = this.catagoryValid();
     const eveDesc = this.descriptionValid();
     const eveLimit = this.limiValid();
     const eveExtra = this.limitExtra();
     const eveCap = this.capacityValid();
+
+  //  ============== Getter ============
+
+  const Savedname = this.getName();
+  const SavedDate = this.getDate();
+  const SavedAdd1 = this.getAdd1();
+  const SavedAdd2 = this.getAdd2();
+  const SavedCity = this.getCity();
+  const SavedProv = this.getProv();
+  const SavedPostal = this.getPostal();
+  const SavedLoc = this.getLoc();
+  const SavedLim = this.getLim();
+  const SavedCap = this.getCap();
+  const SavedCat = this.getCat();
+  const SavedDec = this.getDec();
+
+//<Image style={styles.avatar} source={this.state.avatarSource} />
+
     const { isDateTimePickerVisible, selectedDate } = this.state;
     return (
         <ImageBackground source={require('../images/background.png')} style={{width: '100%', height: '100%'}}>
@@ -410,7 +563,7 @@ export default class AddEvent extends Component {
               <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                 <View style={[styles.avatar, styles.avatarContainer, {marginBottom: 20}]}>
                 { this.state.avatarSource === null ? <Text style={{textAlign:"center", fontWeight:"bold"}}>Select to upload your event picture</Text> :
-                  <Image style={styles.avatar} source={this.state.avatarSource} />
+                  this.state.Savedimage === null ? <Image style={styles.avatar} source={this.state.avatarSource} /> : <Image style={styles.avatar} source={{uri: this.state.Savedimage}} />
                 }
                 </View>
               </TouchableOpacity>
@@ -424,6 +577,7 @@ export default class AddEvent extends Component {
                     fontSize:20,
                     width: 330,
                     marginTop: 10}}
+                    value = {Savedname}
                     onChangeText={(EventName) => this.setState({EventName})}
                   placeholder="Event Name*"
                 />
@@ -445,6 +599,7 @@ export default class AddEvent extends Component {
                     fontSize:20,
                     width: 330,
                     marginTop: 10}}
+                    value = {SavedAdd1}
                     onChangeText={(EventAddress1) => this.setState({EventAddress1})}
                   placeholder="Event Address1*"
                 />
@@ -465,6 +620,7 @@ export default class AddEvent extends Component {
                     fontSize:20,
                     width: 330,
                     marginTop: 10}}
+                    value = {SavedAdd2}
                     onChangeText={(EventAddress2) => this.setState({EventAddress2})}
                   placeholder="Event Address2"
                 />
@@ -477,6 +633,7 @@ export default class AddEvent extends Component {
                     fontSize:20,
                     width: 330,
                     marginTop: 10}}
+                    value = {SavedCity}
                     onChangeText={(EventCity) => this.setState({EventCity})}
                   placeholder="Event City*"
                 />
@@ -498,7 +655,7 @@ export default class AddEvent extends Component {
                     width: 330,
                     marginTop: 10}}
                     onChangeText={(EventProvince) => this.setState({EventProvince})}
-                    value={this.state.eveProv}
+                    value={SavedProv}
                     editable={false}
                 />
                 <AnimatedHideView
@@ -518,6 +675,7 @@ export default class AddEvent extends Component {
                     fontSize:20,
                     width: 330,
                     marginTop: 10}}
+                    value = {SavedPostal}
                     onChangeText={(EventPostalCode) => this.setState({EventPostalCode})}
                   placeholder="Event PostalCode*"
                 />
@@ -564,6 +722,7 @@ export default class AddEvent extends Component {
                   editable = {true}
                   maxLength={300}
                   multiline
+                  value = {SavedDec}
                   onChangeText={(description) => this.setState({description})}
                   placeholder="Event Description*"
                 />
@@ -588,7 +747,7 @@ export default class AddEvent extends Component {
                     width: 330,
                     marginTop: 10}}
                     >
-                      {selectedDate}
+                      {SavedDate}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -619,6 +778,7 @@ export default class AddEvent extends Component {
                  <Dropdown
                    label='Attendance Limitation*'
                    data={participants}
+                   value={SavedLim}
                    onChangeText={(EventLimit) => this.setState({EventLimit})}
                  />
                  </View>
@@ -644,6 +804,7 @@ export default class AddEvent extends Component {
                     width: 330,
                     marginTop: 10}}
                     keyboardType={"decimal-pad"}
+                    value={SavedCap}
                     onChangeText={(capacity) => this.setState({capacity})}
                   placeholder="Numer of participants"
                 />
@@ -669,6 +830,7 @@ export default class AddEvent extends Component {
                   <Dropdown
                     label='Event Catagory*'
                     data={mockData1}
+                    value ={SavedCat}
                     onChangeText={(catagory) => this.setState({catagory})}
                   />
                   </View>
@@ -687,7 +849,7 @@ export default class AddEvent extends Component {
               <TouchableOpacity style={{marginTop: 20, marginBottom: 20}}
                onPress={() => this.addEvent()}>
                   <Text style = {styles.buttons}>
-                    Add New Event!
+                    Update Event!
                   </Text>
               </TouchableOpacity>
               <TouchableOpacity style={{marginTop: 5, marginBottom: 20}}
@@ -742,4 +904,4 @@ const styles = StyleSheet.create({
   }
 
 });
-  AppRegistry.registerComponent(AddEvent, () => AddEvent);
+  AppRegistry.registerComponent(EditEvent, () => EditEvent);

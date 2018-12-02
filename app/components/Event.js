@@ -32,11 +32,11 @@ export default class Event extends Component {
   }
   leftSwipe(i){
 
-    console.log("We are counting!");
+    //console.log("We are counting!");
     current = this.state.noEventCounter;
     current = current -1;
     this.setState({noEventCounter: current});
-    console.log(this.state.noEventCounter)
+    //console.log(this.state.noEventCounter)
     this.infoEevent(i)
   }
 
@@ -68,7 +68,7 @@ export default class Event extends Component {
           this.state.noEventCounter = eve.length;
 
           for (let i = 0; i < eve.length; i++) {
-            console.log(eve[i]);
+            //console.log(eve[i]);
             const words = eve[i].eventDate.split('T');
             if (i % 2 == 0) {
 

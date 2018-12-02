@@ -10,8 +10,7 @@ import SignUp from './app/components/SignUp';
 import ForgotPassword from './app/components/ForgotPassword';
 import Preference from './app/components/Preference';
 import Event from './app/components/Event';
-import CreateEvent from './app/components/CreateEvent';
-import DiscoveryPreference from './app/components/DiscoveryPreference';
+import UserCreatedEventList from './app/components/UserCreatedEventList';
 import AddEvent from './app/components/AddEvent';
 import MyFriends from './app/components/MyFriends';
 import AddFriends from './app/components/AddFriends';
@@ -20,6 +19,7 @@ import EventDetails from './app/components/EventDetails';
 import JoinedEventDetails from './app/components/JoinedEventDetails';
 import Chat from './app/components/Chat';
 import Members from './app/components/Members';
+import EditEvent from './app/components/EditEvent';
 const RootStack = createStackNavigator({
     
   Home: {
@@ -37,39 +37,39 @@ const RootStack = createStackNavigator({
   Preference: {
     screen: Preference
   },
-Event: {
+  Event: {
     screen: Event
   },
-CreateEvent: {
-    screen: CreateEvent
+  UserCreatedEventList: {
+    screen: UserCreatedEventList
   },
-DiscoveryPreference: {
-    screen: DiscoveryPreference
-  },
-AddEvent: {
+  AddEvent: {
     screen: AddEvent
   }, 
-MyFriends: {
+  EditEvent: {
+    screen: EditEvent
+  },
+  MyFriends: {
   screen: MyFriends
   },  
-AddFriends: {
+  AddFriends: {
   screen: AddFriends
-}, 
-AppSettings: {
-  screen: AppSettings
-}, 
-EventDetails: {
-  screen: EventDetails
-},
-JoinedEventDetails: {
-  screen: JoinedEventDetails
-},
-Chat: {
-  screen: Chat
-},
-Members: {
-	screen: Members
-}
+  }, 
+  AppSettings: {
+    screen: AppSettings
+  }, 
+  EventDetails: {
+    screen: EventDetails
+  },
+  JoinedEventDetails: {
+    screen: JoinedEventDetails
+  },
+  Chat: {
+    screen: Chat
+  },
+  Members: {
+    screen: Members
+  }
 });
 
 export default createAppContainer(RootStack);

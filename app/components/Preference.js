@@ -181,9 +181,9 @@
             <ScrollView style={{backgroundColor: 'white'}} >
 
             
-            {/* <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
+            <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
             borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
-            onPress={() => this.props.navigation.navigate('DiscoveryPreference')}>
+            onPress={() => this.props.navigation.navigate('UserCreatedEventList', {id: this.state.userId, token: this.state.userToken})}>
             <Image source={require('../images/Discover.png')} style={{justifyContent:'center', alignContent: 'center'}} />
             <Text
                 style={{
@@ -194,8 +194,8 @@
                   marginLeft:10,
                   color: '#ff6666'
                 }}
-                >Discovery Preference</Text>
-            </TouchableOpacity> */}
+                >My Events</Text>
+            </TouchableOpacity>
             
             <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
             borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}

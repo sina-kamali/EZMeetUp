@@ -3,6 +3,7 @@ import {AppRegistry,Platform,KeyboardAvoidingView, StyleSheet, Text, View, Image
    Button, TextInput,Alert,TouchableHighlight, NetInfo, StackActions, ActivityIndicator} from 'react-native';
    import { TextField } from 'react-native-material-textfield';
 import {createStackNavigator} from 'react-navigation'
+import firebase from 'react-native-firebase';
 import Splash from '../../App';
 
 
@@ -19,6 +20,22 @@ export default class Login extends Component {
     }
   }
   
+
+  componentDidMount(){
+    if (typeof global.deviceToken == undefined){
+      firebase.messaging().getToken()
+        .then(fcmToken => {
+            if (fcmToken) {
+            //console.log("L: " + fcmToken);
+            global.deviceToken = fcmToken;
+
+            } else {
+            // user doesn't have a device token yet
+            console.log("No Token");
+            } 
+        });
+    }
+  }
   
   UserLoginFunction = () =>{
     const { email }  = this.state ;

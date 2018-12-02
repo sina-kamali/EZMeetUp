@@ -52,32 +52,6 @@ export default class JoinedEventDetails extends Component {
     });
 
    this.getDetails(id,tk,joind);
-
-  //   fetch('http://myvmlab.senecacollege.ca:6282/api/users/'+id+'/events/details/'+event.eventId,
-  // {
-  //   headers: { 
-  //     'authtoken': tk
-  //     }
-  // })
-  //   .then((response) => response.json())
-  //   .then((responseJson) => {
-  //     this.setState({
-        
-  //     }, function(){
-  //       if(!(responseJson.isEmpty)){
-        
-  //         console.log(responseJson);
-         
-  //       }
-        
-  //     });
-
-  //   })
-  //   .catch((error) =>{
-  //     console.error(error);
-  //   });
-
-    //this.state.isLoading = false;
 }
 async leaveEvents(id,tk,eveId) {
   
