@@ -155,7 +155,7 @@ export default class Chat extends Component {
 
   onReceieve(id, token, eventId){
 	  console.log('Receieve Messages');
-	if(id!="" && token!="" && eventId !="" && id!=this.state.userId){
+	if(id!="" && token!="" && eventId !=""){
     fetch('http://myvmlab.senecacollege.ca:6282/api/chats/'+eventId,
 	  {
 		headers: { 
