@@ -29,23 +29,62 @@ export default class MyFriends extends Component {
       token:"",
       items: {},
       today: '',
+      fetch: []
     };
   }
 
 
 
   loadItems(day) {
-   
-  
-      
 
-      console.log(this.state.items);
+
+    setTimeout(() => {
+      for (let i = -15; i < 100; i++) {
+        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+        const strTime = this.timeToString(time);
+        if (!this.state.items[strTime]) {
+          this.state.items[strTime] = [];
+          
+        }
+      }
+      //console.log(this.state.items);
+
+      if(this.state.fetch.count != 0){
+
+        this.state.fetch.forEach(e => {
+          let dt = e.event.eventDate.split('T');
+          var day = dt[0];
+          if(this.state.items[day] != undefined){
+            this.state.items[day].push({
+                    name: e.event.eventName,
+                    date: day,
+                    descrip: e.event.eventDescription,
+                    eventId: e.eventId,
+                    height: 100
+                  });
+          }
+
+        });
+      }
+
       const newItems = {};
       Object.keys(this.state.items).forEach(key => {newItems[key] = this.state.items[key];});
       this.setState({
         items: newItems
       });
-    // }, 1000);
+    }, 1000);
+    console.log(day)
+   
+  
+      
+
+      // console.log(this.state.items);
+      // const newItems = {};
+      // Object.keys(this.state.items).forEach(key => {newItems[key] = this.state.items[key];});
+      // this.setState({
+      //   items: newItems
+      // });
+    
     // console.log(`Load Items for ${day.year}-${day.month}`);
   }
 
@@ -114,10 +153,11 @@ fetchData(){
     .then((responseJson) => {
       this.setState({
       }, function(){
-        if(!(responseJson.isEmpty)){
+        
+        if(responseJson[0] != undefined){
           this.state.items = {};
           this.state.isListEmpty = false;
-          //this.setState({fetch: responseJson});
+          this.setState({fetch: responseJson});
           var date = new Date().getDate();
           var month = new Date().getMonth() + 1;
           var year = new Date().getFullYear();
@@ -128,36 +168,36 @@ fetchData(){
 
           
 
-          for (let i = -5; i < 100; i++) {
-            const chDate= date + i;
-            //const time = date.timestamp + i * 24 * 60 * 60 * 1000;
-            const strTime = year.toString() + '-' + month.toString() +'-' + chDate.toString()
-            if (!this.state.items[strTime]) {
-              this.state.items[strTime] = [];
+          // for (let i = -5; i < 100; i++) {
+          //   const chDate= date + i;
+          //   //const time = date.timestamp + i * 24 * 60 * 60 * 1000;
+          //   const strTime = year.toString() + '-' + month.toString() +'-' + chDate.toString()
+          //   if (!this.state.items[strTime]) {
+          //     this.state.items[strTime] = [];
               
-            }
-          }
+          //   }
+          // }
           
     
-            responseJson.forEach(e => {
-              date+=i;
-              let dt = e.event.eventDate.split('T');
-              var day = dt[0];
-              this.state.items[day] = [];
-              if (this.state.items[day]) {
-                  this.state.items[day].push({
-                  name: e.event.eventName,
-                  date: day,
-                  descrip: e.event.eventDescription,
-                  eventId: e.eventId,
-                  height: 100
-                });
-              }
-            });
+            // responseJson.forEach(e => {
+            //   date+=i;
+            //   let dt = e.event.eventDate.split('T');
+            //   var day = dt[0];
+            //   this.state.items[day] = [];
+            //   if (this.state.items[day]) {
+            //       this.state.items[day].push({
+            //       name: e.event.eventName,
+            //       date: day,
+            //       descrip: e.event.eventDescription,
+            //       eventId: e.eventId,
+            //       height: 100
+            //     });
+            //   }
+            // });
           
 
         }
-        //console.log(this.state.items);
+        
         this.setState({isLoading:false});
       });
 
@@ -228,7 +268,7 @@ fetchData(){
               <Agenda
                 items={this.state.items}
                 loadItemsForMonth={this.loadItems.bind(this)}
-                selected={this.state.today}
+                //selected={this.state.today}
                 renderItem={this.renderItem.bind(this)}
                 renderEmptyDate={() => {return (<View style={styles.emptyDate}></View>);}}
                 rowHasChanged={this.rowHasChanged.bind(this)}
