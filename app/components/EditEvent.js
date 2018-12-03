@@ -89,7 +89,8 @@ export default class EditEvent extends Component {
       SavedDate: "",
 
       userId:"",
-      token:""
+      token:"",
+      EveId:""
 
 
     }
@@ -164,7 +165,7 @@ export default class EditEvent extends Component {
         description: event.eventDescription,
 
 
-        SavedEveId: event.id,
+        
         SavedEventName: event.eventName,
         SavedEventAddress1: event.eventAddress1,
         SavedEventCity: event.eventCity,
@@ -430,7 +431,7 @@ export default class EditEvent extends Component {
     }
 
     if(counter < 11){
-      //this.onFetchAddEvent();
+      this.onFetchAddEvent();
     }
     else {
       Alert.alert("Update Event Failed!", "Please Modify Your Event!");
@@ -485,7 +486,8 @@ export default class EditEvent extends Component {
         
         let formdata = new FormData();
         formdata.append("request", JSON.stringify(data));
-        if(this.state.avatarSource != null) {
+        
+        if(this.state.avatarSource != "") {
             let imageName = this.state.avatarSource.uri.split("/").slice(-1)[0];
             formdata.append("eventImage", {
                 uri: this.state.avatarSource.uri,
@@ -495,14 +497,17 @@ export default class EditEvent extends Component {
         }
         console.log("***************** formdata ********************");
         console.log(formdata);
+        const id = this.state.userId;
+        const eventId = this.state.EveId;
      let response = await fetch(
        // change this link to our link
-      "http://myvmlab.senecacollege.ca:6282/api/events/create",
+      "http://myvmlab.senecacollege.ca:6282/api/users/"+id+"/events/edit/"+eventId,
       {
         // A post request which sends a json whit data objes keys
-        method: "POST",
+        method: "PUT",
         headers: {
          "Content-Type": "multipart/form-data",
+         "Accept": "application/json",
           'authtoken': token 
         },
        body: formdata
@@ -514,9 +519,10 @@ export default class EditEvent extends Component {
       this.props.navigation.navigate('Preference');
      }
      else{
-      Alert.alert("Add Event Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
+      Alert.alert("Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
      }
    } catch (errors) {
+     console.log(errors);
     Alert.alert("Add Event Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
     } 
   }
