@@ -55,6 +55,7 @@ export default class MyFriends extends Component {
           let dt = e.event.eventDate.split('T');
           var day = dt[0];
           if(this.state.items[day] != undefined){
+            this.state.items[day] = [];
             this.state.items[day].push({
                     name: e.event.eventName,
                     date: day,
