@@ -145,8 +145,13 @@ export default class AddEvent extends Component {
 
   _handleDatePicked = date => {
 
-    const myDate = date.toString().split('G');
-    this.setState({ selectedDate: myDate[0] });
+    const myDate = date.toString().split(' ');
+    myDate.pop();
+    myDate.pop();
+    myDate.pop();
+    
+    this.setState({ selectedDate: myDate.join(" ") });
+    
     this._hideDateTimePicker();
   };
 
@@ -157,6 +162,8 @@ export default class AddEvent extends Component {
     this.state.userId = id;
     this.state.token = token;
     this.state.eveProv = 'ON'
+
+
   }
 
   static navigationOptions = {
@@ -211,10 +218,12 @@ export default class AddEvent extends Component {
   }
 
   postalCodeValid(){
-    if(this.state.EventPostalCode ==""){
-      return true;
-    } else {
+    var regex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/;
+    //format.test(this.state.lname)
+    if(regex.test(this.state.EventPostalCode)){
       return false;
+    } else {
+      return true;
     }
   }
 
@@ -333,7 +342,7 @@ export default class AddEvent extends Component {
       eventAddress2: this.state.EventAddress2,
       eventCity: this.state.EventCity,
       eventProvince: this.state.EventProvince,
-      eventPostalCode: this.state.EventPostalCode,
+      eventPostalCode: this.state.EventPostalCode.toUpperCase(),
       eventDescription: this.state.description,
       eventDate: this.state.selectedDate,
       userId: this.state.userId,
@@ -494,6 +503,8 @@ export default class AddEvent extends Component {
                     padding: 10,
                     borderColor: 'white',
                     backgroundColor:'white',
+                    color:'black',
+                    fontWeight:'bold',
                     fontSize:20,
                     width: 330,
                     marginTop: 10}}
@@ -526,7 +537,7 @@ export default class AddEvent extends Component {
                   unmountOnHide={true}
                 >
                   <Text style={{color: 'white',width: 330, fontSize: 18, fontWeight: 'bold'}}>
-                    Field cannot be empty
+                    Field cannot be empty.{'\n'}The correct format is A1B 2C3
                   </Text>
                 </AnimatedHideView>
 
@@ -605,6 +616,7 @@ export default class AddEvent extends Component {
                   isVisible={isDateTimePickerVisible}
                   onConfirm={this._handleDatePicked}
                   onCancel={this._hideDateTimePicker}
+                  minimumDate={new Date()}
                 />
 
                 <View style={{flexDirection: 'column', width: 330, marginTop: 10}}>

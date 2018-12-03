@@ -429,12 +429,15 @@ export default class EditEvent extends Component {
       //console.log("k");
       counter--;
     }
+    if(this.state.avatarSource !=""){
+      counter--;
+    }
 
     if(counter < 11){
       this.onFetchAddEvent();
     }
     else {
-      Alert.alert("Update Event Failed!", "Please Modify Your Event!");
+      Alert.alert("Update Event Failed!", "No new changes!");
     }
 
   }

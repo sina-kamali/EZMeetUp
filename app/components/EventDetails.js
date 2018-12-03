@@ -52,17 +52,9 @@ export default class EventDetails extends Component {
 
   
   static navigationOptions = ({ navigation, screenProps }) => ({
-    headerTitle: (
-      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-        <Image
-          source={require('../images/logo.png')}
-          style={{ width: 80, height: 80 }}
-        />
-      </View>
-    ),
+    title: 'Event Details',
     headerStyle: {
       backgroundColor: '#f4511e',
-      height: 90
     },
     headerTintColor: '#fff',
     headerTitleStyle: {

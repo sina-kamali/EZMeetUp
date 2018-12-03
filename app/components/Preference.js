@@ -180,23 +180,6 @@
             </View>
             <ScrollView style={{backgroundColor: 'white'}} >
 
-            
-            <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
-            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
-            onPress={() => this.props.navigation.navigate('UserCreatedEventList', {id: this.state.userId, token: this.state.userToken})}>
-            <Image source={require('../images/Discover.png')} style={{justifyContent:'center', alignContent: 'center'}} />
-            <Text
-                style={{
-                  fontSize: 25,
-                  justifyContent:'center',
-                  alignContent: 'center',
-                  fontWeight:'bold',
-                  marginLeft:10,
-                  color: '#ff6666'
-                }}
-                >My Events</Text>
-            </TouchableOpacity>
-            
             <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
             borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
             onPress={() => this.props.navigation.navigate('AppSettings', {id: this.state.userId, token: this.state.userToken})}
@@ -229,7 +212,21 @@
                 }}>Add New Events</Text>
             </TouchableOpacity>
 
-            
+            <TouchableOpacity style={{ height: 90, justifyContent:'flex-start', padding: 20,
+            borderBottomColor:'gray', borderBottomWidth: 2, alignContent: 'center',flexDirection:'row'}}
+            onPress={() => this.props.navigation.navigate('UserCreatedEventList', {id: this.state.userId, token: this.state.userToken})}>
+            <Image source={require('../images/Discover.png')} style={{justifyContent:'center', alignContent: 'center'}} />
+            <Text
+                style={{
+                  fontSize: 25,
+                  justifyContent:'center',
+                  alignContent: 'center',
+                  fontWeight:'bold',
+                  marginLeft:10,
+                  color: '#ff6666'
+                }}
+                >Edit Events</Text>
+            </TouchableOpacity>
 
             
 

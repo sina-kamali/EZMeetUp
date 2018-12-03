@@ -68,7 +68,7 @@ export default class Event extends Component {
           this.state.noEventCounter = eve.length;
 
           for (let i = 0; i < eve.length; i++) {
-            //console.log(eve[i]);
+            console.log(eve[i]);
             const words = eve[i].eventDate.split('T');
             if (i % 2 == 0) {
 
@@ -88,6 +88,7 @@ export default class Event extends Component {
                   />
                 </View>
                 <View style={{backgroundColor:"white", width:310, borderBottomLeftRadius:5, borderBottomRightRadius:5, padding: 5}}>
+                  <Text style={[styles.label,{paddingLeft: 5}]}>Event Name: {eve[i].eventName}</Text>
                   <Text style={[styles.label,{paddingLeft: 5}]}>Location: {eve[i].eventLocation}</Text>
                   <Text style={[styles.label,{paddingLeft: 5}]}>Event Date: {words[0]}</Text>
                 </View>
@@ -112,6 +113,7 @@ export default class Event extends Component {
                   />
                 </View>
                 <View style={{backgroundColor:"white", padding: 5, borderBottomLeftRadius:5, borderBottomRightRadius:5 }}>
+                  <Text style={[styles.label,{paddingLeft: 5}]}>Event Name: {eve[i].eventName}</Text>
                   <Text style={[styles.label,{paddingLeft: 5}]}>Location: {eve[i].eventLocation}</Text>
                   <Text style={[styles.label,{paddingLeft: 5}]}>Event Date: {words[0]}</Text>
                 </View>
