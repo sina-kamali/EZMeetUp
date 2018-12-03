@@ -21,6 +21,17 @@ export default class UserCreatedEventList extends Component {
     };
   }
 
+  static navigationOptions = {
+    title: 'Edit Events',
+  headerStyle: {
+    backgroundColor: '#f4511e',
+  },
+  headerTintColor: '#fff',
+  headerTitleStyle: {
+    fontWeight: 'bold',
+  },
+  };
+
   componentDidMount() {
     const { navigation } = this.props;
     const id = navigation.getParam('id');

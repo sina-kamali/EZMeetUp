@@ -259,7 +259,7 @@ export default class EditEvent extends Component {
   // ======================= END - Getters =======================
 
   static navigationOptions = {
-    title: 'Add Event',
+    title: 'Edit Event',
     headerStyle: {
       backgroundColor: '#f4511e',
     },
@@ -444,6 +444,54 @@ export default class EditEvent extends Component {
 
 
    // ======================= END - Data Has Been Changed Validation =======================
+
+
+   deleteEvent(){
+
+    Alert.alert(
+      'Warning',
+      'Are you sure you want to delete this event?',
+      [
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'Yes!', onPress: () => this.confirmDelete()},
+      ],
+      { cancelable: false }
+    )
+   }
+
+   async confirmDelete(){
+
+    try {
+      let response = await fetch(
+        // change this link to our link
+       "http://myvmlab.senecacollege.ca:6282/api/users/"+this.state.userId+"/events/delete/"+this.state.EveId,
+       {
+         // A post request which sends a json whit data objes keys
+         method: "DELETE",
+         headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "authtoken":this.state.token,
+         },
+      }
+     );
+      if (response.status >= 200 && response.status < 300) {
+        //console.log(response);
+        EventRegister.emit('myCustomEvent',{});
+       this.props.navigation.navigate('Preference',{id: this.state.userId, token: this.state.token})
+      }
+      else{
+      
+       Alert.alert("Failed to delete the Event!", "Please try again!");
+        
+      }
+    } catch (errors) {
+     Alert.alert("Failed to delete the Event!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
+    } 
+
+
+   }
+
 
   addEvent(){
 
@@ -858,15 +906,25 @@ export default class EditEvent extends Component {
               <TouchableOpacity style={{marginTop: 20, marginBottom: 20}}
                onPress={() => this.addEvent()}>
                   <Text style = {styles.buttons}>
-                    Update Event!
+                    Update!
                   </Text>
               </TouchableOpacity>
+
+
               <TouchableOpacity style={{marginTop: 5, marginBottom: 20}}
-              onPress={() => this.props.navigation.navigate('Preference')}>
+              onPress={() => this.props.navigation.navigate('Preference',{id: this.state.userId, token: this.state.token})}>
                   <Text style = {styles.buttons}>
                     Cancel
                   </Text>
               </TouchableOpacity>
+
+              <TouchableOpacity style={{marginTop: 5, marginBottom: 20, backgroundColor: 'red'}}
+              onPress={() => this.deleteEvent()}>
+                  <Text style = {styles.buttons}>
+                    Delete This Event!
+                  </Text>
+              </TouchableOpacity>
+              
             </KeyboardAvoidingView>
               
 

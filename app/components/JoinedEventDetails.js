@@ -3,6 +3,7 @@ import {AppRegistry,Platform, StyleSheet, Text, View, ImageBackground,Image,Touc
 import {createStackNavigator,NavigationActions,StackActions} from 'react-navigation'
 import Slideshow from 'react-native-slideshow';
 import { EventRegister } from 'react-native-event-listeners'
+import AnimatedHideView from 'react-native-animated-hide-view';
 
 
 
@@ -20,7 +21,8 @@ export default class JoinedEventDetails extends Component {
         eventLocation:"",
         eventDescription:"",
         eventDate:"",
-        Capacity: ""
+        Capacity: "",
+        creatorId:""
     }
   }
   static navigationOptions = {
@@ -76,11 +78,11 @@ async leaveEvents(id,tk,eveId) {
    }
    else{
    
-    Alert.alert("Login Failed!", "Invalid email or password! \nPlease try again. ");
+    Alert.alert("Leave Failed!", "Failed to leave");
      
    }
  } catch (errors) {
-  Alert.alert("Login Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
+  Alert.alert("Leave Failed!", "Something went wrong please contact EZMeetUp support.\nSorry for the inconvenience! ");
   } 
 }
 
@@ -123,6 +125,7 @@ getDetails(id,token,eveId){
                 eventName: e.event.eventName,
                 eventDescription:e.event.eventDescription,
                 eventLocation: e.event.eventLocation,
+                creatorId: e.event.userId,
                 eventDate: eDate[0],
                 Capacity: e.event.eventCapacity !== 0 ? e.event.eventCapacity : 'Open'
               });
@@ -155,7 +158,17 @@ getDetails(id,token,eveId){
 
 }
 
+HideLeave(){
+  if(this.state.userId == this.state.creatorId) {
+    return false;
+  }else {
+    return true;
+  }
+}
+
   render() {
+
+    const hideButton = this.HideLeave();
 
 
     if(this.state.isLoading){
@@ -191,11 +204,18 @@ getDetails(id,token,eveId){
                   >
                     <Text style = {styles.buttons}>Event Group Chat</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{marginTop:10} } 
-            onPress={() => this.leaveEvent()}
-          >
-              <Text style = {styles.buttons}>Leave Event!</Text>
-          </TouchableOpacity>
+
+          <AnimatedHideView
+                  visible={hideButton}
+                  unmountOnHide={true}
+                >
+            <TouchableOpacity style={{marginTop:10} } 
+              onPress={() => this.leaveEvent()}
+            >
+                <Text style = {styles.buttons}>Leave Event!</Text>
+            </TouchableOpacity>
+
+          </AnimatedHideView>
         </View>
         </ScrollView>
       </ImageBackground>
