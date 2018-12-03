@@ -28,9 +28,11 @@ export default class Members extends Component {
 		eventId: eventId
 	});
 	this.getEventMembers(tk, eventId);
+	console.log(this.state.members);
   }	
 
   getEventMembers(token, eventId){
+	  tempMembers = [];
 	if(token!="" && eventId !=""){
 		console.log('this is the users from the event: ');
 		fetch('http://myvmlab.senecacollege.ca:6282/api/events/'+eventId+'/users',
@@ -56,13 +58,15 @@ export default class Members extends Component {
 				})
 			    .then((response) => response.json())
 			    .then((responseJson) => {
+					tempName = responseJson.firstName + ' ' + responseJson.lastName;
+					tempMembers.push(tempName);
 					this.setState(prevState => (
 					{
-					  	members: [prevState.members, responseJson.firstName + ' ' + responseJson.lastName]
+					  	members: tempMembers
 					}), 
 					function(){
-						console.log('name ' + responseJson.firstName + ' ' + responseJson.lastName);
-						console.log(this.state.members);
+						//console.log('name ' + responseJson.firstName + ' ' + responseJson.lastName);
+						console.log(tempMembers);
 					}
 					);
 			    })
@@ -102,8 +106,16 @@ export default class Members extends Component {
     
     return (
 	<ScrollView>
-
-			{this.state.members.map(userId => <Text style={styles.text} >{userId} </Text> )}   
+			{this.state.members.map(userId => <Text style={styles.text} >{userId} </Text> )} 
+				{/*
+		<ListView style={{flex:1}}
+                dataSource={this.state.members}
+                renderRow={
+                  (rowData) => 
+                   <Text style={{alignItems:"flex-start",justifyContent:"flex-start", fontSize:20, padding: 10, fontWeight:"bold", color:"black"}}>
+                    {rowData}</Text>
+                }
+		</ListView>*/}
 
 	</ScrollView>
     )
