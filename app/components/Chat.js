@@ -155,7 +155,7 @@ export default class Chat extends Component {
 
   onReceieve(id, token, eventId){
 	  console.log('Receieve Messages');
-	if(id!="" && token!="" && eventId !=""){
+	if(id!="" && token!="" && eventId !="" && id!=this.state.userId){
     fetch('http://myvmlab.senecacollege.ca:6282/api/chats/'+eventId,
 	  {
 		headers: { 
@@ -233,7 +233,7 @@ export default class Chat extends Component {
   }
   }
    renderBubble(props) {
-  
+    console.log('the user id is' + global.userId);
     if(props.currentMessage.user._id == global.userId){
       return (
         <View>
@@ -305,6 +305,7 @@ export default class Chat extends Component {
 	)
   });
   render() {
+	console.log('this is the current userid' + this.state.userId);
 	if (this.state.renderFriendList) {
       return (
         <View style={{ flex: 1, padding: 20 }}>
@@ -313,7 +314,6 @@ export default class Chat extends Component {
       );
     }
     return (
-
       <GiftedChat
         messages={this.state.messages}
         onSend={messages => this.onSend(messages)}
